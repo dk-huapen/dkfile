@@ -1,0 +1,659 @@
+%!TEX root = ../dk_log.tex
+\chapter{软件安装配置}
+这一章主要记录使用过的一些值得记录的软件的安装、配置和使用。
+\section{常用的软件}
+	第一款软件无疑就是VIM了，那第二款肯定是Latex了，这玩意就是用他两鼓捣出来的。	编辑器的配置大概是需要讲解一下的，毕竟对于初学者来说是很头疼的事情。本手册就以\TeX\ studio为例进行配置。首先你应该安装一个\TeX{} Live，他是完全免费的，网址：\url{http://tug.org/texlive/}。
+
+虽然它体积较大，但是却是最一劳永逸、最不需要花时间去配置的方法，同时它大概也是功能支持最强的\LaTeX\ 发行版。
+
+打开\TeX\ Studio后，选择选项$\rightarrow$设置\TeX\ Studio $\rightarrow$ 构建 $\rightarrow$ 默认编译器，选择\xelatex{}。这主要是基于中文文档编译的考虑，同时\xelatex 也能很好的编译英文文档。我建议始终使用它作为默认编译器。
+
+
+之后你可以在窗口输入一篇小文档，并保存为tex扩展名的文件进行测试：
+\begin{latex}
+\documentclass{ctexart}
+\begin{document}
+Hello,world!
+你好，世界！
+\end{document}
+\end{latex}
+点击编译按钮生成，F7查看。生成pdf在你的tex文件保存目录中。具体各行的含义我们后在后文介绍。
+
+\section{VIM}
+vim堪称上古神器，第一小节我们给这款神奇再叠加buff。
+\subsection{vim-plug}
+刚安装的VIM功能都比较朴实，但是VIM的扩展性很强可以安装各种各样的插件，vim-plug是一款VIM的插件管理工具，有了它可以很方便的安装、调用、卸载各种插件，项目网址：\url{https://github.com/junegunn/vim-plug}。
+
+下载plug.vim文件至~/.vim/autoload/下，同时创建~/.vim/plugged目录用来放置将来要安装的插件,配置~/.vimrc文件并添加调用插件模块，Debian12用户根目录下没有vimrc文件，复制/usr/share/vim/vim90/目录下vimrc\_example.vim文件即可。
+
+还有一个关于Vim插件的网站是\href{https://vimawesome.com}{VimAwesome}，上边有几乎所有的Vim插件安装使用方法，其中有一篇叫\href{https://vimawesome.com/plugin/vim-plug-own-character}{vim-plug的文章}是一位大神Vim的配置文件，可以很容易配置一款强大的Vim。
+
+\begin{shell}
+ls ~/ #~目录
+.vim
+#用户目录下没有vimrc文件
+cp /usr/share/vim/vim90/vimrc_example.vim ~/.vimrc
+ls ~/ #~目录
+.vim .vimrc
+ls ~/.vim
+autoload plugged
+ls ~/.vim/autoload
+plug.vim#plug.vim下载原文件
+
+vim ~/.vimrc #在.vimrc文件尾部添加下面内容
+..........
+call plug#begin('~/.vim/plugged')
+#Plug 要安装的插件
+call plug#end()
+
+:PlugStatus#重新打开vim后在命令模式下使用该命令查看插件安装情况
+
+:PlugInstall#在vim命令模式下安装插件
+
+:PlugClean#卸载插件，需要先在vimrc配置文件中删除对应插件配置信息
+:PlugUpgrade#更新vim-plug插件自身
+\end{shell}
+
+
+\subsubsection{NERDTree}
+NERDTree是Vim编辑器的文件系统资源管理器。
+\begin{shell}
+vim ~/.vimrc #在.vimrc文件尾部添加下面内容
+..........
+call plug#begin('~/.vim/plugged')
+Plug 'preservim/nerdtree'#加载nerdtree插件
+call plug#end()
+:source %#重新加载.vimrc配置文件
+:PlugInstall#在vim命令模式下安装插件
+:NERDTree#启动NERDTree插件
+\end{shell}
+\subsubsection{markdown-preview}
+markdown-preview插件可以让vim在编辑markdown文件时在浏览器下同步滚动展示效果，是同步哦！
+\begin{shell}
+vim ~/.vimrc #在.vimrc文件尾部添加下面内容
+..........
+call plug#begin('~/.vim/plugged')
+Plug 'iamcco/markdown-preview.nvim'#加载插件
+call plug#end()
+:source %#重新加载.vimrc配置文件
+:PlugInstall#安装插件
+:call mkdp#util#install()#安装支持软件
+:MarkdownPreview#开始预览
+:MarkdownPreviewStop#停止预览
+\end{shell}
+\subsection{VIM常用操作}
+\subsubsection{使用寄存器与剪切板}
+	\index{剪切板寄存器}用于与系统剪切板进行交互
+\begin{shell}
+vim --version|grep clipboard #查看clipboard与xtem_clipboard功能是否开启
+#-clipboard -xtem_clipboard说明功能没有开启
+sudo apt-get install vim-gtk3#安装对应功能模块
+#再次查询为+clipboard +xtem_clipboard说明功能已开启，Debian12下
+"+yy#复制当前行到系统剪切板
+"+p#粘贴至其它文件中
+\end{shell}
+\LaTeX\ 中有许多字符有着特殊的含义，在你生成文档时不会直接打印。例如每个命令的第一个字符：反斜杠。单独输入一个反斜杠在你的行文中不会有任何帮助，甚至可能产生错误。\LaTeX\ 中的保留字符有：
+\begin{center}
+	\texttt{\# \$ \% \^ \& \_ \{ \} \char92}
+\end{center}
+
+它们的作用分别是：
+%\begin{description}[font=\bfseries\ttfamily,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]
+\begin{para}
+\item[\#{}:]自定义命令时，用于标明参数序号。
+\item[\S{}:]数学环境命令符。
+%\end{description}
+\end{para}
+
+以上除了反斜杠外，均能用前加反斜杠的形式输出。即你只需要键入：
+\begin{center}
+\verb|\# \$ \% \^ \& \_ \{ \}|
+\end{center}
+
+唯独反斜杠的输出比较头痛，你可以尝试：
+\begin{codeshow}
+$\backslash$ \textbackslash
+\texttt{\char92}
+\end{codeshow}
+
+其中命令\latexline{char[num]}是一个特殊的命令
+\begin{verbatim}
+\texttt{\char`~}%输出一个波浪线
+\end{verbatim}
+
+任何一份\LaTeX{}文档都应该包含以下结构：
+\begin{latex}
+\documentclass['\itshape options']{doc-class}%没有斜体option
+\begin{document}
+...
+\end{document}
+\end{latex}
+其中，在语句\latexline{begin\{document\}}之前的内容成为\co{导言区}。导言区可以留空，也可以进行一些、文档的准备操作。你可以粗浅地理解为：\RED{导演区即模板定义}。\\
+
+文档类的参数doc-class和可选选项{\textit{options}}有取值：%引用图表失败
+%\begin{table}[!htb]原文中有htb，现在无法正确编译
+	\begin{table}[!htb]
+	\centering
+	\caption{文档类和选项}
+	\label{tab:documentclass}
+	\begin{tabular}{p{5em} @{\ -\ } p{24em}}
+		\hline
+		\multicolumn{2}{l}{\bfseries doc-class文档类\footnotemark}\\
+		\hline
+		article & 科学期刊，演示文稿，短报告，邀请函。\\
+		proc	& 基于article的会议论文集。\\
+		report	& 多章节的长报告、博士论文、短篇书。\\
+		book	& 书籍。\\
+		slides	& 幻灯片，使用了大号Scans Serif字体。\\
+		\hline
+		\multicolumn{2}{l}{\bfseries\itshape options}\\
+		\hline
+		字体	&默认10pt，可选11pt和12pt。\\
+		\hline
+	\end{tabular}
+\end{table}
+
+在本文中，多数的文档类提及的均为report/book类。如果有article类将会特别指明。其余的文档类不与说明。本手册排版即使用了report类。
+
+在导言区最常见的是\co{宏包}的加载工作，命令形式如：\latexline{usepackage\{package\}}。通俗地讲，宏包是指一系列已经制作好的功能``模块''，在你需要使用一些原生\LaTeX\ 不带有的功能时，只需要调用这些宏包就可以了。比如文本的代码就是利用\pkg{listings}宏包实现的。
+
+宏包的具体使用将参在个部分内容说明中进行讲解。如果你想学习一个宏包的使用，按Win+R组合键呼出运行对话框，输入texdoc加上宏包名称即可打开宏包帮助pdf文档。例如：\verb|texdoc xeCJK|。
+	\footnotetext{此外还有\pkg{beamer}宏包定义的beamer文档类，常用于创建幻灯片。}
+
+\subsection{错误的排查}
+	\label{subsec:debug}
+	在编辑器界面上，下方的日志是显示编译过程的地方。在你编译通过后，会出现这样的字样：
+\begin{feai}
+	\item {\bfseries{Errors错误}}：严重的错误。一般地，编译若通过了，该项是零。
+	\item {\bfseries{Warnings警告}}：一些不影响生成文档的瑕疵。
+	\item {\bfseries{Bad Boxes坏箱}\footnote{Box是\LaTeX{}中的一个特殊概念，具体将在进行讲解。}}：指排版中出现的长度问题，比如长度超出（Overfull）等。后面的Badness表示错误的严重程度，程度越高数值越大。这类问题需要检查，排除Badness高的选项。\marginpar{\textcolor{red!70}{此处注解在后续章节，目前未链接}}
+\end{feai}
+
+	你可以向上翻越日志记录（即.log文件），来找到Warning开头的记录，或者Overfull/ Underfull开头的记录。这些记录会指出你的问题出在哪一行（比如line 1-2）或者在pdf的哪一页（比如active[12]。注意，这个12表示计数器技术页码，而不是文件打印出来的真实页数）。此外你还需要了解：
+\begin{feai}
+\item 值得指出的是，由于\LaTeX{}的编译原理（第一次生成aux文件，第二次再引用它），目录想要合理显示{\bfseries{需要连续编译两次}}。在连续编译两此后，你会发现一些Warnings会在第二次编译后消失。在\TeX\ Studio中，你可以只单击一次“构建并查看”，他会检测到文章的变化并自动决定是否需要编译两次。
+\item 对于大型文档，寻找行号十分痛苦。你需要学会合理地拆分tex文件，参阅内容。%未引用3.13节内容
+\end{feai}
+
+	这里也推荐宏包\pkg{syntonly}，在导言区加入它支持的\latexline{syntaxonly}命令，会只排查语法错误而不生成任何文档，这可以使你更快地编译。不过他似乎不太稳定，例如本文档可以正常编译，但是使用该命令时则会出错。
+\subsection{文件输出}
+	\LaTeX{}的输出一般推荐pdf格式，有\LaTeX\ 直接生成dvi的方法并不推荐。
+
+你在tex文档的文件夹下可能看到的其他文件类型：
+\begin{tabbing}
+	.sty{\hspace{2em}}\=宏包文件\\%第一行必须此格式否则会编译出错
+	.cls	\> 文档类文件。\\
+	.aux	\> 用于存储交叉引用信息的文件。\\
+	.out	\> 宏包生成的pdf书签记录。
+\end{tabbing}
+\section{Git}
+	Git是一款分布式版本控制系统，Git最初是由Linux开发者Linus用两周时间编写的，用来管理Linux源代码的。谈到Git就必须提到大名鼎鼎的\href{https://github.com/}{github}，它用的就是git系统来管网站的，github和git是两个东西，github是一个社区，git是一个服务系统，github只支持git分布式系统，所以故名成为github。
+\subsection{Git安装与配置}
+\subsubsection{linux系统下安装配置git}
+\href{https://blog.csdn.net/bjbz_cxy/article/details/116703787?spm=1001.2014.3001.5506}{linux下安装和配置相当方便}，甚至git已经内置与linux系统。
+
+\begin{shell}
+sudo apt install git#安装git
+git config --list#查看git配置，用户名、邮箱
+git config --global user.name "dk_huapen"#配置用户名称
+git config --global user.email "zhaohuapeng7947@163.com"#配置用户邮箱
+mkdir mygit
+cd mygit
+git init#初始化本地当前目录mygit为仓库
+git status#查看本地仓库文件状态
+git add file#将文件file提交到本地仓库的缓存区
+git add --all#将所有改动过的文件提交到缓存区
+git add .#将所有改动过的文件提交到缓存区
+git commit -m "描述信息"#将本地仓库的提交缓存提交到本地仓库
+git log#查看历史提交日至
+#指定哪些文件或目录应该被Git忽略，不纳入版本控制
+vim .gitignore
+*~#忽略最后一个文件名字符是~的文件，用于忽略vim编辑生成的中间文件
+\end{shell}
+\subsubsection{windows系统下安装配置git}
+\href{https://blog.csdn.net/weixin_30824277/article/details/98382857?spm=1001.2014.3001.5506}{windows下需要额外安装git}，安装git后会有一个类是linux的命令行工具Git Bash。
+\subsection{Git常用命令}
+\subsection{github}
+github是一款使用git命令作为基础框架的开源网站，可以把自己的项目分享到github上，gibhub上是无限制代码的。首先需要在github上注册一个账号，我使用的是自己的163邮箱，密码是死骑love巫妖!其实国内也有许多可以平替github的平台，而且github是国外平台，经常会网卡甚至掉线，不过我还是选择使用github，因为它足够原生吧，就像我选择Debian一样。
+\subsubsection{本地git与github关联}
+\begin{shell}
+#在本地创建一个ssh的可以，使用自己的邮箱
+ssh-keygen -t rsa -C "zhaohuapeng7947@163.com"
+ls
+id_rsa#ssh生成的私匙，不能告诉任何人
+id_rsa.pub#ssh生成的公匙，添加到github中的
+ssh -T git@github.com
+#测试ssh keys是否设置成功，也就是本地git与github是否关联成功
+#下面的操作需要本地与github关联成功后才可以正常使用
+#将本地仓库关联至github仓库并推送本地仓库至github
+git remote add origin github仓库ssh地址#本地仓库与github仓库关联
+git push -u origin master#将本地仓库推送至github
+#clone的仓库自动关联github仓库
+git clone <url>#用github远程默认仓库main初始化本地仓库
+git clone <url> myhubname
+#用github远程默认仓库main初始化本地仓库时自定义本地仓库名字
+git clone -b master <url>#用github远程仓库master分支初始化本地仓库
+git push#将本地仓库更新推送至github
+git pull#从github获取更新
+
+\end{shell}
+\subsubsection{github加速}
+
+
+\section{make}
+make是一个自动化工具。
+\section{\LaTeX}
+\LaTeX\ 是免费的、开源的排版系统,它的设计目标是分离内容与格式，以便作者能够专注于内容创作而非版式设计，并能得到高质量的排版作品。
+	\subsection{latex安装与配置}
+	latex的光盘镜像发布于https://www.tug.org/texlive。在光盘镜像中texlive-doc目录下有一份texlive-zh-cn.pdf文件，里边详细描述了各操作系统安装latex的方法。
+
+	这里主要说两点注意事项：
+	\begin{enumerate}
+		\item 默认安装目录在/usr/local/texlive/下，安装完成后该目录有8.7GB，安装系统时需要预留够磁盘分区空间
+		\item 安装菜单中create symlinks in standard directories选项默认不选，安装手册也不推荐，所以我安装也没选，安装完成后就得手动添加texlive安装路径到环境变量中。
+	\end{enumerate}
+\begin{shell}
+#在/etc/profile文件尾部加入所有用户都生效
+#在~/.profile文件尾部加入当前用户生效$
+PATH=$PATH:/usr/local/texlive/2023/bin/x86_64-linux
+export PATH
+\end{shell}
+\subsection{latex常用命令}
+\subsubsection{texdoc命令}
+	\index{texdoc}可以查询宏包帮助文档和其他相关的有用文档
+	\begin{description}
+		\item[texdoc] [想要查询的内容]
+	\end{description}
+\begin{shell}
+texdoc fancyhdr #查看fancyhdr宏包帮助文档
+texdoc usrguide #自带的用户手册
+texdoc clsguide #自带文档类和宏包编写手册
+texdoc fntguide #自带的字体使用手册
+texdoc symbols-a4 #命令速查表
+texdoc latexcheat #有趣的命令表
+\end{shell}
+\subsubsection{latexmk命令}
+	\index{texdoc}\href{https://blog.csdn.net/bleedingfight/article/details/84946793?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522a782193c5e5af7bfb740173a44657da1%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=a782193c5e5af7bfb740173a44657da1&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-84946793-null-null.142^v101^pc_search_result_base7&utm_term=latexmk&spm=1018.2226.3001.4187}{latexmk命令}可以实现\LaTeX\ 文档自动编译，指定输出目录等功能。我目前在Makefine文件中使用，看说明和论坛好像该命令本身就类是Make工具，不需要借助make就可以实现自动编译，目前还没弄明白这一点。
+	\begin{description}
+		\item[texdoc] [参数][file]
+	\end{description}
+\begin{shell}
+latexmk -xelatex file.tex #自动编译file.tex文件
+latexmk -c #清空指定临时文件
+latexmk ? #指定输出文件目录，这个暂时没弄明白
+\end{shell}
+
+中文的破折号你也许可以直接使用日常的输入方式。中文的省略号同样。但是注意，英文的省略号使用\latexline{ldots}这个命令而不是三个句点。
+\section{MySQL}
+MySQL是一款关系型数据库管理系统，这里主要记录下在Windows系统下的安装配置方法，在Linux下使用的是MariaDB，在搭建LAMP服务器中再具体介绍MariaDB的安装配置方法。MariaDB可以作为MySQL的替代品，MariaDB是开源的性能更加优秀。
+\subsection{安装配置MySQL}
+\href{https://downloads.mysql.com/archives/community/}{MySQL}官网网站可以下载各个版本，每种版本中有安装版和解压版两种，前者是直接安装不需要过多配置的傻瓜式安装，后者是解压后自己配置文件直接就可以使用的免安装版本，果断选择后者。这种方式在Windows下很方便，很直观自己知道每一步在做什么，其实也没有几部，不像安装包干了点啥都不知道，还有可能出现安装失败的情况。
+我这里使用的是MySQL5.5版本，原因就是初次使用网上有篇\href{https://blog.csdn.net/qq_30061785/article/details/102504115?spm=1001.2014.3001.5506}{参考教程}讲的就是这个版本。
+
+解压压缩包后，文件夹下有5个ini文件，这5个文件是针对用户五种情况下的配置文件，根据自己使用场景选择一个复制为my.ini文件，并修改部分设置主要是文件路径。
+\begin{shell}
+mysqld -install#安装mysql服务
+mysqld -removel#卸载mysql服务
+mysql -u root -p #登陆mysql，初次登录密码为空
+#下边是在SQL环境下操作
+update mysql.user set password=PASSWORD(‘123456’) where User=‘root’;
+#设置root用户密码
+flush privileges;
+#立即启用修改
+GRANT SELECT ON tanhecha.* TO 'tanhechauser'@'localhost' IDENTIFIED BY 'tanhechapassword';
+#添加用户并授权select权限
+\end{shell}
+\subsection{MySQL常用操作}
+\subsubsection{备份与恢复数据库}
+我这里记录的备份是通过mysqldump工具将数据库备份到sql文本文件中，再登录数据库通过source命令将sql文件导入，整个恢复过程相当于按照备份的sql文件中sql语句操作数据库。
+
+source命令还有一个很好的用法就是批量操作数据库时，先按要求编辑号sql文本文件，然后source导入sql文本文件，让数据库自动批量执行slq文本中的命令，我在碳核查过程中使用的就是这个法方法备份、裁减、拼接成为每月独立的数据库的，需要进一步写成系统自动执行该系列操作。
+\begin{shell}
+mysqldump -u root -p test > test.sql
+#输入密码开始备份,备份test数据库数据至sql文本文件
+mysql -u root -p
+#输入密码登陆mysql
+mysql>create database test;#创建test数据库
+mysql>use test;#切换至test数据库
+mysql>set names utf8;#设置编码格式为utf8
+mysql>source test.sql;#将test.sql导入test数据库
+\end{shell}
+\subsubsection{批量操作数据库}
+这里记录使用MySQL的sql文件批量操作数据库，主要是包括批量删除指定条件的数据、批量修改数据库内数据表的注释、清除主键自增值、合并两个数据表的值。使用的时命令行下登录数据库后通过source命令将写好的sql文件导入来批量操作数据库，在windows下使用MySQL Workbench执行时会提示错误，尤其时数据量大时，好像时数据库安全方面的而且速度慢，在命令行下没问题而且数据也可以。
+
+source命令还有一个很好的用法就是批量操作数据库时，先按要求编辑号sql文本文件，然后source导入sql文本文件，让数据库自动批量执行slq文本中的命令，我在碳核查过程中使用的就是这个法方法备份、裁减、拼接成为每月独立的数据库的，需要进一步写成系统自动执行该系列操作。
+\begin{shell}
+mysqldump -u root -p test > test.sql
+#输入密码开始备份,备份test数据库数据至sql文本文件
+mysql -u root -p
+#输入密码登陆mysql
+mysql>create database test;#创建test数据库
+mysql>use test;#切换至test数据库
+mysql>set names utf8;#设置编码格式为utf8
+mysql>source test.sql;#将test.sql导入test数据库
+\end{shell}
+\begin{shell}
+delete from table;
+#删除指定行数的数据
+drop table if exists table;
+#删除数据表所有数据和结构
+truncate table table1,table2;
+#删除数据表中所有数据但保留表结构，重置自增字段
+ALTER TABLE course RENAME TO coursecopy;
+#将course表重命名为coursecopy
+CREATE TABLE course LIKE coursecopy;
+#—将coursecopy表复制结构并创建名为course的新表
+INSERT INTO course SELECT * FROM coursecop;
+#将coursecopy表数据复制到course表
+\end{shell}
+\subsubsection{数据库同步}
+单向同步
+\section{MariaDB}
+讲解MySQL数据库时提到了MariaDB数据库，在Linux系统下还是安装使用MariaDB方便。MariaDB使用基本与MySQL相同，在这里记录在MariaDB下的操作。
+\subsection{安装配置MariaDB}
+下面以在\href{https://blog.csdn.net/erliujian111/article/details/135732876?spm=1001.2014.3001.5506}{Debian下安装MariaDB}进行记录。
+\begin{shell}
+sudo apt install mariadb-server mariadb-client
+#安装MariaDB数据库
+sudo apt purge mariadb-server#卸载MariaDB
+sudo rm -rf /var/lib/mysql/#彻底删除MariaDB
+sudo systemctl start mariadb #启动MariaDB数据库
+sudo systemctl enable mariadb #设置MariaDB自动启动
+sudo systemctl status mariadb #查看MariaDB状态
+sudo mariadb-secure-installation #初始化MariaDB数据库
+#包括设置root密码（默认为空），删除匿名用户等
+#有一项是禁止root用户远程登陆，需要根据个人需求选择
+mysql -u root -p#登陆MariaDB数据库
+\end{shell}
+\subsection{触发器}
+触发器是一种特殊的存储过程，它在插入，删除或修改特定表中的数据时触发执行，我是在更新数据表的同时用更新的数据计算更新另一张表内数据。
+触发器必须是在指定数据库内的，就是得先use database然后在在database上创建触发器。
+\begin{shell}
+use buff;#进入buff数据库
+#创建触发器
+create trigger update_trigger2 after update on ua for each row update boler set value = NEW.value where kks = left(OLD.kks,12);
+show triggers\G;#查看所有触发器
+show create trigger update_trigger2\G;#查看指定触发器
+drop trigger update_trigger2;#删除触发器
+\end{shell}
+\subsection{事物}
+
+\section{PHP}
+PHP全称Hypertext Preprocessor，中文名：“超文本预处理器”是一种通用开源脚本语言。语法吸收了C语言、java和Perl的特点，利于学习，使用广泛，主要适用于web开发领域。用PHP做出的动态页面与其他的编程语言相比，PHP是将程序嵌入到HTML（标准通用标记语言下的一个应用）文档中去执行，执行效率比完全生成HTML标记的CGI要高许多；PHP还可以执行编译后代码，编译可以达到加密和优化代码运行，使代码运行更快。
+\subsection{phpmyadmin的使用}
+搭建LAMP平台后将解压后的phpmyadmin文件放到网站根目录下/var/www/html/即可访问数据库。
+\subsection{PHP二维码生成}
+PHP QRCode全称PHP Quick Response Code，是一个在PHP平台下生成二维码的开源库。\href{https://phpqrcode.sourceforge.net/}{官网}下有很多使用它生成二维码的例子，这里记录两种我使用过的情况。
+\subsubsection{静态网页直接显示二维码}
+这种情况是在生成网页的时候直接将二维码打印在网页上，用官网的话叫outputs image directly into browser, as PNG stream。
+\begin{shell}
+ <?php
+
+    include('../lib/full/qrlib.php');
+        
+    $param = $_GET['id']; // remember to sanitize that - it is user input!
+    
+    // we need to be sure ours script does not output anything!!!
+    // otherwise it will break up PNG binary!
+    
+    ob_start("callback");
+    
+    // here DB request or some processing
+    
+    // end of processing here
+    $debugLog = ob_get_contents();
+    ob_end_clean();
+    
+    // outputs image directly into browser, as PNG stream
+    QRcode::png($codeText); 
+?>
+\end{shell}
+\subsubsection{AjaX动态更新二维码}
+这种情况是在点击不同元素动态生成二维码打印在网页上，动态更新网页就需要用到AjaX技术，但是AjaX返回数据要求是字符串不能是二进制流，所以需要先\href{https://blog.csdn.net/LJFPHP/article/details/79111844}{将PNG stream转换成字符串}返回到前端后再显示。
+\begin{shell}
+<?php
+include_once("./phpqrcode/qrlib.php");
+$param = $_GET['id'];
+$codeText = $param;
+ob_start();
+QRcode::png($codeText);
+$debugLog = base64_encode(ob_get_contents());
+ob_end_clean();
+echo $debugLog;
+?>
+#前端javascript中
+document.getElementById('src').src=
+'data:image/png;base64,'+this.responseText;
+\end{shell}
+\subsection{php生成PDF文件}
+加载离线文件就可以生成PDF文件
+\section{Python}
+Python是一种解释型语言，它的优点就是有丰富的库，使得编成变的简单，我是在实现OPC DA的DCOM编成和OPC UA服务器时开始使用它，库确实很强大，很容易就完成了想要的功能，所以决定学习该语言。
+\subsection{pip}
+pip是用来安装和更新Python库的，由于pip默认的源是国外的，安装更新很慢导致安装库时经常超时失败，所以安装pip后需要将源换成阿里云 http://mirrors.aliyun.com/pypi/simple/
+
+国内镜像源：
+\begin{enumerate}
+	\item 清华大学 https://pypi.tuna.tsinghua.edu.cn/simple/
+	\item 中国科技大学 https://pypi.mirrors.ustc.edu.cn/simple/
+	\item 豆瓣 http://pypi.douban.com/simple
+	\item Python官方 https://pypi.python.org/simple/
+	\item v2ex http://pypi.v2ex.com/simple/
+	\item 中国科学院 http://pypi.mirrors.opencas.cn/simple/
+	\item 中国科学技术大学 [http://pypi.mirrors.ustc.edu.cn/simple/
+	\item 华中理工大学：http://pypi.hustunique.com/
+	\item 山东理工大学：http://pypi.sdutlinux.org/
+\end{enumerate}
+\begin{shell}
+#首先省级最新pip版本
+python -m pip install --upgrade pip
+#单次安装使用国内镜像源以tensorflow库为例
+pip install tensorflow -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com#安装最新版本
+pip install tensorflow==2.13.0 -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com#安装指定版本
+#永久设置国内镜像源，两项都要设置否则报错
+pip config set global.index-url http://mirrors.aliyun.com/pypi/simple/#设置index-url
+pip config set global.trusted-host mirrors.aliyun.com#设置trusted-host
+#以上两句命名相当于在~/.config/目录下创建pip配置文件
+cd ~/.config/
+mkdir pip
+vim pip.conf
+
+[global]
+index-url = http://mirrors.aliyun.com/pypi/simple/
+trusted-host = mirrors.aliyun.com
+\end{shell}
+\subsection{Python虚拟环境}
+Python虚拟环境可以创建一个独立的环境，用于安装不同项目所需的特定Python包和依赖项，甚至是不同版本的Python环境，这个功能对于需要不同版本Python同时安装和Python环境迁移非常有用。下面以Linux和Windows下安装分别记录
+
+\href{https://blog.csdn.net/qq_34444097/article/details/142733302?spm=1001.2014.3001.5506}{Debian系统安装Python虚拟环境}
+\begin{shell}
+sudo apt-get install python3-venv#创建虚拟环境的env模块
+sudo apt-get install python3-pip#Python包管理工具
+python3 -m venv myvenv#创建名称为myvenv的虚拟环境
+source myvenv/bin/activate#激活myvenv虚拟环境
+deactivate#推出myvenv虚拟环境
+\end{shell}
+\href{https://blog.csdn.net/cl_kleiber0802/article/details/142006096?spm=1001.2014.3001.5506}{Windows系统安装Python虚拟环境}
+\begin{shell}
+pip install virtualenv #创建虚拟环境的env模块
+virtualenv -p D:\Python\Python312\Python.exe myvenv
+#创建名称为myvenv的虚拟环境
+myvenv/Scripts/activate#激活myvenv虚拟环境
+myvenv/Scripts/deactivate#退出myvenv虚拟环境
+\end{shell}
+\subsection{爬虫}
+爬虫不能一直研究只能随缘，属于奇淫技巧，不能耗费过多时间。
+\subsubsection{百度翻译}
+这个是第一个学习的第一个爬虫项目-\href{https://blog.csdn.net/m0_58378947/article/details/123905684?spm=1001.2014.3001.5506}{百度翻译的单词爬虫}，结果是运行爬虫后直接输入单词或汉字可以直接翻译出结果来。
+\begin{shell}
+import requests
+
+def spider(url,headers,data):
+
+    response = requests.post(url=url, headers=headers, data=data).json()  # 对目标url发起post请求
+    for key in response['data'][0]:
+        print(key,response['data'][0][key])
+
+def main():
+
+    url = 'https://fanyi.baidu.com/sug'  #需要请求的url
+    headers = {  #进行UA伪装
+        'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 Edg/98.0.1108.56'
+    }
+    while True:  #使程序进入死循环
+        kw = input("输入需要查询的单词：")
+        data = {     #post请求携带的参数
+            'kw':kw
+        }
+        spider(url=url,headers=headers,data=data)  #调用自定义函数spider
+
+main()
+\end{shell}
+\subsubsection{爬取在线视频}
+\href{https://blog.csdn.net/u011223449/article/details/136110053}{这是一个爬取在线视频项目}，爬取喜马拉雅音频的失败了，因为path都为空，使用了最新的反爬手段
+
+在爬去视频时明白原来网络视频都是一小段一小段，一个40分钟电视剧分散成有700多个小视频，插入广告非常方便，去除广告也非常方便哦！
+\subsection{自动化办公}
+\href{https://blog.csdn.net/weixin_41261833/article/details/106028038?spm=1001.2014.3001.5506}{Python的自动化办公}可是比较有名的，所以我也试验了下，确实很强大。我的想法是借助Python自动生成Word和Excel文件功能实现服务器端存储数据源文件，需要的时候自动生成需要的格式文件。
+\begin{shell}
+#这里只简单记录下需要安装的模块，详细的参考网页资料
+#值得注意的是只支持指定格式的文件并非所有excel和word文件
+pip install openpyxl#安装xlsx文件的模块
+pip install python-docx#安装docx文件的模块，导入时是import docx
+\end{shell}
+
+\subsection{百度网盘}
+\href{https://blog.csdn.net/u010751000/article/details/130191192?ops_request_misc=%257B%2522request%255Fid%2522%253A%25221986353ffb0d0d65f2126a7f2b677eda%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=1986353ffb0d0d65f2126a7f2b677eda&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-2-130191192-null-null.142^v101^pc_search_result_base7&utm_term=python%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98&spm=1018.2226.3001.4187}{Python使用bypy模块可以操作百度网盘}，包括显示文件列表、同步目录、文件上传，不过只支持/apps/bypy目录。
+
+借助该模块可以搭建自己的1T云备份和同步系统。
+\begin{shell}
+pip install bypy#安装模块
+bypy list #显示云盘根目录下文件列表
+#首次操作点击终端上方的蓝色链接，复制授权码并回车完成授权
+\end{shell}
+\begin{shell}
+from bypy import ByPy
+bp = ByPy()
+print(bp.list())
+bp.upload(r"localfile","disfile")#上传文件
+bp.download(r"localfile","disfile")#下载文件
+bp.syncup(r"localdir","disdir")#上传文件夹
+bp.syncdown("remotedir",r"localdir")#下载文件夹
+\end{shell}
+\subsection{Django}
+\section{ImageMagick}
+ImageMagick是一套功能强大、稳定而且免费的工具集和开发包，它可以单独使用来处理图片而且还可以在PHP调用来自动处理图片。
+
+webp 是一种新的图像格式，用于web项目，可以大大提高网站访问速度。同样的分辨率，大小比 jpg、png 小 25\% 以上。我的网站上上传的图片就是在PHP中自动将图片转换为webp格式图片，转换后的图片大小小了不止25\%。
+\subsection{ImageMagick安装}
+记录在\href{https://blog.csdn.net/Wufjsjjx/article/details/135401894?spm=1001.2014.3001.5506}{Debian12下安装ImageMagick}。
+\begin{shell}
+#安装依赖库
+sudo apt-get install build-essential 
+sudo apt-get install libjpeg-dev libpng-dev libtiff-dev libgif-dev libwebp-dev 
+sudo apt-get install webp
+#github下载ImageMagick源文件进行编译安装
+tar xf ImageMagick-7.1.1-47.tar.gz
+cd ImageMagick-1.1-47
+./configure
+sudo make install
+magick --version#安装完成后，检查版本信息
+#如果出现下面错误
+magick: error while loading shared libraries: libMagickCore-7.Q16HDRI.so.10: cannot open shared object file: No such file or directory 
+#执行以下命令
+echo "/usr/local/lib" >>sudo  /etc/ld.so.conf
+sudo ldconfig
+magick --version#再次检查版本信息
+\end{shell}
+\subsection{ImageMagick命令}
+\begin{shell}
+#将png图片格式转换为webp格式
+/usr/local/imagemagick/bin/convert file1.png file3.webp
+#将图片裁减为指定大小
+/usr/local/imagemagick/bin/convert -sample 768x1024 file3 file3
+#在图片上添加水印
+/usr/local/imagemagick/bin/convert -fill red -pointsize 60 -draw 'text 300,80 "dklovelich"' file3 file3
+\end{shell}
+\subsection{PHP下安装ImageMagick扩展}
+\href{https://blog.csdn.net/JineD/article/details/108318106?spm=1001.2014.3001.5506}{安装PHP下的ImageMagick扩展模块}后就可以在PHP中使用ImageMagick处理图片了。但是安装未能成功。
+
+\section{Nginx}
+\section{Apache}
+\subsection{Apache安装配置}
+\subsection{apache2根目录修改}
+Apache2的根目录默认为/var/www，如果需要修改到自定义地址，涉及两个关键配置文件的调整。 
+\begin{enumerate}
+	\item 修改/etc/apache2/apache2.conf，把文件里面的/var/www改成你的目标地址
+	\item 修改/etc/apache2/sites-enabled/000-default.conf，把文件里面的/var/www改成你的目标地址
+\end{enumerate}
+\section{Docker}
+docker是一种虚拟化技术，和之前接触比较类似的就是虚拟机，区别就是虚拟机需要安装操作系统然后安装要使用的应用程序，消耗资源比较多，docker就是在本机上构建一个独立的虚拟环境来运行应用程序比较节省资源。
+\href{https://blog.csdn.net/m0_61503020/article/details/125456520?spm=1001.2014.3001.5506}{Docker是一个开源的应用容器引擎}，让开发者可以打包他们的应用以及依赖包到一个可抑制的容器中，然后发布到任何流行的Linux机器上，也可以实现虚拟化。容器完全使用沙盒机制，相互之间不会存在任何接口。几乎没有性能开销，可以很容易的在机器和数据中心运行。最重要的是，他们不依赖于任何语言、框架或者包装系统。
+\subsection{Docker安装部署}
+在CSDN上找了很多篇帖子也没有在Debian11上安装成功，后来在\href{https://www.cnblogs.com/jason-zhao/p/18150268}{博客园上找到一篇安装成功}了。安装成功后无法正常拉取镜像，后来\href{https://blog.csdn.net/weixin_39764056/article/details/145042307?spm=1001.2014.3001.5506}{修改镜像}后拉取成功了。
+\begin{shell}
+sudo apt-get update#更新软件包索引
+sudo apt-get install apt-transport-https ca-certificates curl gnupg2 software-properties-common#安装必要的软件包
+curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/debian/gpg | sudo apt-key add -#添加阿里云的Docker官方GPG密钥
+sudo add-apt-repository "deb [arch=amd64] https://mirrors.aliyun.com/docker-ce/linux/debian $(lsb_release -cs) stable"#添加Docker仓库地址源
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io#安装Docker CE
+sudo systemctl status docker
+sudo usermod -aG docker $USER#设置非root用户也能运行Docker
+#更新Docker源，否则无法正常拉取镜像
+cd /etc/docker/
+vim daemon.json#没有就创建该文件
+{
+ "registry-mirrors": ["https://docker.registry.cyou",
+"https://docker-cf.registry.cyou",
+"https://dockercf.jsdelivr.fyi",
+"https://docker.jsdelivr.fyi",
+"https://dockertest.jsdelivr.fyi",
+"https://mirror.aliyuncs.com",
+"https://dockerproxy.com",
+"https://mirror.baidubce.com",
+"https://docker.m.daocloud.io",
+"https://docker.nju.edu.cn",
+"https://docker.mirrors.sjtug.sjtu.edu.cn",
+"https://docker.mirrors.ustc.edu.cn",
+"https://mirror.iscas.ac.cn",
+"https://docker.rainbond.cc"]
+}
+systemctl daemon-reload
+systemctl restart docker
+
+\end{shell}
+\subsection{Docker使用}
+\begin{shell}
+docker pull mysql:5.7#拉取mysql的镜像
+docker images#查看本地镜像
+\end{shell}
+\section{Grafana}
+Grafana是一款开源的数据可视化工具，主要用于大规模指标数据的可视化展示。这是我在搭建Pyscada平台时接触到的一款软件，它可以用于历史曲线显示和监控画面显示，很厉害。可以在\href{https://grafana.com/grafana/download?platform=windows}{官网下载}该软件的linux和windows版本。
+\subsection{安装配置Grafana}
+Grafana的安装比较简单，在windows下甚至不需要安装直接解压就可以使用了。
+\begin{shell}
+#Debian下安装
+wget https://dl.grafana.com/oss/release/grafana_10.2.3_amd64.deb
+sudo dpkg -i grafana_10.2.3_amd64.deb
+sudo systemctl start grafana-server
+sudo systemctl enable grafana-server
+\end{shell}
+\subsubsection{使用Grafana}
+Grafana的使用比较复杂，安装完成后在浏览器使用http://localhost:3000就可以登录页面，首次登录用户名和密码都是admin，登录后需要修改密码。
+
+配置数据源，需要首先增加用户并授权指定数据库的select权限才能添加成功，否则会添加失败，用root用户无法设置权限不足。
+
+
+
+
+
+\section{GoldenDict}
+\href{https://blog.csdn.net/networkhunter/article/details/117127021?spm=1001.2014.3001.5506}{GoldenDict}是一款免费的linux预装的字典，它可以导入下载好的字典离线查询，也可以设置好网址后在线查询。
+\section{OpenTTD}
+OpenTTD是一款运输模拟游戏，安装很简单，直接从\href{https://www.openttd.org/}{官网}上下载解压即可，无需安装，但是它的\href{https://wiki.openttd.org/zh/Main Page}{玩法}门槛很高而且容易上头。
+
+西文中一般采用上述的斜体强调方式而不是粗体，例如在说明书的时候可能就会使用以上命令。关于字体更多内容参考字体这一节。
+
+\subsection{下划线与删除线}
+\LaTeX\ 原生提供的\latexline{underline}命令简直烂的可以，建议你使用\pkg{ulem}宏包下的\texttt{uline}命令代替，它还支持换行文本。\pkg{ulem}宏包还提供了一些实用命令：

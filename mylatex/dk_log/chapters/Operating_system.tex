@@ -1,0 +1,412 @@
+%!TEX root = ../dk_log.tex
+\chapter{操作系统}
+本章主要记录我在使用各款操作系统过程中值得记录的一些东西，包括安装各款操作系统时遇到的问题以及使用各款操作系统的体验，最重要的是记录一些常用的、零碎的命令或知识点方便以后查阅。
+\section{操作系统选择}
+操作系统还用选择？买上电脑用就完了，有啥好选择的。在我初次接触linux系统前真的没有想过这个问题，记得那是大专一年级2018年的时候，学习C语言课程后开始发现了自己有点喜欢编成，然后开始学习MFC写一些Windows下的程序，那会儿用的还是Vis\\
+操作系统就是计算机上的工作平台，目前主流的就是Windows、macOS、Linux，Linux系统呢又有很多版本，比如Unbont、CentOS、Debian。
+\subsection{计算机磁盘规划}
+这里主要记录下计算机硬盘的选择和配置要求，个人计算机呢用的时间长了会卡经常会重装系统，针对这个怎样配置硬盘最方便呢？服务器要求是稳定运行，所以硬盘会采用磁盘阵列做冗余配置，那应该选择哪一种呢？
+\subsubsection{个人计算机磁盘规划}
+个人电脑的话我感觉使用两块硬盘，一块SSD固态硬盘用作安装操作系统和常用软件方便整套系统备份恢复，一块使用HDD机械硬盘主要用来存放数据文件方便数据备份和迁移。下面记录下关于MBR和GPT分区以及Logic和UEFI引导的记录。
+
+MBR和GPT最明显的区被就两点：
+\begin{enumerate}
+	\item GPT是在计算机发展过程中发现MBR不够用才出来的一种分区方式
+	\item MBR最大只支持2TB硬盘，如果硬盘大于2TB只能用GPT
+	\item MBR支持分区数量有限，GPT理论上无限个可以
+	\item MBR支持Logic引导系统，GPT支持UEFI引导系统
+	\item MBR启动分区需要标记，GPT启动分区默认C盘
+	\item win7及以前系统用MBR，win10及以后系统用GPT
+\end{enumerate}
+这个是在一次安装win10电脑上安装win7过程中遇到情况，安装完win7后启动不了找不到系统盘最后猜测是原来年win10是GPT分区的UEFI引导启动，后来我把win7装到GPT分区后仍热无法引导启动查资料说win7本来不支持UEFI引导，需要做一些工作才能实现UEFI引导，这个后续有机会的话试一下。
+\subsubsection{服务器磁盘规划}
+工业用电脑或服务器的话还是配置RAID 1比较实用，毕竟备份恢复起来太方便了。这里我简单记录下我接触过的两种型号服务器\index{RAID}配置方法，以及RAID故障恢复的方法。
+
+首先是DCS用的HP Gen8服务器，磁盘阵列控制器型号是HP Smart Array P420i,硬盘是刀片式插槽，现场配置的是RAID 1，在做硬盘备份恢复过程中用到的。
+
+磁盘阵列配置
+\begin{enumerate}
+	\item 将硬盘插入插槽，开机，看服务器硬件情况大概得5分钟以上
+	\item 当自检界面出现Press <F5> to run the Option ROM Configuration for Arrays Utility时按下<F8>进入磁盘阵列配置界面
+	\item 选择View Logical Drive选项查看当前阵列配置情况，如果是RAID 1,就会显示状态是OK/RECOVERY，还会显示实际硬盘安装情况OK/MISSING
+	\item 选择Delete Logical Drive可以删除当前阵列配置
+	\item 选择Create Logical Drive创建阵列，创建RAID 0的话就直接选择单硬盘就可以，如果是RAID 1的话就可以选择两块甚至更多硬盘组成镜像盘
+	\item Select Boot Volume是设置系统启动硬盘，服务器里启动选项可以选择磁盘阵列卡
+\end{enumerate}
+RAID 1磁盘阵列备份硬盘
+\begin{enumerate}
+	\item 服务器配置了RAID 1模式并指定了冗余硬盘盘位为前提，下边提到的插拔硬盘都是在RAID 1配置盘位上进行的
+	\item 操作系统正常运行过程一组硬盘中硬盘的禁止弹出指示灯不亮说明冗余正常拔出任意一块硬盘都不会影响当前系统正常运行，拔出其中一块硬盘后剩下的一块硬盘禁止弹出指示灯会点亮说明此时该硬盘拔出会影响正常运行
+	\item 插入一块空硬盘，重点是空硬盘，清除完RAID标记后的没有建分区表的空硬盘，此时新插入硬盘灯亮开始同步数据，这时原硬盘禁止弹出指示灯仍然点亮，说明备份没有完成RAID 1没有建立冗余
+	\item 视硬盘数据大小同步时间会有差别，大概1小时左右，同步完成后硬盘的禁止弹出指示灯都会熄灭，此时备份完成可以任意拔出其中一块硬盘作为备份盘或RAID 1冗余运行
+\end{enumerate}
+还使用过一种惠普塔式工作站，主板上磁盘阵列卡是定制的默认配置RAID 1，直接就可以硬盘同步备份。
+
+另一种服务器是搭建SIS系统时用的戴尔服务器，这个使用过程中给我映像比较深的是更换备份硬盘后需要选择配置启动硬盘，以后再用到的时候记录下。
+
+
+
+\subsection{操作系统安装}
+最开始安装XP系统时常用的还是CD，后来到了Windows7以后用的U盘安装，硬盘安装比较多一点，安装Linux系统的时候用的U盘安装比较多一点，后来也用过U盘引导硬盘安装的方法，下面就简单记录下感受吧。
+现在ISO安装光盘都很大了尤其是Linux的超过4.7GB了，而且现在电脑光驱都不用了尤其是个人电脑，所以CD和DVD安装就不多说了。
+U盘安装是把ISO文件用U盘启动制作工具刻录在U盘里，但是废U盘啊。还有一种就是把U盘制作成PE文件引导安装Windows系统，这种的广告插件是真的多啊，这种应该只适用于Windowns安装。使用U盘引导硬盘安装Linux系统还可以就是制作U盘引导有点费劲，但是上边的方法需要根据要安装系统的情况和需求进行选择,做成各种安装介质备起来或用的时候临时做，我之前就是这么作的。直到遇见它中级杀人武器积各种技能与一身的Ventoy,用它制作好U盘后只需要把你的所有ISO镜像文件拷贝放到U盘里，U盘启动后选择你要用的ISO文件就可以了。
+\subsection{Ventoy}
+
+用官网的话来说\href{https://www.ventoy.net/cn/index.html}{Ventoy}是一个制作可启动U盘的开源工具，你只需要把ISO等类型文件直接拷贝到U盘里面就可以启动了，无需其他操作，可以一次性拷贝很多不同的镜像，它会形成一个菜单供用户选择，一个U盘可以同时支持x86Legacy BIOS、UEFI模式。通俗点讲就是系统镜像拷贝进取就可以使用，只要U盘够大可以把想安装的操作系统镜像都放到U盘里，随时可以安装任何一款操作系统。这里记录下U盘安装Ventoy和硬盘安装Ventoy方法。
+\subsubsection{U盘安装Ventoy}
+安装的过程没有什么复杂的现在新版本是图形化操作，选中U盘安装就可以了，值得一提的是U盘里边应该放哪些系统ISO，全方？太大！不全方？用的时候又不方便！我使用过程中感觉有以下这么几种选择：
+\begin{enumerate}
+	\item 用小点U盘专门安装Ventoy工具，再用移动硬盘存储系统镜像用哪个选择哪个
+	\item 用U盘专门安装Ventoy工具，再放入Linux Live系统和winPE系统用来处理问题，需要安装什么系统再找对应ISO文件
+\end{enumerate}
+
+\subsubsection{移动硬盘安装Ventoy}
+
+\subsection{WinPE}
+网上有很多选择比如老毛桃、大白菜、雨沐林枫等，我\href{https://lmt.psydrj.com/index.html}{老毛桃}用的比较多就以它为例吧，在Windwos系统下安装、恢复用。用官网的话来说Laomaotao-winPE是一款系统预安装环境(PE)支持BIOS(Legacy)与UEFI两种启动模式。我感觉它比较实用的是PE系统里边的一些工具比如磁盘分区、系统密码破解,最好用的应该是Windows系统无法启动时拷贝数据和GHOST系统备份和恢复。这里主要记录下使用WinPE盘备份和恢复系统。
+\subsubsection{WinPE备份和恢复系统}
+ABB DCS系统操作员站OP53恢复过程记录
+\begin{enumerate}
+	\item 首先准备WinPE系统盘、惠普Z230主机箱要求C盘符80GB、op16920.GHO备份镜像
+	\item 进入WinPE系统后将op16920.GHO文件拷贝至D盘，启动Ghost工具
+	\item 在Ghost软件中选择恢复系统选项，选择op16920.GHO文件，选择目标分区C盘符，开始恢复...等待10分钟左右，恢复完成
+	\item 关机重启进入新恢复的系统，默认登录用户是OP16,切换为管理员修改IP地址为172.16.48.153和172.17.48.153
+	\item 计算机名称为OP53
+	\item 将计算机接入DCS系统网络后，登录管理员确认网络正常，添加或修改域名为LuanPP.Local，重启计算机后LUANPP.operator用户登录，查看站点状态是否正常。
+	\item 修改域名需要计算机正常接入DCS系统户对应语
+
+\end{enumerate}
+
+打开\TeX\ Studio后，选择选项$\rightarrow$设置\TeX\ Studio $\rightarrow$ 构建 $\rightarrow$ 默认编译器，选择\xelatex{}。这主要是基于中文文档编译的考虑，同时\xelatex 也能很好的编译英文文档。我建议始终使用它作为默认编译器。
+
+\subsection{Debian Live}
+这个是一个可以装到U盘里的Debian系统，很方便的，我目前只使用它清空过\index{RAID标记}硬盘数据。这里简单记录下
+我们厂使用的是ABB DCS系统，它属于C/S架构，光服务器就有16台，后来准备搭建一套ABB DCS系统服务器来做培训和测试用，但是ABB这个授权很贵，而且厂家费用很高，就计划自己试着搭建以下，后来一看安装软件就20多GB，而且特别多，估计安装难度很大，现场服务器硬盘配置是RAID 1冗余，所以就选择了硬盘备份这种方式，从外边采购相型号配置的旧服务器，旧的服务器硬盘都有数据，如果用RAID 1同步的话就需要清空旧硬盘中的数据，关键是RAID标识，我在网上查了下清空RAID标识方法总结起来有三种：1.linux下用dd命令擦除硬盘最后RAID数据；2.linux下用命令删除RAID标识；3.linux下用fdisk删除硬盘分区和RAID标识。这三中方法都是在linux系统下，所以就用U盘作了个Debian Live系统，用第三中方法试了下，可行。下边就分别记录下三种使用方法的具体过程。
+\subsubsection{Debian Live清除RIAD标识}
+之后你可以在窗口输入一篇小文档，并保存为tex扩展名的文件进行测试：
+\begin{latex}
+\documentclass{ctexart}
+\begin{document}
+Hello,world!
+你好，世界！
+\end{document}
+\end{latex}
+点击编译按钮生成，F7查看。生成pdf在你的tex文件保存目录中。具体各行的含义我们后在后文介绍。
+
+\section{Windows操作系统}
+Windows操作系统安装有两种：一种是用原版的操作系统安装介质，一种是用别人GHOST的备份来还原。前者是安装步骤较多，最后需要自己激活甚至安装驱动，但是干净，后者是安装方便，傻瓜式一键安装，但是系统有别人给预装的插件广告等（自己脑补吧）,我喜欢后者，原因很简单干净、还算有点挑战性（大折腾吗）。
+以下是针对使用前者安装方式的
+Windows操作系统安装最重要的几点就是安装介质、系统激活和安装驱动（尤其是安装完没有网卡驱动的）。
+磁盘规划:最好是一块固态硬盘直接安装操作系统和软件，一块机械硬盘按需求分区后存放数据，这样备份恢复系统，迁移数据最方便。
+\subsection{XP操作系统}
+曾经神一样的存在，只是时代在进步，不论是从硬件还是软件上它都不足以支撑，不过工业上还有很多在用，因为工业软件需求单一，稳定为主没有更新，操作系统还使用经典的XP系统。
+我记得2008年时开始接触操作系统，后来就帮人装系统，那个时候就是XP，后来不知道从哪里找到一个XP系统ISO安装文件(Microsoft Windows XP Professional版本2002 Service Pack3)，然后又试出一个\index{XP系统注册码}:CM3HY-26VYW-6JRYC-X66GX-JVY2D，可以一直重复使用的哦，值得提一句的是XP系统是安装过程中就要求输入授权码的，否则就不能继续往下走了。然后就一直使用它们，直到2020年上班后因为连接西门子S7200PLC时还在虚拟机上安装了XP系统专门用来上载、修改、下载PLC程序。
+\subsection{Win7/Win10操作系统}
+Win7和Win10安装方式基本一样，其实Win7及后来的操作系统安装方式基本没有什么变化，都是安装后进行注册激活。相比XP多了一种安装方式，硬盘安装，这种方式前提是安装操作系统的电脑有旧的有windows操作系统存在，在旧操作系统下将ISO镜像文件解压到D盘根目录下然后点击SETUP安装程序即可，简单吧。
+
+下边就以记录下我最近安装WIN10系统的过程吧,这个WIN10安装介质是我们厂SIS系统安装时厂家在客户端安装的WIN10(Windows 10专业版)系统时用的正版光盘，我做成了ISO文件。
+\begin{enumerate}
+	\item 拷贝WIN10.ISO文件到安装Ve的U盘
+	\item 电脑U盘启动选择WIN10,nomal install
+	\item 系统安装过程。。。
+	\item 安装完成后检查设备驱动正常，简直不要太顺
+\end{enumerate}
+\subsubsection{Win7操作系统激活}
+Win7系统激活是有一个激活程序(PCSKYS\_Windows7Loader\_v3.27.exe)，安装万系统后，打开激活软件按照提示激活，如果激活失败需要到我的电脑->管理->磁盘管理里检查是不是有盘符是空白，给空白盘符添加驱动号后，再重新激活
+\subsubsection{激活WIN10系统}
+目前在Windows 10专业版测试是可以激活的
+\begin{enumerate}
+	\item 进入win10系统桌面中，鼠标右键点击桌面左下角的window按钮，在弹出的菜单中选择“命令提示符(管理员)”选
+	\item 在打开的命令符号符界面中输入slmgr.vbs /upk命令，将win10系统中原来的激活密钥卸载，进入下一步,弹出成功卸载了产品密匙
+	\item 输入slmgr /ipk NPPR9-FWDCX-D2C8J-H872K-2YT43,弹出："成功的安装了产品密钥"
+	\item 输入slmgr /skms zh.us.to,弹出"密钥管理服务计算机名成功的设置为zh.us.to"
+	\item 输入slmgr /ato,弹出"成功的激活了产品"
+	\item 在系统属性界面中可以看到win10企业版的激活状态
+\end{enumerate}
+\LaTeX\ 中的\co{命令}通常是由一个反斜杠加上命令名称，再加上花括号内的参数构成的（有的命令不带参数，例如：\latexline{TeX}）。
+\begin{latex}
+\documentclass{ctexart}
+\end{latex}
+如果有一些选项是备选的，那么通常会在花括号前用方括号标出。比如：
+\begin{latex}
+\documentclass[a4paper]{ctexart}
+\end{latex}
+还有一种重要指令叫做\co{环境}。它被定义与控制命令\latexline{begin\{environment\}}\\和\latexline{end\{environment\}}间的内容。比如：%不加入强制换行会溢出?
+\begin{latex}
+\begin{document}
+...内容...
+\end{document}
+\end{latex}
+环境如果有备选参数，只需要写在\latexline{begin[...]\{name\}}这里就行。
+
+注意：不带花括号的命令后面如果想打印空格，请加上{\color{cyan}{一对内部为空的花括号}}再键入空格。否则空格会被忽略。例如：\verb+\LaTex{} Studio+。
+\subsection{保留字符}
+\LaTeX\ 中有许多字符有着特殊的含义，在你生成文档时不会直接打印。例如每个命令的第一个字符：反斜杠。单独输入一个反斜杠在你的行文中不会有任何帮助，甚至可能产生错误。\LaTeX\ 中的保留字符有：
+\begin{center}
+	\texttt{\# \$ \% \^ \& \_ \{ \} \char92}
+\end{center}
+
+它们的作用分别是：
+%\begin{description}[font=\bfseries\ttfamily,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]
+\begin{para}
+\item[\#{}:]自定义命令时，用于标明参数序号。
+\item[\S{}:]数学环境命令符。
+%\end{description}
+\end{para}
+
+以上除了反斜杠外，均能用前加反斜杠的形式输出。即你只需要键入：
+\begin{center}
+\verb|\# \$ \% \^ \& \_ \{ \}|
+\end{center}
+
+唯独反斜杠的输出比较头痛，你可以尝试：
+\begin{codeshow}
+$\backslash$ \textbackslash
+\texttt{\char92}
+\end{codeshow}
+
+其中命令\latexline{char[num]}是一个特殊的命令
+\begin{verbatim}
+\texttt{\char`~}%输出一个波浪线
+\end{verbatim}
+
+\subsection{导言区}
+任何一份\LaTeX{}文档都应该包含以下结构：
+\begin{latex}
+\documentclass['\itshape options']{doc-class}%没有斜体option
+\begin{document}
+...
+\end{document}
+\end{latex}
+其中，在语句\latexline{begin\{document\}}之前的内容成为\co{导言区}。导言区可以留空，也可以进行一些、文档的准备操作。你可以粗浅地理解为：\RED{导演区即模板定义}。\\
+
+文档类的参数doc-class和可选选项{\textit{options}}有取值：%引用图表失败
+%\begin{table}[!htb]原文中有htb，现在无法正确编译
+	\begin{table}[!htb]
+	\centering
+	\caption{文档类和选项}
+	\label{tab:documentclass}
+	\begin{tabular}{p{5em} @{\ -\ } p{24em}}
+		\hline
+		\multicolumn{2}{l}{\bfseries doc-class文档类\footnotemark}\\
+		\hline
+		article & 科学期刊，演示文稿，短报告，邀请函。\\
+		proc	& 基于article的会议论文集。\\
+		report	& 多章节的长报告、博士论文、短篇书。\\
+		book	& 书籍。\\
+		slides	& 幻灯片，使用了大号Scans Serif字体。\\
+		\hline
+		\multicolumn{2}{l}{\bfseries\itshape options}\\
+		\hline
+		字体	&默认10pt，可选11pt和12pt。\\
+		\hline
+	\end{tabular}
+\end{table}
+
+在本文中，多数的文档类提及的均为report/book类。如果有article类将会特别指明。其余的文档类不与说明。本手册排版即使用了report类。
+
+在导言区最常见的是\co{宏包}的加载工作，命令形式如：\latexline{usepackage\{package\}}。通俗地讲，宏包是指一系列已经制作好的功能``模块''，在你需要使用一些原生\LaTeX\ 不带有的功能时，只需要调用这些宏包就可以了。比如文本的代码就是利用\pkg{listings}宏包实现的。
+
+宏包的具体使用将参在个部分内容说明中进行讲解。如果你想学习一个宏包的使用，按Win+R组合键呼出运行对话框，输入texdoc加上宏包名称即可打开宏包帮助pdf文档。例如：\verb|texdoc xeCJK|。
+	\footnotetext{此外还有\pkg{beamer}宏包定义的beamer文档类，常用于创建幻灯片。}
+
+\subsection{错误的排查}
+	\label{subsec:debug}
+	在编辑器界面上，下方的日志是显示编译过程的地方。在你编译通过后，会出现这样的字样：
+\begin{feai}
+	\item {\bfseries{Errors错误}}：严重的错误。一般地，编译若通过了，该项是零。
+	\item {\bfseries{Warnings警告}}：一些不影响生成文档的瑕疵。
+	\item {\bfseries{Bad Boxes坏箱}\footnote{Box是\LaTeX{}中的一个特殊概念，具体将在进行讲解。}}：指排版中出现的长度问题，比如长度超出（Overfull）等。后面的Badness表示错误的严重程度，程度越高数值越大。这类问题需要检查，排除Badness高的选项。\marginpar{\textcolor{red!70}{此处注解在后续章节，目前未链接}}
+\end{feai}
+
+	你可以向上翻越日志记录（即.log文件），来找到Warning开头的记录，或者Overfull/ Underfull开头的记录。这些记录会指出你的问题出在哪一行（比如line 1-2）或者在pdf的哪一页（比如active[12]。注意，这个12表示计数器技术页码，而不是文件打印出来的真实页数）。此外你还需要了解：
+\begin{feai}
+\item 值得指出的是，由于\LaTeX{}的编译原理（第一次生成aux文件，第二次再引用它），目录想要合理显示{\bfseries{需要连续编译两次}}。在连续编译两此后，你会发现一些Warnings会在第二次编译后消失。在\TeX\ Studio中，你可以只单击一次“构建并查看”，他会检测到文章的变化并自动决定是否需要编译两次。
+\item 对于大型文档，寻找行号十分痛苦。你需要学会合理地拆分tex文件，参阅内容。%未引用3.13节内容
+\end{feai}
+
+	这里也推荐宏包\pkg{syntonly}，在导言区加入它支持的\latexline{syntaxonly}命令，会只排查语法错误而不生成任何文档，这可以使你更快地编译。不过他似乎不太稳定，例如本文档可以正常编译，但是使用该命令时则会出错。
+\subsection{文件输出}
+	\LaTeX{}的输出一般推荐pdf格式，有\LaTeX\ 直接生成dvi的方法并不推荐。
+
+你在tex文档的文件夹下可能看到的其他文件类型：
+\begin{tabbing}
+	.sty{\hspace{2em}}\=宏包文件\\%第一行必须此格式否则会编译出错
+	.cls	\> 文档类文件。\\
+	.aux	\> 用于存储交叉引用信息的文件。\\
+	.out	\> 宏包生成的pdf书签记录。
+\end{tabbing}
+\section{UNIX操作系统}
+	UNIX系统种类很多啊，尤其是近几年，越来越火，记得我是2009年第一次接触Ubuntu，那时候只是好奇，为了好玩，去电脑商城买电脑的时候非要选预装Ubuntu系统的笔记本，别人看我的眼神是那样的，最后转了一圈也没找下，不过最后找下了一款Nseries标志的笔记本电脑，就是现在用的DELL vostro 1088，到现在已经15年了，记得当时买回去第一件事情就是重装Ubuntu系统，当时纯属装C，不过也多亏了那股劲才坚持到了现在，中间学习操作系统的时候还安装了minix操作系统，后来上班后真正搭建服务器时用上了CentOS，CentOS7后就停止维护了寻找替代系统过程中试着用Debian，这会儿已经到了Debian12版本了，不得不说Debian真是稳定啊，占用资源少，果断把15年的笔记本换成Debian，健步如飞啊。就剩Fedora了，有机会了试试。
+	\subsection{minix操作系统}
+	英文单引号并不使用两个\verb|'|符号组合。左单引号是重音符\verb|`|（键盘上数字1左侧），而右单引号是常用的引号符。英文中，{\color{cyan}{左双引号就是连续两个重音符号}}。
+	英文下的引号嵌套需要借助\latexline{thinspace}命令分隔，比如：
+\begin{codeshow}[listing side text, listing options={escapeinside=++}]%方括号里的是啥意思?
+``\thinspace`Max' is here.''
+\end{codeshow}
+中文下的单引号和双引号你可以用中文输入法直接输入。
+
+\subsection{Linux操作系统}
+	接触Linux操作系统很早大约是在10年，那个时候我记得用的还是CentOS5，那会主要是接触了一本名叫一个Orange操作系统的书籍就迷上了操作系统的实现，这本书是在linux操作系统下使用Boch虚拟机来测试调试实现的迷你操作系统，中间会用到许多修改查看二进制数据的小工具，这些工具linux系统都自带不需要安装很方便，所以就开始使用Linux操作系统了，不过那会儿的Linux操作系统体验很差，只有在写操作系统的时候才使用，后来慢慢有所改善，一直到CentOS8,后来CentOS系统停止发布，又改为了CentOS Stream，感觉不好就开始寻找其它的Linux操作系统，最后选择了Debian，使用后感觉Debian是真稳定啊。
+	linux系统下边需要特别说的两点分别是硬盘规划和软件源配置。
+英文的短横分为三种：
+\begin{feai}
+\item 连字符：输入一个短横：\verb|-|，效果如daughter-in-law
+\item 数字起止符：输入两个短横：\verb|--|，效果如：page 1--2
+\item 破折号：输入三个短横：\verb|---|，效果如：Listen---I'm serious.
+\end{feai}
+
+中文的破折号你也许可以直接使用日常的输入方式。中文的省略号同样。但是注意，英文的省略号使用\latexline{ldots}这个命令而不是三个句点。
+\subsection{Debian操作系统}
+使用Debian系统比较晚大约是在2023年，当时最新版本是Debian11代号Bullseye，这部分内容更新于2025年2月份，最新版本Debian系统为12代号Bookworm，Debian11和Debian12的区别是Debian11拥有大量成熟的软件包适合在服务器和生产环境中使用，Debian12功能更新颖，软件版本更新对部分软件支持不是很好，更适合尝鲜和体验。所以当时我就在现场使用的笔记本上安装了Debian11，在个人笔记本上安装了Debian12，这样两者就都能兼顾了。
+下面以Debian11和12系统安装为例子简单记录下，系统安装完成后需要优化的一些操作。需要特别注意的是安装Debian11过程中先不要配置网络参数，否则安装过程特被漫长，感觉它在网络上下载镜像源而不是使用本地ISO镜像源，安装过程中有个选项是不使用网络镜像源，但是还是特别慢，如果不配置网络参数的话也就40分钟就安装完成了，Debian12安装不会有这种现象，只用选着不使用网络镜像源就可以了。
+\begin{enumerate}
+	\item 配置镜像源，系统安装完成apt源默认配置的是本地光盘镜像，网络镜像源速度比较慢，更新为国内镜像源,\href{https://blog.csdn.net/qq_48118072/article/details/132339096?spm=1001.2014.3001.5506}{Debian12源地址}，\href{https://blog.csdn.net/zqr4818/article/details/129657792?spm=1001.2014.3001.5506}{Debian11源地址}。
+\begin{shell}
+su#登陆root权限
+cd /etc/apt/#换到源地址配置目录
+move sources.list sources.list.back#备份原来的源文件
+#用指定源替代sources.list文件中的源
+apt-get update#更新源
+\end{shell}
+	\item 将用户添加到sudo组中，将当前用户添加到sudo组中，这样在执行需要root权限时临时使用sudo命令即可，直接登陆root用户比较危险哦！将用户添加到sudo组后需要重启电脑后方可完全生效，这一点不是很明白，理论上应该不需要重启才对。
+\begin{shell}
+su#登陆root权限，这个时候还是需要的哦
+apt-get install sudo#安装sudo软件
+/usr/sbin/usermod -a -G sudo $(echo $USER)
+#将当前用户添加至sudo组
+#以后使用sudo输入用户密码就可以临时切至root权限了
+\end{shell}
+	\item 将/usr/sbin添加至环境变量，不然/usr/sbin下命令使用时还需要使用路径，比较麻烦
+\begin{shell}
+sudo vim /etc/profile#需要root权限才能修改该文件
+#在最后一行加入
+export PATH=$PATH:/usr/sbin#$将/usr/sbin加入PATH
+#这样该目录下程序就可以直接执行了，比如上例中的usermod命令
+#如果新安装软件需要的话也可以加进去，比如我们的\LaTeX
+#保存退出后
+source /etc/profile#重新加载配置文件使修改生效
+\end{shell}
+	\item 设置Debian启动后默认运行级别，如果是个人PC电脑的话默认的graphical.target就可以，如果是服务器的话就需要设置成multi-user.target级别（服务器一般不设置桌面环境，浪费资源而且桌面不稳定因素较多影响服务器稳定性）。
+\begin{shell}
+systemctl get-default#查看当前运行级别
+graphical.target#图形话桌面
+systemctl list-units --type=target
+#查看可供替换的运行级别
+systemctl set-default multi-user.target(修改为多用户文本)
+startx#多用户文本级别下启动图形桌面
+
+\end{shell}
+	\item Debian系统桌面环境安装与切换，一般安装是就已经默认安装号了桌面环境和启动配置，如果使用过程中想要切换桌面的画可以参考\href{https://blog.csdn.net/seaship/article/details/86234453?spm=1001.2014.3001.5506}{这里}。这里主要记录下服务器设置为多用户文本启动后，startx默认启动的桌面环境。
+\begin{shell}
+update-alternatives --config x-session-manager#设置默认桌面
+\end{shell}
+\end{enumerate}
+
+\LaTeX\ 中专门有个叫做\latexline{emph\{text\}}的命令，可以强调文本。对于通常的西文文本，上述命令的作用就是斜体。如果你对一段已经这样转换为斜体的文本再使用这个命令，它就会取消斜体，而成为正体。
+
+西文中一般采用上述的斜体强调方式而不是粗体，例如在说明书的时候可能就会使用以上命令。关于字体更多内容参考字体这一节。
+
+\section{常用命令}
+\LaTeX\ 原生提供的\latexline{underline}命令简直烂的可以，建议你使用\pkg{ulem}宏包下的\texttt{uline}命令代替，它还支持换行文本。\pkg{ulem}宏包还提供了一些实用命令：
+\subsection{systemctl命令}
+	systemctl 检查和控制系统与服务管理的状态
+	\begin{description}
+		\item[systemctl] COMMAND server
+	\end{description}
+\begin{shell}
+systemctl start apache2#启动apache2服务
+systemctl status apache2#检查apache2服务状态
+systemctl stop apache2#停止apache2服务
+systemctl enable apache2#设置apache2服务开机自启动
+systemctl disable apache2#禁止apache2服务开机自启动
+\end{shell}
+\subsection{ssh命令}
+	OpenSSH SSH 客户端 （远程登录程序）
+	\begin{description}
+		\item[ssh] [-p port] user@hostname
+		\item[-p] port 指定远程主机端口
+	\end{description}
+\begin{shell}
+ssh debian_ibm@dklovelich.iok.la -p 18210 #通过外网使用域名登录远程debian系统
+ssh debian_ibm@192.168.1.16 -p 22 #通过局域网使用IP地址登录debian系统
+\end{shell}
+\subsection{scp命令}
+	安全复制（远程文件复制程序,用法和cp命令相似）
+	\begin{description}
+		\item[scp] [user@host1:]file1 [user@host2:]file2
+		\item[-r] 递归复制整个目录
+		\item[-P] port是指定数据传输用到的端口号,默认22端口
+	\end{description}
+\begin{shell}
+scp -P 18210 file1 debian_ibm@dklovelich.iok.la:/home/debian_ibm/dk/ #从本地将文件file1传输到服务器/home/debian_ibm/dk/目录下
+scp -Pr 18210 dir1 debian_ibm@dklovelich.iok.la:/home/debian_ibm/dk/ #从本地将文件夹dir1传输到服务器/home/debian_ibm/dk/目录下
+scp -P 18210 debian_ibm@dklovelich.iok.la:/home/debian_ibm/dk/file1 ./ #将服务器上的file1文件传输到本地./目录下
+scp -Pr 18210 debian_ibm@dklovelich.iok.la:/home/debian_ibm/dk ./ #将服务器上的dk文件夹传输到本地./目录下
+\end{shell}
+\subsection{screen命令}
+	screen是一个多任务窗口管理器
+	\begin{description}
+		\item[screen] [-ls]|[-S sessionname]|[-r sessionname]
+		\item[-ls] 列出所有会话
+		\item[-S] 指定会话名称
+		\item[-r] 恢复会话
+		\item[-d] 断开指定的会话，但不会杀死会话中的任务
+	\end{description}
+\begin{shell}
+screen -ls #查看当前正在运行的说有会话
+screen -S log #启动一个名为log的会话
+screen -r log #恢复一个已经脱离的名为log的会话
+screen -d log #断开log的会话，但不会杀死会话中的任务
+\end{shell}
+\subsection{rar命令}
+	rar是解压缩rar压缩文件的命令
+	\begin{description}
+		\item[rar] [-ls]|[-S sessionname]|[-r sessionname]
+		\item[-ls] 列出所有会话
+		\item[-S] 指定会话名称
+		\item[-r] 恢复会话
+	\end{description}
+\begin{shell}
+rar x file.rar#解压缩file.rar文件到当前目录
+\end{shell}
+\subsection{du命令}
+	du是linux系统里的文件大小查看的命令
+	\begin{description}
+		\item[du] [-ls]|[-S sessionname]|[-r sessionname]
+		\item[-s] 查看文件夹总大小
+		\item[-h] 智能显示文件大小
+		\item[-r] 恢复会话
+	\end{description}
+\begin{shell}
+du -sh dk#查看dk文件夹总大小
+\end{shell}
+\subsection{grep命令}
+	grep是linux系统里的搜索命令
+	\begin{description}
+		\item[grep] [-rn] char dir
+		\item[-r] 当前路径下循环搜索
+		\item[-n] 结果输出显示行号
+		\item[-l] 只显示文件名，不显示匹配的文本
+		\item[-I] 忽略匹配二进制文件
+	\end{description}
+\begin{shell}
+grep -rn  topnav2.php ./
+#递归查找当前目录下所有包含topnav2.php字符串的文件
+\end{shell}
+\subsection{sed命令}
+	du是linux系统里流编辑器，用于批量修改文件内容
+	\begin{description}
+		\item[du] [-nefri]|[动作]
+		\item[-i] 直接修改读取的文件内容
+		\item[s] 替换动作
+	\end{description}
+\begin{shell}
+sed -i "s/topnav2.php/topnav.php/g" `grep "topnav2.php" -rIl ./`
+#替换当前目录下除了二进制文件的所有文件中topnav2.php字符串为topnav.php
+#grep -I参数很有必要，在git目录下会避免修改git仓库内二进制文件
+#否则损坏git仓库索引导致git不可使用
+\end{shell}
+
+
+

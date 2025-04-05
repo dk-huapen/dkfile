@@ -1,0 +1,202 @@
+\documentclass[a4paper,zihao=-4,linespread=1]{ctexrep}
+\renewcommand{\CTEXthechapter}{\thechapter}%目录显示章节编号样式命令
+% 最小行间间距设定
+\setlength{\lineskiplimit}{3pt}
+\setlength{\lineskip}{3pt}
+% 下划线宏包
+\usepackage[normalem]{ulem}
+%LaTeX符号宏包
+\usepackage{hologo}
+\newcommand{\xelatex}{\Hologo{XeLaTeX}}%输出XeLaTeX标志
+%颜色
+\usepackage[table]{xcolor}
+%奇怪的小定义
+\newcommand{\RED}[1]{{\color{cyan}{#1}}}
+\newcommand{\co}[1]{{\bfseries{#1}}}
+% 编号列表宏包，并自定义了三个列表
+\usepackage[inline]{enumitem}
+        \setlist[enumerate]{font=\bfseries,itemsep=0pt}
+        \setlist[itemize]{font=\bfseries,leftmargin=\parindent}
+        \setlist[description]{font=\bfseries\uline,labelindent=\parindent,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt}
+\newenvironment{fead}{
+    \begin{description}[font=\bfseries\uline,labelindent=\parindent,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]}
+        {\end{description}}
+%带宽度的
+\newenvironment{para}{
+        \begin{description}[font=\bfseries\ttfamily,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]}
+        {\end{description}}
+	%下边的定义猜测是缩小行间距
+\newenvironment{feai}{/
+        \begin{itemize}[font=\bfseries,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]}
+        {\end{itemize}}
+	\newenvironment{feae}{
+        \begin{enumerate}[font=\bfseries,labelindent=0pt,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]}
+	{\end{enumerate}}
+%目录和章节样式
+\usepackage{titlesec}
+\usepackage{titletoc}
+\titlecontents{chapter}[1.5em]{}{\contentslabel{1.5em}}{\hspace*{-2em}}{\hfill\contentspage}
+\titlecontents{section}[3.3em]{}{\contentslabel{1.8em}}
+        {\hspace*{-2.3em}}{\titlerule*[8pt]{$\cdot$}\contentspage}
+\titlecontents*{subsection}[2.5em]{\small}{\thecontentslabel{} }{}{, \thecontentspage}[;\qquad][.]
+% 章节样式
+\setcounter{secnumdepth}{3} % 自动编号一直到subsubsection
+\newcommand{\chaformat}[1]{%
+        \parbox[b]{.5\textwidth}{\hfill\bfseries #1}%
+        \quad\rule[-12pt]{2pt}{70pt}\quad
+        {\fontsize{60}{60}\selectfont\thechapter}}
+\titleformat{\chapter}[block]{\hfill\LARGE\sffamily}{}{0pt}{\chaformat}[\vspace{2.5pc}\normalsize
+        \startcontents\setlength{\lineskiplimit}{0pt}\printcontents{}{1}{\setcounter{tocdepth}{2}\songti}]
+\titleformat*{\section}{\centering\Large\bfseries}
+%\titleformat{\subsubsection}[hang]{\bfseries\large}{\rule{1.5ex}{1.5ex}}{0.5em}{}%有它的时候subsubsection显示方块,所以删除了它
+% 图表
+\usepackage{array,multirow,makecell}
+  \setlength\extrarowheight{2pt} % 行高增加
+\usepackage{diagbox}
+\usepackage{longtable}
+\usepackage{graphicx,wrapfig}
+  \graphicspath{{./tikz/}}
+\usepackage{animate}
+\usepackage{caption,subcaption}
+  \captionsetup[sub]{labelformat=simple}
+  \renewcommand{\thesubtable}{(\alph{subtable})}
+% 三线表
+\usepackage{booktabs}
+%\renewcoemand{\contentsname}{目录}
+% 代码环境
+\usepackage{listings}%代码高亮显示
+% 复制代码时不复制行号
+\usepackage{accsupp}
+  \newcommand{\emptyaccsupp}[1]{\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}
+\usepackage{tcolorbox}
+  \tcbuselibrary{listings,skins,breakable,xparse}
+
+% global style
+\lstset{
+  basicstyle=\small\ttfamily,
+  % Word styles
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  columns=fullflexible,  % Avoid too sparse word spaces
+  keepspaces=true,
+  % Numbering
+  numbers=left,
+  numberstyle=\tiny\color{red!75!black}\emptyaccsupp,
+  % Lines and Skips
+  aboveskip=0pt plus 6pt,
+  belowskip=0pt plus 6pt,
+  breaklines=true,
+  breakatwhitespace=true,
+  emptylines=1,  % Avoid >1 consecutive empty lines
+  escapeinside=``
+}
+
+% 对于 tcolorbox 中 listings 库的 ''tcblatex'' style 的重现，
+% 添加了新的关键词
+\lstdefinestyle{latexcn}{
+  language=[LaTeX]TeX,
+  % More Keywords
+  classoffset=0,
+  texcsstyle=*\color{blue},
+  moretexcs={
+    % LaTeX extension
+    chapter,section,subsection,setlength,
+    thechapter,thesection,thesubsection,theequation,
+    chaptermark,chaptername,appendix,
+    bibname,refname,bibpreamble,bibfont,citenumfont,bibnumfmt,bibsep,
+  },
+  classoffset=1,
+  texcsstyle=*\color{orange!75!black},
+  moretexcs={
+    % XeCJK & CTeX
+    xeCJKsetup,setCJKmainfont,newCJKfontfamily,CJKfontspec,
+    CTEXthechapter,songti,heiti,fangsong,kaishu,yahei,lishu,youyuan,
+    % AMSmath / AMSsymb / AMSthm
+    middle,text,tag,boldsymbol,mathbb,dddot,ddddot,iint,varoiint,
+    dfrac,tfrac,cfrac,leftroot,uproot,underbracket,xleftarrow,xrightarrow,
+    overset,underset,sideset,mathring,leqslant,geqslant,because,therefore,
+    shortintertext,binom,dbinom,implies,thesubequation,
+    impliedby,genfrac,theoremstyle,qedhere,
+    % Other math packages
+    wideparen,intertext,
+    xlongequal,xLeftrightarrow,xleftrightarrow,xLongleftarrow,xLongrightarrow,
+    % xcolor
+    definecolor,color,textcolor,colorbox,fcolorbox,
+    % hyperref
+    hyperref,autoref,href,url,nolinkurl,
+  　　% Graph & Table
+    includegraphics,graphicspath,scalebox,rotatebox,animategraphics,
+    newcolumntype,arraybackslash,multirow,captionsetup,
+    thead,multirowcell,makecell,Xhline,Xcline,diagbox,
+    toprule,midrule,bottomrule,DeclareFloatingEnvironment,
+    % ulem
+    uline,uuline,dashuline,dotuline,uwave,sout,xout,
+    % fancyhdr
+    lhead,chead,rhead,lfoot,cfoot,rfoot,
+    fancyhf,fancyhead,fancyfoot,fancypagestyle,
+    % fontspec
+    newfontfamily,
+    % titlesec & titletoc
+    titlelabel,titleformat,titlespacing,titleline,titlerule,dottecontents,titlecontents,
+    % enumitem
+    setlist,
+    % Listings & tcolorbox
+    lstdefinelanguage,lstdefinestyle,lstset,lstnewenvironment,
+    tcbuselibrary,newtcblisting,newtcbox,DeclareTCBListing
+    % citation & index: natbib, imakeidx
+    setcitestyle,printindex,
+    % Other packages
+    hologo,lettrine,endfirsthead,endhead,endlastfoot,columncolor,rowcolors,modulolinenumbers,MakeShortVerb,tikz,Hologo
+  }
+}
+%定义shell命令格式
+\lstdefinestyle{shell}{
+  language=bash,
+  % More Keywords
+  classoffset=0,
+  texcsstyle=*\color{blue},%shell命令颜色
+  morekeywords={ssh,screen,scp}%增加shell命令关键词
+}
+
+% cmd & envi
+
+\newtcbox{\latexline}[1][green]{on line,before upper=\ttfamily\char`\\,
+  arc=0pt,outer arc=0pt,colback=#1!10!white,colframe=#1!50!black,
+  boxsep=0pt,left=1pt,right=1pt,top=1pt,bottom=1pt,
+  boxrule=0pt,bottomrule=1pt,toprule=1pt}
+%pkg
+\newtcbox{\pkg}[1][orange!70!red]{on line,before upper={\rule[-0.2ex]{0pt}{1ex}\ttfamily},
+  arc=0.8ex,colback=#1!30!white,colframe=#1!50!black,
+  boxsep=0pt,left=1.5pt,right=1.5pt,top=1pt,bottom=1pt,
+  boxrule=1pt}
+
+% tcblisting definitions
+\newtcblisting{latex}{breakable,skin=bicolor,colback=gray!30!white,
+  colbacklower=white,colframe=cyan!75!black,listing only, 
+  left=6mm,top=2pt,bottom=2pt,fontupper=\small,
+  listing options={style=latexcn}
+}
+%声明shell环境
+\newtcblisting{shell}{breakable,skin=bicolor,colback=gray!30!white,
+  colbacklower=white,colframe=cyan!75!black,listing only, 
+  left=6mm,top=2pt,bottom=2pt,fontupper=\small,
+  listing options={style=shell}
+}
+\NewTCBListing{codeshow}{ !O{listing side text} }{
+  skin=bicolor,colback=gray!30!white,
+  colbacklower=pink!50!yellow,colframe=cyan!75!black,
+  valign lower=center,
+  left=6mm,righthand width=0.4\linewidth,fontupper=\small,
+  % listing style
+  listing options={style=latexcn},#1,
+}
+%索引与参考文献
+\usepackage{makeidx}%调用索引宏包
+\bibliographystyle{plain}
+\renewcommand{\bibname}{参考文献}
+\usepackage[numindex,numbib]{tocbibind}
+\usepackage[square,super,sort&compress]{natbib}
+%引用
+\usepackage{hyperref}
+%目录，标签变成红色
+\hypersetup{colorlinks, bookmarksopen = true, bookmarksnumbered = true, pdftitle=LaTeX-cn, pdfauthor=K.L Wu, pdfstartview=FitH}

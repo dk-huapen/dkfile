@@ -6,6 +6,14 @@
 *.out
 *.toc
 *.lot
+*.lof
+*.bbl
+*.blg
+*.idx
+*.ilg
+*.ind
+*.ptc
+*.listing
 *.fdb_latexmk
 *~
 .*

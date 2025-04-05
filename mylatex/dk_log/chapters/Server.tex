@@ -1,0 +1,291 @@
+%!TEX root = ../dk_log.tex
+\chapter{项目平台}
+这一章主要记录一些小的项目搭建，这些小的项目需要安装操作系统和一些软件组合并经过一些配置搭建起一个工作平台，然后在这个平台下做一些事情。比如LAMP、SIS系统、Smart PLC培训。
+\section{我的个人网站}
+我的个人网站是我一直在学习中搭建的一个网站，其中使用了很多技术，在此记录下。
+\subsection{php生成PDF文件}
+\subsection{远程操作latex生成pdf文件}
+\subsection{远程操作python生成doc文件}
+\subsection{动态更新svg画面}
+\subsection{Dygraph生成历史曲线}
+\section{LAMP环境}
+\href{https://blog.csdn.net/sj349781478/article/details/84224440?ops_request_misc=%257B%2522request%255Fid%2522%253A%252249718a9a6d88ebb92a001e305b31fd12%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=49718a9a6d88ebb92a001e305b31fd12&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-84224440-null-null.142^v101^pc_search_result_base7&utm_term=lamp%E6%9E%B6%E6%9E%84&spm=1018.2226.3001.4187}{LAMP(Linux Apache Mysql Php)}是指一组通常一起使用来运行动态网站或者服务器的自由软件名称首字母缩写；Linux系统下Apache+MySQL+PHP这种网站服务器架构， LAMP环境主要是给WEB端应用程序(各种类型的网站项目)，提供了一个部署安装和使用的平台。
+\begin{description}
+	\item[L:]Linux操作系统，提供了项目部署时所需要的操作系统环境
+	\item[A:]Apache服务器：WEB应用程序的服务器，提供软件源文件的存放地，提供了程序访问时所需要的端口(接口)
+	\item[M:]MySQL数据库，提供项目或者程序在使用时数据的存储与解析的工作
+	\item[P:]PHP/Python开发语言，提供软件或者项目程序部署时所需要的开发环境的支持
+\end{description}
+
+只要把这四个软件安装完成，就形成了LAMP环境，环境有了之后，只需要把WEB应用程序对应的源文件，部署在apache服务器上即可，这样用户就可以直接访问该网站。
+\subsection{LAMP环境搭建}
+\href{https://blog.csdn.net/weixin_35886269/article/details/116039239?spm=1001.2014.3001.5506}{LAMP环境搭建}的指定就是在Linux系统上安装这三款软件然后配置相关文件后协同工作来建设一个WEB服务器。这几款软件的安装前边已经记录过了，这里主要记录软件之间相互配置调用和搭建过程中注意事项。
+
+主要是PHP版本必须是PHP7，而且随着linux系统升级PHP7安装过程中会有各种问题，\href{https://blog.csdn.net/weinsheimer/article/details/131855546?spm=1001.2014.3001.5506}{这里记录在Debian12环境下的注意事项}，安装完成后记得重启apache2服务，不然部分php模块无法正常加载。
+\section{LNMP}
+\href{https://blog.csdn.net/G_D0120/article/details/136338594?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522845af08f81d51851cea0a81b281138f3%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=845af08f81d51851cea0a81b281138f3&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-2-136338594-null-null.142^v101^pc_search_result_base7&utm_term=lNmp&spm=1018.2226.3001.4187}{LNMP(Linux Nginx Mysql Php)}是指一组通常一起使用来运行动态网站或者服务器的自由软件名称首字母缩写；Linux系统下Nginx+MySQL+PHP这种网站服务器架构， LNMP环境主要是给WEB端应用程序(各种类型的网站项目)，提供了一个部署安装和使用的平台。
+\subsection{LNMP环境搭建}
+我最初接触的是LAMP环境，在搭建Pysacada环境时因为需要才开始接触LNMP环境，相比较而言LNMP就是把WEB服务由Apache更换为Nginx。
+\section{PyScada}
+	pyScada是一款基于Python的开源SCADA系统，可以在它的\href{https://gitcode.com/gh_mirrors/py/PyScada/?utm_source=artical_gitcode&index=top&type=card&webUrl&isLogin=1}{开源项目}和\href{https://pyscada.readthedocs.io/en/main/}{官方网站}上了解和下载该系统。
+\subsection{PyScadaa安装部署}
+
+	现将\href{https://blog.csdn.net/XKPP023/article/details/140079389?spm=1001.2014.3001.5506}{PyScada系统安装记录}记录在此，值得注意的是PyScada系统是以NGINX作为WEB服务器的，所以得先停运Apache2服务器，否则无法正常启动NGINX，因为它两使用同一端口，不过可以重新配置端口让两种服务器同时运行，甚至经过配置还可以让两种服务器配合运行各取所长，这也是我下一个目标。
+
+官网安装指导部分有这么一句话This installation guide covers the installation of PyScada for Debian 10/11 , Raspberry Pi OS based Linux systems using MariaDB as Database, Gunicorn as WSGI HTTP Server and nginx as HTTP Server。
+\begin{enumerate}
+	\item 获取安装包，值得注意的是解压缩需要使用命令行工具uzip，否则安装最后后出现文件权限问题
+	\item 停运Apache2服务，最好禁止Apache2开机启动否则下次开机，PyScada还是不能正常启动
+	\item 安装MariaDB并初始化完成，安装过程中要使用数据库并创建专门的数据库
+	\item 可以选择本机或docker安装，我们选着本机，因为docker还未安装成功...
+	\item 安装Python是必须的，设置pip国内源否则安装过程中下载速度过慢甚至报错失败
+	\item 不需要安装虚拟环境，因为安装第一步就是创建PyScada文件夹并创建.env虚拟环境
+\end{enumerate}
+\begin{shell}
+#在Debian11下安装PyScada记录
+sudo apt install wget
+wget https://github.com/pyscada/PyScada/archive/refs/heads/main.zip -O PyScada-main.zip
+sudo apt install unzip
+unzip ./PyScada-main.zip
+rm ./PyScada-main.zip
+cd PyScada-main
+
+sudo ./install.sh
+
+
+\end{shell}
+\subsection{PyScada安装插件}
+刚安装完成的PyScada中Devices中驱动只有一个generic，我们需要安装我们使用的OPCUA驱动。官网的例子是安装Modbus驱动，我们照猫画虎安装OPCUA驱动，\href{https://github.com/pyscada/}{在这里可以看到和下载所需要的驱动}。
+\begin{shell}
+#安装PyScada-OPCUA驱动
+sudo apt install git
+cd /home/pyscada
+sudo -u pyscada git clone https://github.com/pyscada/PyScada-OPCUA.git
+cd PyScada-OPCUA
+
+# 激活PyScada虚拟环境
+source /home/pyscada/.venv/bin/activate
+#安装驱动 
+sudo -u pyscada -E env PATH=${PATH} pip3 install .#特别注意这个地方有个点表示当前目录
+# run migrations
+sudo -u pyscada -E env PATH=${PATH} python3 /var/www/pyscada/PyScadaServer/manage.py migrate
+# copy static files
+sudo -u pyscada -E env PATH=${PATH} python3 /var/www/pyscada/PyScadaServer/manage.py collectstatic --no-input
+#重新启动gunicorn和PyScada服务
+sudo systemctl restart gunicorn pyscada
+
+pip3 list | grep cada#查看驱动是否安装成功
+sudo -u pyscada -E env PATH=\${PATH} pip3 uninstall yourPlugin#卸载驱动
+\end{shell}
+\subsection{PyScadaa使用}
+在本机浏览器输入127.0.0.1会出现登录界面，输入你安装过程中创建的账号密码就可以进入系统，在安装成功后也会提示这一步并显示登录账号密码。
+点击右上角Admin后出现后台管理界面
+\subsubsection{编写一个OPCUA服务器}
+这里有个插入一个小插曲，因为后边需连接OPCUA服务器读取变量进行测试，如果安装软件或者是从其他主机联机读取的话比较费劲，这里使用Python编写一个简单的OPCUA服务器，很方便的，代码如下
+\begin{shell}
+import sys
+sys.path.insert(0, "..")
+import time
+from opcua import ua, Server
+if __name__ == "__main__":
+    # setup our server
+    server = Server()
+    #server.set_endpoint("opc.tcp://127.0.0.1:4840/freeopcua/server/")
+    server.set_endpoint("opc.tcp://192.168.1.5:4840/freeopcua/server/")
+    # setup our own namespace, not really necessary but should as spec
+    uri = "http://automan.freeopcua.github.io"
+    idx = server.register_namespace(uri)
+    # get Objects node, this is where we should put our nodes
+    objects = server.get_objects_node()
+    # populating our address space
+    myobj = objects.add_object(idx, "MyObject")
+    myvar = myobj.add_variable(idx, "MyVariable", 6.7)
+    myvar.set_writable()    # Set MyVariable to be writable by clients
+    # starting!
+    server.start()
+    try:
+        count = 0
+        while True:
+            time.sleep(1)
+            count += 0.1
+            myvar.set_value(count)
+    finally:
+        #close connection, remove subcsriptions, etc
+        server.stop()
+\end{shell}
+\subsubsection{添加第一个OPCUA变量}
+首先添加Devie，然后添加变量，选择刚刚添加的deveic，重要的是变量最下方的s和n需要按照UA服务器变量的ID输入。
+\section{SIS系统}
+	第一款软件无疑就是VIM了，那第二款肯定是Latex了，这玩意就是用他两鼓捣出来的。	编辑器的配置大概是需要讲解一下的，毕竟对于初学者来说是很头疼的事情。本手册就以\TeX\ studio为例进行配置。首先你应该安装一个\TeX{} Live，他是完全免费的，网址：\url{http://tug.org/texlive/}。
+\subsection{单向网闸配置}
+我接触单向网闸是在2024年9月份，记得当时是公司SIS系统按照等保测评要求在DCS系统和SIS系统中间使用了电力系统专用的单向隔离网闸，它的特点是数据只能从内网向外网正常传输，外网向内网传输数据只能是单Bit，所以就导致外网安装的软件KepWare无法正常发送连接请求到DCS系统OPC DA服务器，最后还是我使用Python语言DCOM编成从DCS OPC DA服务器读取出数据。
+\subsubsection{平台搭建}
+在Win7 SP1 64位操作系统安装NR软件后，配置主机IP地址为，用网线连接电脑和网闸内网管理口，ping测试正常，将2和1转换器插到内网console口，并在2和1转换器插入其中一个操作员秘匙。
+\subsubsection{设备激活}
+初次登陆需要创建系统管理员，账户：rekongroot密码：rekong1314root! pin码：Nari6702
+初始化用户信息，ukey账户信息被删除，生成ukey证书请求(内容随便填写)，使用证书签发系统签发后，将签发证书上传装置。出现登录界面用系统管理员账户登录后开始生成激活申请文件，其中最终用户名称必须是购买合同中的单位名称，按照规定格式发送邮件并将激活申请文件作为附件上传，等待邮件回复。
+
+
+虽然它体积较大，但是却是最一劳永逸、最不需要花时间去配置的方法，同时它大概也是功能支持最强的\LaTeX\ 发行版。
+
+打开\TeX\ Studio后，选择选项$\rightarrow$设置\TeX\ Studio $\rightarrow$ 构建 $\rightarrow$ 默认编译器，选择\xelatex{}。这主要是基于中文文档编译的考虑，同时\xelatex 也能很好的编译英文文档。我建议始终使用它作为默认编译器。
+
+
+之后你可以在窗口输入一篇小文档，并保存为tex扩展名的文件进行测试：
+\begin{latex}
+\documentclass{ctexart}
+\begin{document}
+Hello,world!
+你好，世界！
+\end{document}
+\end{latex}
+点击编译按钮生成，F7查看。生成pdf在你的tex文件保存目录中。具体各行的含义我们后在后文介绍。
+
+\section{Smart PLC培训}
+这个主要是针对2024年厂里的一套氨水控制系统做培训时搭建的过程记录
+Windows 7旗舰版Service Pack 1 64位操作系统
+STEP7-MicroWIN-SMAT-V2.4
+WinCC V7.3
+PC\_ACCESS\_V2.3
+\subsection{VIM插件管理Plum-vim}
+\LaTeX\ 中的\co{命令}通常是由一个反斜杠加上命令名称，再加上花括号内的参数构成的（有的命令不带参数，例如：\latexline{TeX}）。
+\begin{latex}
+\documentclass{ctexart}
+\end{latex}
+如果有一些选项是备选的，那么通常会在花括号前用方括号标出。比如：
+\begin{latex}
+\documentclass[a4paper]{ctexart}
+\end{latex}
+还有一种重要指令叫做\co{环境}。它被定义与控制命令\latexline{begin\{environment\}}\\和\latexline{end\{environment\}}间的内容。比如：%不加入强制换行会溢出?
+\begin{latex}
+\begin{document}
+...内容...
+\end{document}
+\end{latex}
+环境如果有备选参数，只需要写在\latexline{begin[...]\{name\}}这里就行。
+
+注意：不带花括号的命令后面如果想打印空格，请加上{\color{cyan}{一对内部为空的花括号}}再键入空格。否则空格会被忽略。例如：\verb+\LaTex{} Studio+。
+\subsection{VIM常用操作}
+\LaTeX\ 中有许多字符有着特殊的含义，在你生成文档时不会直接打印。例如每个命令的第一个字符：反斜杠。单独输入一个反斜杠在你的行文中不会有任何帮助，甚至可能产生错误。\LaTeX\ 中的保留字符有：
+\begin{center}
+	\texttt{\# \$ \% \^ \& \_ \{ \} \char92}
+\end{center}
+
+它们的作用分别是：
+%\begin{description}[font=\bfseries\ttfamily,itemsep=0pt,parsep=0pt,topsep=0pt,partopsep=0pt]
+\begin{para}
+\item[\#{}:]自定义命令时，用于标明参数序号。
+\item[\S{}:]数学环境命令符。
+%\end{description}
+\end{para}
+
+以上除了反斜杠外，均能用前加反斜杠的形式输出。即你只需要键入：
+\begin{center}
+\verb|\# \$ \% \^ \& \_ \{ \}|
+\end{center}
+
+唯独反斜杠的输出比较头痛，你可以尝试：
+\begin{codeshow}
+$\backslash$ \textbackslash
+\texttt{\char92}
+\end{codeshow}
+
+其中命令\latexline{char[num]}是一个特殊的命令
+\begin{verbatim}
+\texttt{\char`~}%输出一个波浪线
+\end{verbatim}
+
+\subsection{导言区}
+任何一份\LaTeX{}文档都应该包含以下结构：
+\begin{latex}
+\documentclass['\itshape options']{doc-class}%没有斜体option
+\begin{document}
+...
+\end{document}
+\end{latex}
+其中，在语句\latexline{begin\{document\}}之前的内容成为\co{导言区}。导言区可以留空，也可以进行一些、文档的准备操作。你可以粗浅地理解为：\RED{导演区即模板定义}。\\
+
+文档类的参数doc-class和可选选项{\textit{options}}有取值：%引用图表失败
+%\begin{table}[!htb]原文中有htb，现在无法正确编译
+	\begin{table}[!htb]
+	\centering
+	\caption{文档类和选项}
+	\label{tab:documentclass}
+	\begin{tabular}{p{5em} @{\ -\ } p{24em}}
+		\hline
+		\multicolumn{2}{l}{\bfseries doc-class文档类\footnotemark}\\
+		\hline
+		article & 科学期刊，演示文稿，短报告，邀请函。\\
+		proc	& 基于article的会议论文集。\\
+		report	& 多章节的长报告、博士论文、短篇书。\\
+		book	& 书籍。\\
+		slides	& 幻灯片，使用了大号Scans Serif字体。\\
+		\hline
+		\multicolumn{2}{l}{\bfseries\itshape options}\\
+		\hline
+		字体	&默认10pt，可选11pt和12pt。\\
+		\hline
+	\end{tabular}
+\end{table}
+
+在本文中，多数的文档类提及的均为report/book类。如果有article类将会特别指明。其余的文档类不与说明。本手册排版即使用了report类。
+
+在导言区最常见的是\co{宏包}的加载工作，命令形式如：\latexline{usepackage\{package\}}。通俗地讲，宏包是指一系列已经制作好的功能``模块''，在你需要使用一些原生\LaTeX\ 不带有的功能时，只需要调用这些宏包就可以了。比如文本的代码就是利用\pkg{listings}宏包实现的。
+
+宏包的具体使用将参在个部分内容说明中进行讲解。如果你想学习一个宏包的使用，按Win+R组合键呼出运行对话框，输入texdoc加上宏包名称即可打开宏包帮助pdf文档。例如：\verb|texdoc xeCJK|。
+	\footnotetext{此外还有\pkg{beamer}宏包定义的beamer文档类，常用于创建幻灯片。}
+
+\subsection{错误的排查}
+	\label{subsec:debug}
+	在编辑器界面上，下方的日志是显示编译过程的地方。在你编译通过后，会出现这样的字样：
+\begin{feai}
+	\item {\bfseries{Errors错误}}：严重的错误。一般地，编译若通过了，该项是零。
+	\item {\bfseries{Warnings警告}}：一些不影响生成文档的瑕疵。
+	\item {\bfseries{Bad Boxes坏箱}\footnote{Box是\LaTeX{}中的一个特殊概念，具体将在进行讲解。}}：指排版中出现的长度问题，比如长度超出（Overfull）等。后面的Badness表示错误的严重程度，程度越高数值越大。这类问题需要检查，排除Badness高的选项。\marginpar{\textcolor{red!70}{此处注解在后续章节，目前未链接}}
+\end{feai}
+
+	你可以向上翻越日志记录（即.log文件），来找到Warning开头的记录，或者Overfull/ Underfull开头的记录。这些记录会指出你的问题出在哪一行（比如line 1-2）或者在pdf的哪一页（比如active[12]。注意，这个12表示计数器技术页码，而不是文件打印出来的真实页数）。此外你还需要了解：
+\begin{feai}
+\item 值得指出的是，由于\LaTeX{}的编译原理（第一次生成aux文件，第二次再引用它），目录想要合理显示{\bfseries{需要连续编译两次}}。在连续编译两此后，你会发现一些Warnings会在第二次编译后消失。在\TeX\ Studio中，你可以只单击一次“构建并查看”，他会检测到文章的变化并自动决定是否需要编译两次。
+\item 对于大型文档，寻找行号十分痛苦。你需要学会合理地拆分tex文件，参阅内容。%未引用3.13节内容
+\end{feai}
+
+	这里也推荐宏包\pkg{syntonly}，在导言区加入它支持的\latexline{syntaxonly}命令，会只排查语法错误而不生成任何文档，这可以使你更快地编译。不过他似乎不太稳定，例如本文档可以正常编译，但是使用该命令时则会出错。
+\subsection{文件输出}
+	\LaTeX{}的输出一般推荐pdf格式，有\LaTeX\ 直接生成dvi的方法并不推荐。
+
+你在tex文档的文件夹下可能看到的其他文件类型：
+\begin{tabbing}
+	.sty{\hspace{2em}}\=宏包文件\\%第一行必须此格式否则会编译出错
+	.cls	\> 文档类文件。\\
+	.aux	\> 用于存储交叉引用信息的文件。\\
+	.out	\> 宏包生成的pdf书签记录。
+\end{tabbing}
+\section{latex}
+	英文符号一般用于数学$|<>+=$一般用于数学环境中，如果在文本中使用，请在它们两侧加上“\$”。如果你在\LaTeX\ 中直接输入大于、小于号而不是把它们、放在数学环境中，它们并不会被正确打印。你应该使用\latexline{textgreater}，\latexline{texless}命令。
+
+	在部分科技文章中，中文的句号可能使用全角原点“.”\footnote{这个标点是 u+FF0E，称为 FULLWIDTH FULL STOP。}，而不是平常的“。”，也不是正常的英文句点“.”。这个符号很难正常输入；你可以先输入正常句点，最后再替换。
+	\subsection{latex安装与配置}
+	英文单引号并不使用两个\verb|'|符号组合。左单引号是重音符\verb|`|（键盘上数字1左侧），而右单引号是常用的引号符。英文中，{\color{cyan}{左双引号就是连续两个重音符号}}。
+	英文下的引号嵌套需要借助\latexline{thinspace}命令分隔，比如：
+\begin{codeshow}[listing side text, listing options={escapeinside=++}]%方括号里的是啥意思?
+``\thinspace`Max' is here.''
+\end{codeshow}
+中文下的单引号和双引号你可以用中文输入法直接输入。
+
+\subsection{latex常用命令}
+英文的短横分为三种：
+\begin{feai}
+\item 连字符：输入一个短横：\verb|-|，效果如daughter-in-law
+\item 数字起止符：输入两个短横：\verb|--|，效果如：page 1--2
+\item 破折号：输入三个短横：\verb|---|，效果如：Listen---I'm serious.
+\end{feai}
+
+中文的破折号你也许可以直接使用日常的输入方式。中文的省略号同样。但是注意，英文的省略号使用\latexline{ldots}这个命令而不是三个句点。
+\subsection{Tizk}
+\LaTeX\ 中专门有个叫做\latexline{emph\{text\}}的命令，可以强调文本。对于通常的西文文本，上述命令的作用就是斜体。如果你对一段已经这样转换为斜体的文本再使用这个命令，它就会取消斜体，而成为正体。
+
+西文中一般采用上述的斜体强调方式而不是粗体，例如在说明书的时候可能就会使用以上命令。关于字体更多内容参考字体这一节。
+
+\subsection{下划线与删除线}
+\LaTeX\ 原生提供的\latexline{underline}命令简直烂的可以，建议你使用\pkg{ulem}宏包下的\texttt{uline}命令代替，它还支持换行文本。\pkg{ulem}宏包还提供了一些实用命令：
