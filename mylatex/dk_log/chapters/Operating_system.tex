@@ -309,6 +309,16 @@ update-alternatives --config x-session-manager#设置默认桌面
 
 \section{常用命令}
 \LaTeX\ 原生提供的\latexline{underline}命令简直烂的可以，建议你使用\pkg{ulem}宏包下的\texttt{uline}命令代替，它还支持换行文本。\pkg{ulem}宏包还提供了一些实用命令：
+这里记录一些常用命令的常用格式，便于忘记时查阅。
+\subsection{ls命令}
+	ls 列出文件，这里主要记录ls的通配符用法
+	\begin{description}
+		\item[systemctl] COMMAND server
+	\end{description}
+\begin{shell}
+ls *.tex#列出以tex结尾的文件
+ls *.[!t]??#列出倒数第三个字符不是t的文件
+\end{shell}
 \subsection{systemctl命令}
 	systemctl 检查和控制系统与服务管理的状态
 	\begin{description}
