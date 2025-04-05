@@ -8,3 +8,5 @@
 *.lot
 *.fdb_latexmk
 *~
+.*
+!.gitigore
