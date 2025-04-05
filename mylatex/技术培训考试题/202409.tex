@@ -1,0 +1,61 @@
+		\ifx \allfiles \undefined		%编译PPT时注释该行
+\documentclass{book}
+\input{structure.tex}
+\begin{document}
+		\else						%编译PPT时注释该行
+		%\newpage
+		\fi						%编译PPT时注释该行
+\watermark{50}{9}{热工班组}
+\chapter[2024年09月份技术培训考试]{	\hspace*{-0.3em}\biaoti{2024}{09}{热工专业}}
+姓名：\uline{ \ \  \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\hfill 得分：\uline{ \ \  \  \ \ \ \ \ \  \ \ \ \ \ \ }
+%\zysx
+\section{\xzt{5}{2}{10}}
+\begin{enumerate}
+\item 我厂脱硫净烟气CEMS二氧化硫和氮氧化物分析仪采用\xz{A}测量方法。
+\xx{稀释法}{抽取式}{激光后散射法}{等速采样}
+\item 我厂脱硫净烟气CEMS二氧化硫分析仪测量原理为\xz{B}。
+\xx{化学发光原理}{脉冲荧光法原理}{激光后散射法}{NRIR不分光红外法}
+\item 我厂脱硫净烟气CEMS氮氧化物分析仪测量原理为\xz{A}。
+\xx{化学发光原理}{脉冲荧光法原理}{激光后散射法}{NRIR不分光红外法}
+\item 我厂脱硫净烟气在线粉尘烟度计测量原理为\xz{B}。
+\xx{NRIR不分光红外法}{光散射法}{脉冲荧光法原理}{静电技术}
+\item 我厂净烟气粉尘探头控制器内流量计不包含以下哪种流量计\xz{A}。
+\xx{喷嘴流量计}{稀释气流量计}{旁路气流量计}{样气流量计}
+\end{enumerate}
+\section{\tkt{4}{2}{30}}
+\begin{enumerate}
+	\setcounter{enumi}{5}
+	\item CEMS响应时间包括\tk[2.5]{仪表响应时间}和\tk[2.5]{系统响应时间}，分别要求响应时间小于等于\tk{120s}和小于等于\tk{200s}。
+\item 我厂净烟气CEMS数据包含\tk[2]{二氧化硫}、\tk[2]{氮氧化物}、\tk[2]{氧气}、\tk[2]{粉尘}、\tk[2]{温度}、\tk[2]{压力}、\tk[2]{流速}、\tk[2]{湿度}。
+	\item 我厂净烟气MODEL 200稀释法CEMS设备中音速小孔的稀释比为\tk{100:1}。
+\item 我厂净烟气粉尘，SO2,NOX折算时，如果氧量值大于6\%，则折算值\tk{大于}干基值，干基值是指烟气经预处理，露点温度小于等于\tk{4}℃时，烟气中各污染物的浓度。
+\end{enumerate}
+\section{\stt{40}}
+\begin{enumerate}
+	\setcounter{enumi}{9}
+	\item CEMS仪表响应时间指的是什么？\fenzhi{5}
+\wdt[3]{答：仪表响应时间指从观察到分析仪示值产生一个阶跃增加或阶跃减少的时刻起，到其示值达到标准气体标称值90\%或10\%的时刻止，中间的时间间隔。}\\
+	\item CEMS系统响应时间指的是什么？\fenzhi{5}
+\wdt[3]{答：系统响应时间指从CEMS系统采样探头通入标准气体的时刻起，到分析仪示值达到标准气体标称值90\%的时刻止，中间的时间间隔。包括管线传输时间和仪表响应时间。}\\
+%\includegraphics[angle=0,width=500pt,trim=0 0 0 0,clip]{picture/200plc.png}%答案需要替换下图片
+%\includegraphics[angle=0,width=500pt,trim=0 0 0 0,clip]{picture/AST.png}%带答案图片
+\item 在下图中方框中填入各气路名称，并分别标出正常采样状态下各气路方向？\fenzhi{15}
+%\includegraphics[angle=0,width=450pt,trim=0 0 0 0,clip]{picture/so2_da.png}\\
+	%\tupian{picture/so2_da.png}{picture/so2.png}
+	\tupian{\includegraphics[angle=0,width=450pt,trim=0 0 0 0,clip]{picture/so2_da.png}\\}{\includegraphics[angle=0,width=450pt,trim=0 0 0 0,clip]{picture/so2.png}\\}
+\item 在下图中标出粉尘仪各流量名称及数值？\fenzhi{15}
+%\includegraphics[angle=0,width=450pt,trim=0 0 0 0,clip]{picture/dust_da.png}\\
+	\tupian{\includegraphics[angle=0,width=450pt,trim=0 0 0 0,clip]{picture/dust_da.png}\\}{\includegraphics[angle=0,width=450pt,trim=0 0 0 0,clip]{picture/dust.png}\\}
+\end{enumerate}
+\section{\jdt{20}}
+\begin{enumerate}
+	\setcounter{enumi}{13}
+\item 画出我厂净烟气CEMS各数据电信号分布示意图（标明各数据测量设备的名称，电信号从测量设备最终分别到DCS系统、环保局、CEMS报表系统）\fenzhi{20}
+\wdt[6]{答：\\
+\includegraphics[angle=0,width=500pt,trim=50 0 0 50,clip]{picture/huan.pdf}%带答案图片
+}
+
+\end{enumerate}
+		\ifx \allfiles \undefined
+\end{document}
+\fi

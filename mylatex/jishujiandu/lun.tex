@@ -1,0 +1,478 @@
+\documentclass{article}
+
+\usepackage[UTF8]{ctex}
+\usepackage[a4paper]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{电子科技大学中山学院毕业设计(论文)}
+\rhead{\leftmark}
+\cfoot{\thepage}
+
+\usepackage{hyperref}
+\hypersetup{hypertex=true,
+   colorlinks=true,
+   linkcolor=black,
+   citecolor=red,
+   anchorcolor=blue}
+
+\usepackage{titlesec}
+
+\usepackage{graphicx,float}
+\usepackage{caption}
+%设置图片标号样式
+\renewcommand\figurename{图}
+\makeatletter
+\@addtoreset{figure}{section}
+\makeatother
+\renewcommand\thefigure{\thesection-\arabic{figure}}
+\captionsetup{labelsep=space}
+%设置表格标号样式
+\renewcommand\tablename{表}
+\makeatletter
+\@addtoreset{table}{section}
+\makeatother
+\renewcommand\thetable{\thesection-\arabic{table}}
+
+\renewcommand\contentsname{目录}
+\renewcommand\listfigurename{图目录}
+\renewcommand\listtablename{表目录}
+\renewcommand{\refname}{参考文献}
+
+
+\usepackage{amsthm,amsfonts}
+\usepackage{amsmath,bm}
+\usepackage{amssymb,mathrsfs}
+%设置公式编号样式
+\makeatletter
+\@addtoreset{equation}{section}
+\makeatother
+\renewcommand\theequation{\thesection-\arabic{equation}}
+
+\usepackage{tabu}
+\usepackage{makecell}
+\usepackage{array}
+\usepackage{booktabs}
+
+\usepackage{cite}
+
+%字体设置
+\newcommand{\song}{\CJKfamily{song}} % 宋体
+\newcommand{\fs}{\CJKfamily{fs}}     % 仿宋体
+\newcommand{\kai}{\CJKfamily{kai}}   % 楷体
+\newcommand{\hei}{\CJKfamily{hei}}   % 黑体
+
+%字号设置
+\newcommand{\chuhao}{\fontsize{42pt}{\baselineskip}\selectfont}%初号
+\newcommand{\xiaochu}{\fontsize{36pt}{\baselineskip}\selectfont}%小初
+\newcommand{\yihao}{\fontsize{26pt}{\baselineskip}\selectfont}%一号
+\newcommand{\xiaoyi}{\fontsize{24pt}{\baselineskip}\selectfont}%小一
+\newcommand{\erhao}{\fontsize{22pt}{\baselineskip}\selectfont}%二号
+\newcommand{\sanhao}{\fontsize{16pt}{\baselineskip}\selectfont}%三号
+\newcommand{\xiaosan}{\fontsize{15pt}{\baselineskip}\selectfont}%小三
+\newcommand{\sihao}{\fontsize{14pt}{\baselineskip}\selectfont}%四号
+\newcommand{\xiaosi}{\fontsize{12pt}{\baselineskip}\selectfont}%小四
+\newcommand{\wuhao}{\fontsize{10.5pt}{\baselineskip}\selectfont}%五号
+\newcommand{\xiaowu}{\fontsize{9pt}{\baselineskip}\selectfont}%小五
+
+%章节样式设置
+\titleformat{\section}{\newpage\centering\heiti \zihao{2}}{第\,\thesection\,章}{1em}{}
+\titleformat{\subsection}{\leftline\heiti \zihao{3}}{\arabic{section}.\arabic{subsection}}{1em}{}
+\titleformat{\subsubsection}{\leftline\heiti \zihao{4}}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}{1em}{}
+
+%===========================填入相应内容===================%
+\newcommand{\xueyuan}{计算机学院} %教学单位
+\newcommand{\zhuanye}{~} %专业名称
+\newcommand{\xuehao}{~123456158} %学号
+\newcommand{\xingming}{~} % 学生姓名
+\newcommand{\jiaoshi}{教师姓名（职称）} %指导教师
+\newcommand{\danwei}{计算机学院} %指导单位
+\newcommand{\shijian}{~} %完成时间
+
+
+\begin{document}
+
+%===========================标题页,不用改动===================%
+\begin{titlepage}
+\begin{center}
+\includegraphics[width=\textwidth]{logo}
+\vspace{.5cm}
+
+{\fs\xiaochu 毕业设计（论文）}
+
+\vspace*{1.5\baselineskip}
+{\kai\yihao 题\quad 目}
+
+\vspace*{3\baselineskip}
+\begin{tabular}{rrllc}
+\renewcommand\arraystretch{1.5}
+    \huge\zihao{3}{教} & \huge\zihao{3}{学} & \huge\zihao{3}{单} & \huge\zihao{3}{位:} & {\huge\zihao{3}\xueyuan}\\\\
+
+    \huge\zihao{3}{专} & \huge\zihao{3}{业} & \huge\zihao{3}{名} & \huge\zihao{3}{称:} & {\huge\zihao{3}\zhuanye}\\\\
+
+    \huge\zihao{3}{学} & & & \huge\zihao{3}{号:} & {\huge\zihao{3}\xuehao}\\\\
+
+    \huge\zihao{3}{学} & \huge\zihao{3}{生} & \huge\zihao{3}{姓} & \huge\zihao{3}{名:} & {\huge\zihao{3}\xingming}\\\\
+
+    \huge\zihao{3}{指} & \huge\zihao{3}{导} & \huge\zihao{3}{教} & \huge\zihao{3}{师:} & {\huge\zihao{3}\jiaoshi}\\\\
+
+    \huge\zihao{3}{指} & \huge\zihao{3}{导} & \huge\zihao{3}{单} & \huge\zihao{3}{位:} & {\huge\zihao{3}\danwei}\\\\
+
+    \huge\zihao{3}{完} & \huge\zihao{3}{成} & \huge\zihao{3}{时} & \huge\zihao{3}{间:} & {\huge\zihao{3}\shijian}\\\\
+\end{tabular}
+\vspace{3.2cm}
+
+{\LARGE\zihao{3}电子科技大学中山学院教务处制发}
+
+\end{center}
+\end{titlepage}
+
+%中文摘要页设置
+\setcounter{page}{1}
+\pagenumbering{Roman}
+
+%题目应简短、明确、有概括性，用极为精练的文字把论文的主题或总体内容表达出来，能反映论文内容、专业特点和学科范畴，且涵盖的内容不宜过大。字数一般不超过20字，必要时可加副标题，副标题的字数一般不要超过题目的字数。
+\centerline{\hei \sanhao 毕业论文中文题目}
+
+\vskip.2in  \centerline{\linespread{1.25}\hei \sanhao 摘要}
+
+%摘要反映了毕业设计（论文）的主要信息，以浓缩的形式概括说明研究目的、内容、方法、成果和结论，具有独立性和完整性。中文摘要一般为400字左右，不含公式、图表和注释。论文摘要应采用第三人称的写法，力求文字精悍简练。
+%摘要通常包括：
+%（1）毕业设计（论文）所研究问题的意义（通常一句话概括）。
+%（2）毕业设计（论文）所研究的问题（通常一两句话概括）。
+%（3）论文中有新意的部分（观点、方法、材料、结论等）的明确概括。
+%（4）结果的意义。
+
+\vspace{0.4cm} {\song\xiaosi
+此处添加中文摘要\ \ %
+
+
+%关键词的选择
+%关键词是供检索用的主题词条，应采用能覆盖毕业设计（论文）主要内容的通用技术词条（参照相应的技术术语标准）。关键词一般为3～5个，每个关键词不超过5个字
+\vskip.1in \noindent {\bf 关键字:}\quad 关键词；关键词；关键词；关键词%
+}
+
+
+%外文摘要页设置
+\newpage
+%毕业设计（论文）的英文题目应与中文题目一致。
+\centerline{\hei \sanhao 毕业论文外文题目}
+
+\vskip.2in  \centerline{\hei \sanhao Abstract}
+
+\vspace{0.4cm} {\linespread{1.25}\song\xiaosi
+此处添加外文摘要，内容应与中文摘要一致\ \ %
+
+%每一个英文关键词都必须与中文关键词一一对应。
+\vskip.1in \noindent {\bf Key Words:}\quad Keyword；Keyword；Keyword；Keyword%
+}
+
+
+%生成目录
+\newpage
+\tableofcontents
+\listoffigures
+\listoftables
+\pagebreak
+
+
+\setcounter{page}{1}
+\section{绪论}
+
+\pagenumbering{arabic}
+
+此处添加论文正文 第一段文字第一段文字第一段文字第一段文字第一段文字第一段文字第一段文字第一段文字第一段文字第一段文字第一段文字第一段文字第一段文字第一段文字第一段文字第一段文字第一段文字第一段文字
+
+第二段文字第二段文字第二段文字第二段文字第二段文字第二段文字第二段文字第二段文字第二段文字第二段文字第二段文字第二段文字第二段文字第二段文字第二段文字
+
+\subsection{课题背景}
+此处添加论文正文~\cite{kopka1995guide}
+
+\subsubsection{条标题}
+此处添加论文正文\cite{yassin1994latex}
+
+\subsubsection{条标题}
+此处添加论文正文\cite{MedvidovicC}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.5\textwidth]{fig1-1}
+\caption{此处添加图标题}\label{fig1-1}
+\end{figure}
+
+\subsection{目的意义}
+此处添加论文正文\cite{mittelbach2004latex}
+
+\subsubsection{条标题}
+此处添加论文正文\cite{liu2013latex}
+
+\subsubsection{条标题}
+此处添加论文正文\cite{liuxiaopingwordandtex}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.5\textwidth]{fig1-2}
+\caption{此处添加图标题}\label{fig1-2}
+\end{figure}
+
+\subsection{论文主要工作}
+
+%每张表格都必须有表注，表注包含表编号和表标题（即表的名称）。
+%每一章的表格都要统一编号。例如，假设第1章有3张表格，则表编号分别为表1-1．表1-2和表1-3。正文中引用表格内容时，用表编号指代表格。如表2-1表示第2章的第1张表格。
+\begin{table}[H]
+\centering
+\caption{此处添加表标题}\label{tab1-1}
+\begin{tabular}{!{\vrule width1.2pt}c|c|c!{\vrule width1.2pt}}
+\Xhline{1.2pt}
+ & 西湖天地（百寿墙） & 柳浪闻莺（入口植坛）\\ \hline
+总面积 & 1194．91平方米 & 1563.25平方米\\ \hline
+种植形式 & 丛植、点植、群植  & 群植、丛植、列植\\ \Xhline{1.2pt}
+\end{tabular}
+%表格应设置于文章中首次提到处附近，先见文字后见表格。表格中的术语、符号、单位等应同正文文字表达所使用的一致。表格与表标题不能破页。
+\end{table}
+
+\section{相关技术和理论基础}
+
+\subsection{技术与理论基础1}
+此处添加论文正文\cite{huwei2017latex2e}
+
+\subsubsection{条标题}
+此处添加论文正文
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.5\textwidth]{fig2-1}
+\caption{此处添加图标题}\label{fig2-1}
+\end{figure}
+
+\subsubsection{条标题}
+此处添加论文正文
+
+\begin{table}[H]
+\centering
+\caption{此处添加表标题}\label{tab1-1}
+\begin{tabular}{!{\vrule width1.2pt}c|c|c!{\vrule width1.2pt}}
+\Xhline{1.2pt}
+ & 西湖天地（百寿墙） & 柳浪闻莺（入口植坛）\\ \hline
+总面积 & 1194．91平方米 & 1563.25平方米\\ \hline
+种植形式 & 丛植、点植、群植  & 群植、丛植、列植\\ \Xhline{1.2pt}
+\end{tabular}
+\end{table}
+
+
+\subsubsection{条标题}
+
+\begin{equation}
+f(x)=a_0+\sum_{n=1}^{\infty}\left( a_n \cos \frac{n\pi x}{L}+b_n \sin \frac{n\pi x}{L}  \right)
+\end{equation}
+
+\subsection{技术与理论基础2}
+此处添加论文正文
+
+\subsubsection{条标题}
+此处添加论文正文
+
+\subsubsection{条标题}
+此处添加论文正文
+
+
+\section{系统分析 （需求分析）}
+
+%功能需求分析”描述系统的功能性需求，可以通过数据流图或UML的用例图等图表工具来部来定义系统的功能需求，并把需求和设计完全分离开。
+\subsection{功能需求分析}
+此处添加论文正文
+
+\subsubsection{条标题}
+此处添加论文正文
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.5\textwidth]{fig3-1}
+\caption{此处添加图标题}\label{fig3-1}
+\end{figure}
+
+\subsubsection{条标题}
+此处添加论文正文
+
+\subsubsection{条标题}
+此处添加论文正文
+
+\begin{table}[H]
+\centering
+\caption{此处添加表标题}\label{tab1-1}
+\begin{tabular}{!{\vrule width1.2pt}c|c|c!{\vrule width1.2pt}}
+\Xhline{1.2pt}
+ & 西湖天地（百寿墙） & 柳浪闻莺（入口植坛）\\ \hline
+总面积 & 1194．91平方米 & 1563.25平方米\\ \hline
+种植形式 & 丛植、点植、群植  & 群植、丛植、列植\\ \Xhline{1.2pt}
+\end{tabular}
+\end{table}
+
+
+%“非功能需求分析”描述系统的一些非功能方面的需求，如开发和运行环境、性能、人机交互、用户体验等。
+\subsection{非功能需求分析}
+此处添加论文正文
+
+\subsubsection{条标题}
+此处添加论文正文
+
+\subsubsection{条标题}
+此处添加论文正文
+
+
+\section{系统设计 }
+
+%“总体设计” 描述根据系统的需求分析，确定系统的功能模块构成。
+\subsection{总体设计}
+此处添加论文正文
+
+\subsubsection{条标题}
+此处添加论文正文
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.5\textwidth]{fig4-1}
+\caption{此处添加图标题}\label{fig4-1}
+\end{figure}
+
+\subsubsection{条标题}
+
+\begin{table}[H]
+\centering
+\caption{此处添加表标题}\label{tab1-1}
+\begin{tabular}{!{\vrule width1.2pt}c|c|c!{\vrule width1.2pt}}
+\Xhline{1.2pt}
+ & 西湖天地（百寿墙） & 柳浪闻莺（入口植坛）\\ \hline
+总面积 & 1194．91平方米 & 1563.25平方米\\ \hline
+种植形式 & 丛植、点植、群植  & 群植、丛植、列植\\ \Xhline{1.2pt}
+\end{tabular}
+\end{table}
+
+
+\subsubsection{条标题}
+此处添加论文正文
+
+%“详细设计” 说明各个功能模块的数据结构和实现算法。
+\subsection{详细设计}
+此处添加论文正文
+
+\subsubsection{条标题}
+此处添加论文正文
+
+\subsubsection{条标题}
+此处添加论文正文
+
+
+\section{系统实现与测试  }
+
+%“系统实现”介绍主要功能模块的编程实现以及系统的部署方法。
+\subsection{系统实现}
+此处添加论文正文
+
+\subsubsection{条标题}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.5\textwidth]{fig5-1}
+\caption{此处添加图标题}\label{fig5-1}
+\end{figure}
+
+\subsubsection{条标题}
+
+\begin{table}[H]
+\centering
+\caption{此处添加表标题}\label{tab1-1}
+\begin{tabular}{!{\vrule width1.2pt}c|c|c!{\vrule width1.2pt}}
+\Xhline{1.2pt}
+ & 西湖天地（百寿墙） & 柳浪闻莺（入口植坛）\\ \hline
+总面积 & 1194．91平方米 & 1563.25平方米\\ \hline
+种植形式 & 丛植、点植、群植  & 群植、丛植、列植\\ \Xhline{1.2pt}
+\end{tabular}
+\end{table}
+
+
+\subsubsection{条标题}
+此处添加论文正文
+
+%“系统测试”阐述系统的测试技术、测试过程和测试结果。
+\subsection{系统测试}
+此处添加论文正文
+
+\subsubsection{条标题}
+此处添加论文正文
+
+\subsubsection{条标题}
+此处添加论文正文
+
+%“总结和展望”是对整个毕业设计工作的归纳和综合，对现有成果和尚存在的问题的描述，以及进一步开展研究的见解与建议。
+\section{总结和展望 }
+
+\subsection{本文总结}
+此处添加论文正文
+
+\subsubsection{条标题}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.5\textwidth]{fig6-1}
+\caption{此处添加图标题}\label{fig6-1}
+\end{figure}
+
+\subsubsection{条标题}
+
+\begin{table}[H]
+\centering
+\caption{此处添加表标题}\label{tab1-1}
+\begin{tabular}{!{\vrule width1.2pt}c|c|c!{\vrule width1.2pt}}
+\Xhline{1.2pt}
+ & 西湖天地（百寿墙） & 柳浪闻莺（入口植坛）\\ \hline
+总面积 & 1194．91平方米 & 1563.25平方米\\ \hline
+种植形式 & 丛植、点植、群植  & 群植、丛植、列植\\ \Xhline{1.2pt}
+\end{tabular}
+\end{table}
+
+
+\subsubsection{条标题}
+此处添加论文正文
+
+
+\subsection{未来展望}
+此处添加论文正文
+
+\subsubsection{条标题}
+此处添加论文正文
+
+\subsubsection{条标题}
+此处添加论文正文
+
+
+\bibliographystyle{plain}
+\bibliography{ref}
+\addcontentsline{toc}{section}{参考文献} %在目录里加一行，与section同级别
+%\begin{thebibliography}{99}
+%\bibitem{1}
+%袁庆龙，候文义．Ni-P合金镀层组织形貌及显微硬度研究[J]．太原理工大学学报，2001，32(1).
+%\end{thebibliography}
+%\nocite{*} %  如果不加这句代码的话,就会出现一个问题,你所有的参考文献在最后只会列出来第一个
+
+
+%对于一些不宜放入正文，又是毕业设计（论文）不可缺少的部分，或有重要参考价值的内容，可编入附录中。例如：过长的公式推导，大量的数据和图表，程序全文及其说明等。可用英文大写字母编序号，必要时按目录上的三级标题加注数字，如：附录A，附录A1，附录A1.1，附录A1.1.1等。附录为可选内容
+\section*{附录}
+\addcontentsline{toc}{section}{附录} %在目录里加一行，与section同级别
+\thispagestyle{fancy}
+\rhead{附录}
+\setcounter{equation}{0}
+\setcounter{subsection}{0}
+\renewcommand{\theequation}{A.\arabic{equation}}
+\renewcommand{\thesubsection}{A.\arabic{subsection}}
+
+此处添加论文附录
+
+
+\section*{致谢}
+\addcontentsline{toc}{section}{致谢}
+\thispagestyle{fancy}
+\rhead{致谢}
+此处添加致谢语
+
+\end{document} 

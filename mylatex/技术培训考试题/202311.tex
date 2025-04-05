@@ -1,0 +1,133 @@
+		\ifx \allfiles \undefined		%编译PPT时注释该行
+\documentclass{book}
+\input{structure.tex}
+\begin{document}
+		\else						%编译PPT时注释该行
+		%\newpage
+		\fi						%编译PPT时注释该行
+\watermark{50}{9}{热工班组}
+\chapter[2023年11月份技术培训考试]{	\hspace*{-0.3em}\biaoti{2023}{11}{热工专业}}
+姓名：\uline{ \ \  \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\hfill 得分：\uline{ \ \  \  \ \ \ \ \ \  \ \ \ \ \ \ }
+%\zysx
+\section{\tkt{4}{2}{24}}
+\begin{enumerate}
+	\setcounter{enumi}{0}
+	\item 我厂800xA系统中主控制器的型号是\tk{PM864}。
+	\item 我厂DCS服务器分为\tk{IM}，\tk{AS}，\tk{CS}三种。
+	\item 采用按控制功能划分的设计原则时，分散控制系统可分为DAS、MCS、SCS、FSSS等子系统，其中MCS的中文含义是\tk[4]{模拟量控制系统}，FSSS的中文含义是\tk[4]{炉膛安全监控系统}。
+	\item 我厂800xA DCS系统除脱硫DCS系统共分为\tk[1]{5}个网段，其中一网段主要分布\tk{1、2号锅炉}设备，二网段主要分布\tk{3、4号锅炉}设备，三网段主要分布\tk{1、2、3号汽轮机}设备，四网段主要分布\tk{4、5号汽轮机}设备，五网段主要分布\tk{管网公用系统}设备。
+\end{enumerate}
+\section{\jdt{40}}
+\begin{enumerate}
+	\setcounter{enumi}{4}
+	\item 简述PM864各指示灯作用及含义\fenzhi{15}
+\wdt[3.5]{答：\\（1）F为故障指示灯，故障时为红色，正常运行不亮；（2）R为运行指示灯，正常运行的冗余设备，主设备该灯常亮，从设备该灯不亮；（3）P灯为电源指示灯，设备带电后该灯常亮；（4）B为电池指示灯，电池工作正常时该灯均常亮，异常时该灯闪烁；（5）PRIM灯为主站运行指示灯，冗余运行设备主设备该灯亮，从设备该灯不亮；（6）DUAL为冗余指示灯，正常运行的冗余设备该灯均常亮。}
+	\item 画出我厂锅炉本体吹灰器二次回路控制原理图\fenzhi{25}
+\wdt[9]{答：\\}
+\end{enumerate}
+\section{\stt{36}}
+\begin{enumerate}
+	\setcounter{enumi}{6}
+	\item 该吹灰器启动时对远方脉冲或就地启动按钮有什么要求,，否则会有什么故障？\fenzhi{4}
+\wdt{答：\\脉冲时间要求大于退到位限位开关脱开时间，否则吹灰器无法继续自保持前进。}
+	\item 该吹灰器进到位后，吹灰器先执行后退动作还是先停留吹扫？简述后退过程中KT1与KT3的作用？\fenzhi{8}
+\wdt{答：\\先停留吹扫，待KT1计时时间到后再进行后退动作并开始计时KT3，KT3计时时间到后再停下吹扫重新开始KT1计时，如此往复直到退到位限位开关动作。}
+	\item 写出以下元器件在回路中的作用\fenzhi{24}
+GK：\tk{检修开关}，LSF：\tk{进到位限位}，LSR：\tk{退到位限位}，\\START：\tk{现场启动按钮}，D-DJ1：\tk{远方启动脉冲}，DJ1F：\tk{前进交流接触器}，\\DJ1R：\tk{后退交流接触器}，DJ1RJ：\tk{热继电器长闭点}，SB：\tk{现场急退}，\\DCS：\tk{远方急退}，DJ1J：\tk{后退标记继电器}，KA1J：\tk{后退动作继电器}。
+\end{enumerate}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[circuit ee IEC relay,thick,x=8\tikzcircuitssizeunit,y=7\tikzcircuitssizeunit]
+		
+			\draw (0,0)node [contact,name=F1]{} -- ++(0,1) node [contact,name=G1]{}
+				-- ++(0,1)node [contact,name=H1]{}
+-- ++(0,1)node [contact,name=A1]{}
+-- ++(0,1)node [contact,name=B1]{}
+-- ++(0,1)node [contact,name=C1]{}
+-- ++(0,1)node [contact,name=D1]{}
+-- ++(0,1)node [contact,name=E1]{}
+-- ++(0,1.2)node [contact,name=L]{};
+
+	\draw (D1) -- ++(1,0)
+		to [make contact={name=GK1,term=8-i}] ++(1,0)
+		to [break contact={position switch={info=$LSR$}}] ++(1,0)
+		node [contact,name=D2]{}
+	to [make contact={info=$KA1J$}] ++(1,0) -- ++(1,0)
+		to [break contact={info=$DJ1F$}] ++(1,0)
+		to [relay coil={info=$DJ1R$,term=A2,term'=A1}] ++(1,0) 
+		node [contact,name=D3]{};
+	
+				
+
+		\draw (E1) node[contact]{}
+		to [make contact={push button={info=$START$}}] ++(1,0)
+
+		node [contact,name=E2]{}
+		to [make contact={turn switch={info=$GK$},name=GK2}] ++(1,0)
+		node [contact,name=E3]{}
+		to [break contact={position switch={info=$LSF$}}] ++(1,0)
+		to [break contact={info=OA1J}] ++(1,0)
+		to [break contact={info=DJ1J}] ++(1,0)
+		to [break contact={info=DJ1R}] ++(1,0)
+		to [relay coil={info=DJ1F,term=A2,term'=A1}] ++(1,0)
+		node [contact,name=E4]{};
+
+\draw[dashed](GK1.mid) -- (GK2.mid);
+\draw (E3) -- ++(0,-0.5) to [make contact={info={[right=0.3cm]:DJ1F}}] ++(1,0) -- (D2);
+\draw (L) ++(1,0)node [contact,name=Di]{}--(E2);
+
+		
+
+		\draw (D2) -- ++(0,-1)
+		to [break contact={info=DJ1F}] ++(1,0) -- ++(2,0)
+		to [relay coil={info=DJ1J}] ++(1,0)
+		node [contact,name=C3]{};
+\draw (C3) -- (E4)
+to [break contact={thermal switch={info=DJ1RJ}}] ++(0,1.2)node [contact,name=N]{};
+\node[above,blue] at(N) {N};
+\node[left,red] at(L) {A1};
+\node[left,red] at(Di) {D-DJ1};
+
+\draw (A1) -- ++(1,0)
+to [break contact={info=OA1J}] ++(1,0)
+to [make contact={info=DJ1J}] ++(1,0)
+to [break contact={delayed deactivation={info=KT3}}] ++(1,0)
+-- ++(2,0)
+to [relay coil={slow operating={info=KT1}}]++(1,0)
+node [contact,name=A2]{};
+
+\draw (B1)
+to [make contact={delayed deactivation={info=KT1}}] ++(1,0)
+node [contact,name=B2]{}
+to [relay coil={info=KA1J}] ++(1,0)
+node [contact,name=B3]{}
+-- ++(5,0)
+node [contact,name=B4]{};
+
+\draw (C1)
+to [make contact={info=OA1J}] ++(1,0)
+node [contact,name=C2]{}
+to [relay coil={slow operating={info=KT3}}]++(1,0)
+to (B3);
+
+\draw (B2) -- (C2);
+
+\draw (G1)
+to [make contact={push button={info=$SB$,term''=现场急退}}] ++(2,0)
+node [contact,name=G2]{};
+\draw (H1)
+to [make contact={info=$DCS$}] ++(2,0)
+node [contact,name=H2]{}
+-- ++(4,0)
+to [relay coil={info=OA1J}] ++(1,0) -- (C3);
+\draw (F1)
+to [make contact={info=OA1J}] ++(1,0)
+to [make contact={info=DJ1J}] ++(1,0) -- (H2);
+%\draw (F2) -- (G2) -- (H2);
+	\end{tikzpicture}
+\caption{1-3号锅炉空预器多介质吹灰器二次控制原理图}
+\end{figure}
+
+		\ifx \allfiles \undefined
+\end{document}
+\fi

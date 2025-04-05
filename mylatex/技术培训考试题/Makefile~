@@ -1,0 +1,7 @@
+tuzhi.pdf:kaoshi.tex structure.tex 202307.tex 202311.tex 202312.tex
+	latexmk -xelatex kaoshi.tex
+distclean:
+	rm kaoshi.pdf
+.PHONY:clean
+clean:
+	rm *.*[!e]?

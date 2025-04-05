@@ -1,0 +1,74 @@
+		\ifx \allfiles \undefined		%编译PPT时注释该行
+\documentclass{book}
+\input{structure.tex}
+
+
+\begin{document}
+		\else						%编译PPT时注释该行
+		%\newpage
+		\fi						%编译PPT时注释该行
+\watermark{50}{9}{热工班组}
+%\chapter[中节能潞安电力节能服务有限公司]{	\hspace*{-0.3em}\biaoti{2023}{7}{热工专业}}
+\chapter[2023年07月份技术培训考试]{	\hspace*{-0.3em}\biaoti{2023}{7}{热工专业}}
+姓名：\uline{ \ \  \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\hfill 得分：\uline{ \ \  \  \ \ \ \ \ \ \ \ \ \ }
+%\zysx
+\section{\xzt{5}{2}{10}}
+\begin{enumerate}
+\item 我厂4号汽轮机润滑油压力低低小于\xz{D}触发ETS
+\xx{0.055Mpa}{0.04Mpa}{1.00Mpa}{0.02Mpa}
+
+\item 我厂4号汽轮机润滑油压力低低小于\xz{C}停盘车
+\xx{0.055Mpa}{0.04Mpa}{0.015Mpa}{0.02Mpa}
+
+\item 我厂3汽号轮机的AST电磁阀供电电压是\xz{D}
+\xx{220ACV}{220DCV}{380AVC}{24DCV}
+
+\item 我厂4汽号轮机的AST电磁阀供电电压是\xz{B}
+\xx{220ACV}{220DCV}{380AVC}{24DCV}
+
+\item 我厂4号汽轮机的OPC保护动作值\xz{D}
+\xx{3270}{3300}{3330}{3090}
+\end{enumerate}
+\section{\tkt{11}{2}{40}}
+\begin{enumerate}
+	\setcounter{enumi}{5}
+	\item 1号汽轮机盘车启动允许条件中转速(rSPD\_SEL)应小于\tk{800}RPM，联锁启动条件中转速(rSPD\_SEL)应大于\tk{700}RPM。
+	\item 1号轮机盘车联锁停止条件发电机驱动端顶轴油压力小于\tk{55}BAR；发电机非驱动端顶轴油压力小于\tk{50}BAR。
+	\item 我厂火检冷却风机出口母管风压低低动作MFT定值为\tk{1500KPa}。
+	\item 我厂1号汽轮机排汽压力低于\tk{0.45BARA}触发ETS保护停机，测量装置为\tk{压力变送器}安装在汽轮机11米后气缸处。
+	\item 我厂4号汽轮机排汽装置压力低于\tk{47KPa}触发ETS保护停机，测量装置为\tk{压力控制器}安装在汽轮机5米排汽装置喉部。
+	\item 我厂1号汽轮机控制油压力低低小于\tk{13BAR}触发ETS。
+	\item 我厂3号汽轮机润滑油压力低低小于\tk{0.6BAR}触发ETS。
+	\item 我厂3号汽轮机高调门伺服阀为\tk{两级}、\tk{先导}电液伺服阀。	
+	\item 我厂4号汽轮机高调门伺服阀为\tk{单级}、\tk{直驱}电液伺服阀。
+	\item 我厂1号汽轮机真空泵入口蝶阀联锁打开条件是真空泵\tk{运行}且真空泵入口压力达到\tk{-72KPa}压力，联锁关闭条件是\tk{真空泵停运}。
+	\item 2号汽轮机高调门伺服阀输入电流信号范围\tk{20-160mA}，3号汽轮机高调门伺服卡输入电流信号范围\tk{4-20mA}。
+\end{enumerate}
+\section{\jdt{20}}
+\begin{enumerate}
+	\setcounter{enumi}{16}
+	\item 简述我厂1号汽轮机电液伺服机构信号传递回路\fenzhi{10}
+\wdt{答：\\上位机输入阀门开度指令->DEH AO卡件输出20-160mA电流信号->伺服阀->伺服阀输出轴转动至指定位置}
+	\item 简述我厂3号汽轮机电液伺服机构信号传递回路\fenzhi{10}
+\wdt{答：\\上位机输入阀门开度指令->DEH AO卡件输出4-20mA电流信号->伺服卡->伺服卡采集现场LVDT阀位信号与接受到阀指令信号进行比}
+\end{enumerate}
+\section{\stt{30}}
+\begin{enumerate}
+	\setcounter{enumi}{18}
+	\item 高调门关闭过程中，34杆端运动方向？\fenzhi{3}
+\wdt{答：\\高调门关闭过程中，34杆端运动方向向上。}
+	\item 高调门关闭过程中，41调速器联杆运动方向？\fenzhi{3}
+\wdt{答：\\高调门关闭过程中，41调速器联杆运动方向向下。}
+	\item 简述高调门关闭时，图中各设备动作情况（涉及以下关键设备）\fenzhi{24}
+高调门指令变小时，调节器将会对设定速度做出反应，将使致动器终端变为\tk{顺时针}旋转，\tk{降低}继动器控制杆的调节端，当动力活塞18处于平衡状态时-中心承枢28将为继动器控制杆提供一个\tk{支点}，因此将操纵阀从其中心位置\tk{向下}移动。
+随着操纵阀9{向下}移动，将露出\tk{下部}的控制油口，高压油将被导入动力活塞的18的\tk{下部}。\tk{上部}的控制油口露出，将使得动力活塞\tk{上边}的油被排回油箱。动力活塞的不均衡将使其\tk{向上}移动-使高调门\tk{下降}到一个蒸汽流量减少的位置-与要求的折算负载相一致。
+随着动力活塞向新位置靠近，继动杆和操纵阀9也随之移动，直到操纵阀再次位于\tk{中心}位置，动力活塞18的恢复\tk{平衡}，高调门开到指定位置停止移动。
+\end{enumerate}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=600pt,height=700pt,keepaspectratio,angle=90,origin=c]{picture/1Tjidongqi.png}
+\caption{识图题}
+\end{figure}
+		\ifx \allfiles \undefined
+\end{document}
+\fi

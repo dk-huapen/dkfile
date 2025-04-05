@@ -1,0 +1,66 @@
+\documentclass[a4paper]{article}% or something else
+\usepackage{pdfpages}    %need this package
+\begin{document}
+% 提取pdf文档
+%  所有页
+%\includepdf[pages=-]{test1.pdf}
+% 单页 第一页
+%\includepdf[pages={1}]{test1.pdf} 
+% 单页 第5页
+%\includepdf[pages={5}]{test1.pdf}
+%  1,2,4页
+%\includepdf[pages={1,2,4}]{test1.pdf}
+%  1到3页
+%\includepdf[pages={37-68}]{1.pdf}
+%  多种方法结合, {}代表空页面
+%\includepdf[pages={3,{},8-11,15}]{test1.pdf}
+ 
+%合并pdf文档
+% 完整合并
+\includepdf[pages=-]{../../../data/report/FeederReport/6586.pdf}%1号机润滑油压力低启直流油泵1
+\includepdf[pages=-]{../../../data/report/FeederReport/6591.pdf}%1号机润滑油压力低启直流油泵2
+\includepdf[pages=-]{../../../data/report/FeederReport/1242.pdf}%1号机1号真空泵入口压力开关
+\includepdf[pages=-]{../../../data/report/FeederReport/1203.pdf}%1号机2号真空泵入口压力开关
+
+\includepdf[pages=-]{../../../data/report/FeederReport/6597.pdf}%2号机润滑油压力低启直流油泵1
+\includepdf[pages=-]{../../../data/report/FeederReport/6600.pdf}%2号机润滑油压力低启直流油泵2
+\includepdf[pages=-]{../../../data/report/FeederReport/757.pdf}%2号机1号真空泵入口压力开关
+\includepdf[pages=-]{../../../data/report/FeederReport/754.pdf}%2号机2号真空泵入口压力开关
+
+\includepdf[pages=-]{../../../data/report/FeederReport/6603.pdf}%3号机润滑油压力低启直流油泵1
+\includepdf[pages=-]{../../../data/report/FeederReport/6601.pdf}%3号机润滑油压力低启直流油泵2
+\includepdf[pages=-]{../../../data/report/FeederReport/2443.pdf}%3号机润滑油泵出口流量开关
+
+\includepdf[pages=-]{../../../data/report/FeederReport/2704.pdf}%4号机润滑油压力低启直流油泵1
+\includepdf[pages=-]{../../../data/report/FeederReport/2705.pdf}%4号机润滑油压力低启直流油泵2
+\includepdf[pages=-]{../../../data/report/FeederReport/3183.pdf}%4号汽轮机润滑油压低1
+\includepdf[pages=-]{../../../data/report/FeederReport/3184.pdf}%4号汽轮机润滑油压低2
+\includepdf[pages=-]{../../../data/report/FeederReport/3185.pdf}%4号汽轮机润滑油压低3
+\includepdf[pages=-]{../../../data/report/FeederReport/3172.pdf}%4号汽轮机安全油压建立1
+\includepdf[pages=-]{../../../data/report/FeederReport/3173.pdf}%4号汽轮机安全油压建立2
+\includepdf[pages=-]{../../../data/report/FeederReport/3174.pdf}%4号汽轮机安全油压建立3
+\includepdf[pages=-]{../../../data/report/FeederReport/3180.pdf}%4号汽轮机排汽装置真空低低1 ?
+\includepdf[pages=-]{../../../data/report/FeederReport/3181.pdf}%4号汽轮机排汽装置真空低低2
+\includepdf[pages=-]{../../../data/report/FeederReport/3182.pdf}%4号汽轮机排汽装置真空低低3
+\includepdf[pages=-]{../../../data/report/FeederReport/7522.pdf}%4号机润滑油压力低(停盘车)
+\includepdf[pages=-]{../../../data/report/FeederReport/752.pdf}%4号机1号真空泵入口压力开关
+\includepdf[pages=-]{../../../data/report/FeederReport/6660.pdf}%4号机2号真空泵入口压力开关
+
+\includepdf[pages=-]{../../../data/report/FeederReport/7297.pdf}%5号机润滑油压力低启直流油泵1
+\includepdf[pages=-]{../../../data/report/FeederReport/7298.pdf}%5号机润滑油压力低启直流油泵1
+\includepdf[pages=-]{../../../data/report/FeederReport/7359.pdf}%5号汽轮机润滑油压低1
+\includepdf[pages=-]{../../../data/report/FeederReport/7360.pdf}%5号汽轮机润滑油压低2
+\includepdf[pages=-]{../../../data/report/FeederReport/7361.pdf}%5号汽轮机润滑油压低3
+\includepdf[pages=-]{../../../data/report/FeederReport/7348.pdf}%5号汽轮机安全油压建立1
+\includepdf[pages=-]{../../../data/report/FeederReport/7349.pdf}%5号汽轮机安全油压建立2
+\includepdf[pages=-]{../../../data/report/FeederReport/7350.pdf}%5号汽轮机安全油压建立3
+\includepdf[pages=-]{../../../data/report/FeederReport/7356.pdf}%5号汽轮机排汽装置真空低低1
+\includepdf[pages=-]{../../../data/report/FeederReport/7357.pdf}%5号汽轮机排汽装置真空低低2
+\includepdf[pages=-]{../../../data/report/FeederReport/7358.pdf}%5号汽轮机排汽装置真空低低3
+\includepdf[pages=-]{../../../data/report/FeederReport/7523.pdf}%5号机润滑油压力低(停盘车)
+\includepdf[pages=-]{../../../data/report/FeederReport/6659.pdf}%5号机1号真空泵入口压力开关
+\includepdf[pages=-]{../../../data/report/FeederReport/6458.pdf}%5号机1号真空泵入口压力开关
+% 部分合并，合并test1文档1,2页和test2文档3,4页
+%\includepdf[pages={1,2}]{test1.pdf}
+%\includepdf[pages={3,4}]{test2.pdf}
+\end{document}

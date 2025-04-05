@@ -1,0 +1,174 @@
+
+\usepackage{geometry}
+\geometry{a4paper,left=2cm,right=2cm,top=2.5cm,bottom=2.5cm}   %landscape页面横制,twocolumn双栏
+\usepackage{ctex}
+\usepackage[bodytextleadingratio=1.5,restoremathleading=true]{zhlineskip}
+\lineskiplimit=4pt
+\lineskip=5pt
+
+\xeCJKsetup{CJKmath}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts} 
+\usepackage{amsxtra} 
+\usepackage[dvipdfm]{graphicx}
+\usepackage{tikz,units}
+\usetikzlibrary{backgrounds,circuits.ee.IEC.relay}
+\usepackage{titlesec,titletoc}%定义章节格式
+\titleformat{\chapter}{\zihao {5}}{}{0em}{}%%%
+\titleformat{\section}{\zihao {5}\bfseries\linespread{1}\selectfont}{\chinese{section}、}{0em}{}
+\titleformat{\subsection}{\linespread{1}\selectfont}{（{\bf\chinese{subsection}}）}{0em}{\zihao{5}\bfseries\bfseries\linespread{1}\selectfont}{}
+\titlespacing*{\chapter}{0pt}{-8mm}{-10mm}
+\titlespacing*{\section}{0pt}{0pt}{-0cm}
+\titlespacing*{\subsection}{0pt}{0pt}{0pt}
+
+
+
+
+\usepackage{graphbox}
+\usepackage{xcolor}
+\usepackage{pifont}	%各种小符号
+
+\usepackage[shortlabels]{enumitem}
+\setlist{itemsep=0pt,topsep=0pt,partopsep=0pt,parsep=0pt}
+\setenumerate[1]{label=\arabic*.,leftmargin=2em,itemindent=0em,labelsep=0.5em,}
+\setenumerate[2]{label=（\arabic*）,leftmargin=2em,itemindent=0em,labelsep=0em,}
+
+
+\usepackage{lastpage}%页码
+
+\usepackage{fancyhdr}%设置页眉页脚
+\usepackage{eso-pic}
+%增加水印
+\newcommand{\watermark}[3]{\AddToShipoutPictureBG{
+\parbox[b][\paperheight]{\paperwidth}{
+\vfill%
+\centering%
+\tikz[remember picture, overlay]%
+  \node [rotate = #1, scale = #2] at (current page.center)%
+    {\textcolor{gray!80!cyan!30}{#3}};
+\vfill}}}
+%%%%%
+\fancypagestyle{plain}{\pagestyle{fancy}}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\chaptermark}[1]{%
+	\markboth{#1}{}}
+\fancyhead[ER,OL]{\heiti \zihao{-5} 热工专业}
+\fancyhead[OR,EL]{\heiti \zihao{-5} \leftmark}
+\fancyfoot[CE,CO]{热工技术培训试卷~第~\thepage~页（共 \pageref{LastPage} 页）}
+\makeatletter %双线页眉
+\def\headrule{{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
+		{\color{red}\hrule\@height 1.0pt \@width\headwidth\vskip1pt%上面线为1pt粗
+			\hrule\@height 0.5pt\@width\headwidth  }%下面0.5pt粗
+		\vskip-2\headrulewidth\vskip-1pt}      %两条线的距离1pt
+	\vspace{0.5cm}}     %双线与下面正文之间的垂直间距
+\makeatother
+
+\newcommand{\biaoti}[3]{%{\noindent\bf {绝密$\bigstar$启用前 }\vspace*{-0.5em}}
+	\begin{center}
+		\zihao{3}#1年#2月份#3技术培训考试\\
+		%\makebox[5em][s]{\zihao{-2}{\bf #2数学}}{\zihao{4}#3}
+\end{center}}
+\newcommand{\zysx}{\linespread{1.5}\selectfont{{\noindent\bf 注意事项：}\par 
+		1．答卷前，考生务必将自己的姓名、准考证号等填写在答题卡和试卷指定位置上。\par 
+		2．回答选择题时，选出每个小题答案后，用铅笔把答题卡上对应题目的答案标号涂黑。如需改动，用橡皮擦干净后，再选涂其他答案标号，回答非选择题时，将答案写在答题卡上。写在本试卷上无效。\par 
+		3. 考试结束后，将本试卷和答题卡一并交回。\par }
+	
+}
+
+\newcommand{\xzt}[3]{选择题：本题共$#1$小题，每小题$#2$分，共$#3$分。在每小题给出的四个选项中，只有一项是符合题目要求的。}
+\newcommand{\tkt}[3]{填空题：本题共$#1$小题，每空$#2$分,共$#3$分。}
+\newcommand{\jdt}[1]{问答题：共$#1$分。}
+\newcommand{\stt}[1]{识图题：共$#1$分。}
+\newcommand{\htt}[1]{画图题：共$#1$分。}
+\newcommand{\xkt}{选考题：共$10$分。请考生在第$22$、$23$题中任选一题作答。如果多做，则按所做的第一题计分。}
+
+\newcommand{\fenzhi}[1]{（#1分）   
+
+}
+
+\usepackage{hlist}
+\usepackage{ifthen}
+%选择题的4个选项，使用一个命令根据选项内容长度自动排版
+\newlength{\lab}
+\newlength{\lb}
+\newlength{\lc}
+\newlength{\ld}
+\newlength{\lhalf}
+\newlength{\lquarter}
+\newlength{\lmax}
+\newcommand{\xx}[4]{%%%%%%%%%
+	
+	\settowidth{\lab}{A.#1}
+	\settowidth{\lb}{B.#2}
+	\settowidth{\lc}{C.#3}
+	\settowidth{\ld}{D.#4}
+	\ifthenelse{\lengthtest{\lab > \lb}}  {\setlength{\lmax}{\lab}}  {\setlength{\lmax}{\lb}}
+	\ifthenelse{\lengthtest{\lmax < \lc}}  {\setlength{\lmax}{\lc}}  {}
+	\ifthenelse{\lengthtest{\lmax < \ld}}  {\setlength{\lmax}{\ld}}  {}
+	\setlength{\lhalf}{0.45\linewidth}
+	\setlength{\lquarter}{0.2\linewidth}
+	\ifthenelse{\lengthtest{\lmax > \lhalf}}
+	{%
+		\begin{hlist}[pre skip=0pt,item skip=0pt,,item offset={1.5em}, label=\Alpha {hlisti}.,pre label={}]1
+			\hitem #1
+			\hitem #2
+			\hitem #3
+			\hitem #4
+		\end{hlist}
+	}  %%%
+	{%%
+		\ifthenelse{\lengthtest{\lmax > \lquarter}} % 
+		{%
+			\begin{hlist}[pre skip=0pt,item skip=0pt,item offset={1.5em}, label=\Alpha {hlisti}.,pre label={}]2
+				\hitem #1
+				\hitem #2
+				\hitem #3
+				\hitem #4
+			\end{hlist}
+		}
+		{%
+			\begin{hlist}[\parskip=0pt,pre skip=0pt,item skip=0pt,item offset={1.5em}, label=\Alpha {hlisti}.,pre label={}]4
+				\hitem #1
+				\hitem #2
+				\hitem #3
+				\hitem #4
+			\end{hlist}
+}}}
+
+\usepackage{ulem}
+\newcommand{\tk}[2][2]{\uline{\makebox[#1cm][c]{%
+			\ifanswer
+			\textcolor{red}{#2}%
+			\else
+			\phantom{#2}%
+			\fi}}}
+		
+\newcommand{\xz}[1]{(\  {{%
+			\ifanswer
+			{\makebox[0.4cm][c]{\textcolor{red}{#1}}}%
+			\else
+			\phantom{\makebox[0.4cm][c]{#1} }%
+			\fi}\  )}}
+%\newcommand{\wdt}[1]{\parbox[t][4cm]{15cm}{
+\newcommand{\wdt}[2][2]{\parbox[t][#1cm]{16cm}{
+			\ifanswer
+			\textcolor{red}{#2}%
+			\else
+			\phantom{#2}%
+			\fi}}
+
+\newcommand{\tupian}[3][2]{\parbox[t][#1cm]{16cm}{
+			\ifanswer
+%\includegraphics[angle=0,width=450pt,trim=0 0 0 0,clip]{#2}\\
+			{#2}
+			\else
+%\includegraphics[angle=0,width=450pt,trim=0 0 0 0,clip]{#3}\\
+			{#3}
+			\fi}}
+
+\newif\ifanswer
+\newcommand{\answer}[1]{\ifthenelse{\isodd{#1}}{\answertrue}{}}
+
+\answer{1}%%为0时正常嗯打印试卷，为1打印带答案试卷

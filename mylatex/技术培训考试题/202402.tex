@@ -1,0 +1,64 @@
+\ifx \allfiles \undefined		%编译PPT时注释该行
+	\documentclass{book}
+		\input{structure.tex}
+		\begin{document}
+\else						%编译PPT时注释该行
+	%\newpage
+\fi						%编译PPT时注释该行
+		\watermark{50}{9}{热工班组}
+		\chapter[2024年02月份技术培训考试]{	\hspace*{-0.3em}\biaoti{2024}{02}{热工专业}}
+		姓名：\uline{ \ \  \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\hfill 得分：\uline{ \ \  \  \ \ \ \ \ \  \ \ \ \ \ \ }
+		\section{\xzt{5}{2}{10}}
+			\begin{enumerate}
+				\item 我厂氨水缓冲装置控制系统正常运行过程中，下列哪一个环节退出运行不会影响系统运行\xz{A}。
+					\xx{控制器组态软件}{OPC通讯软件}{winCC监控软件}{SMART PLC}
+				\item 我厂1、2、3号汽轮机DEH系统Triview监控软件数据中断时需要检查并重启以下哪个程序\xz{B}。
+					\xx{Triview监控软件}{DDE通讯软件}{TriStation组态软件}{Diagnostic诊断软件}
+				\item 我厂1、2、3号汽轮机DEH系统硬件故障时应该使用以下哪个程序进行检查诊断\xz{D}。
+					\xx{SOE记录查询软件}{DDE通讯软件}{TriStation组态软件}{Diagnostic诊断软件}
+				\item S7 SMART PLC控制器与上位机通讯使用以下那种通讯方式\xz{A}
+					\xx{OPC通讯}{RS 232/485通讯}{CAN通讯}{PROFIBUS通讯}
+				\item  S7 200 PLC控制器与上位机通讯使用以下那种通讯方式\xz{B}
+					\xx{OPC通讯}{RS 232/485通讯}{CAN通讯}{PROFIBUS通讯}
+			\end{enumerate}
+		\section{\tkt{4}{2}{30}}
+			\begin{enumerate}
+				\setcounter{enumi}{5}
+				\item 我厂脱硝CEMS系统PLC型号为CPU 224 CN AC/DC/RLY，其中AC/DC/RLY分别对应着\tk{电源电压}/\tk{输入电压}/\tk{输出电压}，AC表示交流\tk{220V}，DC表示\tk{直流24V}，RLY表示\tk{继电器输出}。
+				\item PLC有五种标准编程语言：\tk{梯形图语言}、指令表语言（IL）、\tk{功能模块语言}、顺序功能流程图语言（SFC）、结构文本化语言（ST）。对于有电路基础的人来说，\tk{梯形图}是最容易学习的，因为它与电气操作原理图相对应，具有直观性和对应性；与原有继电器控制相一致，电气设计人员易于掌握。
+				\item 模拟量信号是自动化过程控制系统中最基本的过程信号，系统中的过程信号通过变送器，将这些检测信号转换为标准的电压、电流信号，常见的标准信号有0-5V、\tk{0-10V}、\tk{0-20mA}、\tk{4-20mA}，并将这些信号实时的传送至控制器(PLC)。
+				\item 在目前的工业现场，对模拟量信号的处理已基本都采用\tk{电流信号}方式进行传输，相比于\tk{电压信号}方式，\tk{电流信号}抗干扰能力更强，传输距离更远，信号稳定。
+			\end{enumerate}
+
+		\section{\stt{30}}
+			\begin{enumerate}
+				\setcounter{enumi}{9}
+				\item 下图为西门子S7200 PLC控制器，在图中标出控制器上各部件名称？\fenzhi{16}
+					%\includegraphics[angle=0,width=500pt,trim=0 0 0 0,clip]{picture/200plc.png}%答案需要替换下图片
+		\tupian{\includegraphics[angle=0,width=500pt,trim=0 0 0 0,clip]{picture/200plc_da.png}}{\includegraphics[angle=0,width=500pt,trim=0 0 0 0,clip]{picture/200plc.png}}
+					%\includegraphics[angle=0,width=500pt,trim=0 0 0 0,clip]{picture/200plcda.png}%带答案图片
+				\item 下图是一个简单的PLC线圈自锁梯形图，可以发现其逻辑关系与电路原理及其相似,画出电路图\fenzhi{14}
+					\includegraphics[angle=0,width=500pt,trim=0 0 0 0,clip]{picture/plclogic.png}    
+					\wdt[5]{答：\\
+						\includegraphics[angle=0,width=500pt,trim=0 0 0 0,clip]{picture/relay.pdf}    
+					}
+			\end{enumerate}
+		\section{\htt{30}}
+			\begin{enumerate}
+				\setcounter{enumi}{11}
+				\item 用PLC梯形图画出三取二逻辑图，输入为I0.0、I0.1、I0.2，输出为Q0.0。\fenzhi{10}
+					\wdt[5]{答：\\
+						\includegraphics[angle=0,width=200pt,trim=0 0 0 0,clip]{picture/sanquerplc.png} 
+					}
+				\item 我厂净烟气二氧化硫分析仪模拟量输出为双量程自动切换输出，配合模拟量量程切换有一个高低量程开关量输出，即仪表显示小于50时模拟量通道量程为0-50，高低量程开关量输出为0，大于50时模拟量通道量程自动切为0-200，高低量程开关量输出变为1，而DCS系统AI通道没有切换功能，在DCS系统如何正常显示分析仪二氧化硫数据\fenzhi{20}
+					\wdt[5]{答：
+原理：分析仪高低量程切换过程中对应高低量程开关量由0变为1的同时模拟量输出通道毫安值缩小了$(200/50)$倍，在DCS系统逻辑内用采集到的高低量程开关量对应还原通道采集到的模拟量。\\
+1.DCS量程设定：0-50（6分）；\\
+2.实现方法：在逻辑内通过高低量程开关量实现选择（6分）；\\
+3.关键点：高量程是低量程的4倍，同样数据时对应毫安信号变化为1/4倍。（6分）
+					}
+
+\end{enumerate}
+		\ifx \allfiles \undefined
+\end{document}
+\fi

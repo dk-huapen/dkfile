@@ -1,0 +1,62 @@
+		\ifx \allfiles \undefined		%编译PPT时注释该行
+\documentclass{book}
+\input{structure.tex}
+\begin{document}
+		\else						%编译PPT时注释该行
+		%\newpage
+		\fi						%编译PPT时注释该行
+\watermark{50}{9}{热工班组}
+\chapter[2024年03月份技术培训考试]{	\hspace*{-0.3em}\biaoti{2024}{03}{热工专业}}
+姓名：\uline{ \ \  \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\hfill 得分：\uline{ \ \  \  \ \ \ \ \ \  \ \ \ \ \ \ }
+%\zysx
+\section{\xzt{5}{2}{10}}
+\begin{enumerate}
+\item 我厂3汽号轮机的AST电磁阀供电电压是\xz{D}。
+\xx{220ACV}{220DCV}{380AVC}{24DCV}
+\item 我厂3汽号轮机的AST电磁阀供电端子保险是\xz{C}。
+\xx{0.2A}{1A}{3A}{0.1A}
+\item 我厂4汽号轮机的AST电磁阀供电电压是\xz{B}。
+\xx{220ACV}{220DCV}{380AVC}{24DCV}
+\item 我厂4汽号轮机的主汽门电磁阀(磁力断路油门)供电电压是\xz{A}。
+\xx{220ACV}{220DCV}{380AVC}{24DCV}
+\item 我厂次高压汽轮机ETS系统S7 200PLC与DEH系统之间数据传递采用哪种方式\xz{D}。
+\xx{OPC通讯}{RS 232/485通讯}{4-20mA}{PROFIBUS通讯}
+\end{enumerate}
+\section{\tkt{4}{2}{34}}
+\begin{enumerate}
+	\setcounter{enumi}{5}
+	\item 我厂次高压汽轮机ETS系统控制器使用的PLC型号为CPU 226 CN AC/DC/RLY，其中AC/DC/RLY分别对应着\tk{电源电压}/\tk{输入电压}/\tk{输出电压}，AC表示交流\tk{220V}，DC表示\tk{直流24V}，RLY表示\tk{继电器输出}，ETS控制系统通过\tk{并联输入、输出}实现控制系统冗余。
+\item 汽轮机常规的超速保护有\tk{OPC}、\tk{电超速}、\tk{机械超速}三种。
+\item 我厂次高压汽轮机正常运行时，汽轮机的润滑油压由\tk{主油泵}供给，当润滑油压降低时应自动联锁启动\tk{交流润滑油泵}。
+\item 电涡流传感器系统的三个组成部分是\tk{探头}、\tk{延长电缆}、\tk{前置器}。
+\item 我厂4号汽轮机高调门伺服阀为\tk{单级}、\tk{直驱}电液伺服阀。
+\end{enumerate}
+\section{\stt{16}}
+\begin{enumerate}
+	\setcounter{enumi}{10}
+	\item 下图为西门子S7200 PLC控制器，在图中标出控制器上各部件名称？\\
+		\tupian{\includegraphics[angle=0,width=500pt,trim=0 0 0 0,clip]{picture/200plc_da.png}}{\includegraphics[angle=0,width=500pt,trim=0 0 0 0,clip]{picture/200plc.png}}
+
+%\includegraphics[angle=0,width=500pt,trim=0 0 0 0,clip]{picture/200plc.png}%答案需要替换下图片
+
+
+\end{enumerate}
+\section{\jdt{40}}
+\begin{enumerate}
+	\setcounter{enumi}{11}
+\item 我厂次高压汽轮机ETS保护有哪些？其中DCS请求停机保护包含哪些？DEH请求停机保护包含哪些？\fenzhi{20}
+\wdt[6]{答：\\
+汽轮机轴承振动大：现场8支电涡流探头通过前置器输出电压信号至TSI系统，TSI系统对应卡件分别输出4-20mA信号至DCS系统后进行逻辑判断后触发DCS停机信号
+主油箱油位低：现场油位测量装置通过TSI机柜内变送器输出信号至TSI系统，TSI系统对应卡件分别输出4-20mA信号至DCS系统后进行逻辑判断后触发DCS停机信号
+轴承金属温度高与回油温度高：现场热电阻元件输出信号至TSI系统对应卡件后输出4-20mA信号至DCS系统后进行逻辑判断后触发DCS停机信号
+}
+\item 我厂净烟气二氧化硫分析仪模拟量输出为双量程自动切换输出，配合模拟量量程切换有一个高低量程开关量输出，即仪表显示小于50时模拟量通道量程为0-50，高低量程开关量输出为0，大于50时模拟量通道量程自动切为0-200，高低量程开关量输出变为1，而DCS系统AI通道没有切换功能，在DCS系统如何正常显示分析仪二氧化硫数据\fenzhi{20}
+\wdt[6]{答：\\
+汽轮机轴承振动大：现场8支电涡流探头通过前置器输出电压信号至TSI系统，TSI系统对应卡件分别输出4-20mA信号至DCS系统后进行逻辑判断后触发DCS停机信号
+主油箱油位低：现场油位测量装置通过TSI机柜内变送器输出信号至TSI系统，TSI系统对应卡件分别输出4-20mA信号至DCS系统后进行逻辑判断后触发DCS停机信号
+轴承金属温度高与回油温度高：现场热电阻元件输出信号至TSI系统对应卡件后输出4-20mA信号至DCS系统后进行逻辑判断后触发DCS停机信号
+}
+\end{enumerate}
+		\ifx \allfiles \undefined
+\end{document}
+\fi

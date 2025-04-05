@@ -1,0 +1,67 @@
+		\ifx \allfiles \undefined		%编译PPT时注释该行
+\documentclass{book}
+\input{structure.tex}
+\begin{document}
+		\else						%编译PPT时注释该行
+		%\newpage
+		\fi						%编译PPT时注释该行
+\watermark{50}{9}{热工班组}
+\chapter[2024年04月份技术培训考试]{	\hspace*{-0.3em}\biaoti{2024}{04}{热工专业}}
+姓名：\uline{ \ \  \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\hfill 得分：\uline{ \ \  \  \ \ \ \ \ \  \ \ \ \ \ \ }
+%\zysx
+\section{\xzt{5}{2}{10}}
+\begin{enumerate}
+\item 我厂3汽号轮机的AST电磁阀供电电压是\xz{D}。
+\xx{220ACV}{220DCV}{380AVC}{24DCV}
+\item 我厂3汽号轮机的AST电磁阀供电端子保险是\xz{C}。
+\xx{0.2A}{1A}{3A}{0.1A}
+\item 我厂4汽号轮机的AST电磁阀供电电压是\xz{B}。
+\xx{220ACV}{220DCV}{380AVC}{24DCV}
+\item 我厂4汽号轮机的主汽门电磁阀供电电压是\xz{A}。
+\xx{220ACV}{220DCV}{380AVC}{24DCV}
+\item 我厂次高压汽轮机ETS系统S7 200PLC与DEH系统之间数据传递采用哪种方式\xz{D}。
+\xx{OPC通讯}{RS 232/485通讯}{4-20mA}{PROFIBUS通讯}
+\end{enumerate}
+\section{\tkt{4}{2}{30}}
+\begin{enumerate}
+	\setcounter{enumi}{5}
+	\item 我厂次高压汽轮机ETS系统控制器使用的PLC型号为CPU 224 CN AC/DC/RLY，其中AC/DC/RLY分别对应着\tk{电源电压}/\tk{输入电压}/\tk{输出电压}，AC表示交流\tk{220V}，DC表示\tk{直流24V}，RLY表示\tk{继电器输出}，通过\tk{并联输入、输出}实现控制系统冗余。
+\item 汽轮机常规的超速保护有\tk{OPC}、\tk{电超速}、\tk{机械超速}三种。
+\item 我厂次高压汽轮机正常运行时，汽轮机的润滑油压由\tk{主油泵}供给，当润滑油压降低时应自动联动\tk{交流润滑油泵}。
+\item 电涡流传感器系统的三个组成部分是\tk{探头}、\tk{延长电缆}、\tk{前置器}。
+\end{enumerate}
+\section{\stt{20}}
+\begin{enumerate}
+	\setcounter{enumi}{9}
+	\item 下图为我厂次高压汽轮机AST模块油回路图，根据下图回答一下问题
+\\图中压力油和安全油作用分别是什么？\fenzhi{5}
+\wdt[3]{答：}\\
+\\图中1YV/2YV/3YV/4YV代表什么设备且电源分布情况？\fenzhi{5}
+\wdt[3]{答：}\\
+电磁阀什么状态下AST动作？\fenzhi{5}
+\wdt[3]{答：}\\
+图中压力表代表什么油压？作用是什么？\fenzhi{5}
+\wdt[3]{答：}\\
+%\includegraphics[angle=0,width=500pt,trim=0 0 0 0,clip]{picture/200plc.png}%答案需要替换下图片
+\includegraphics[angle=0,width=500pt,trim=0 0 0 0,clip]{picture/AST.png}%带答案图片
+
+\end{enumerate}
+\section{\jdt{40}}
+\begin{enumerate}
+	\setcounter{enumi}{10}
+\item 我厂次高压汽轮机ETS保护有哪些？其中DCS请求停机保护包含哪些？DEH请求停机保护包含哪些？\fenzhi{20}
+\wdt[6]{答：\\
+汽轮机轴承振动大：现场8支电涡流探头通过前置器输出电压信号至TSI系统，TSI系统对应卡件分别输出4-20mA信号至DCS系统后进行逻辑判断后触发DCS停机信号
+主油箱油位低：现场油位测量装置通过TSI机柜内变送器输出信号至TSI系统，TSI系统对应卡件分别输出4-20mA信号至DCS系统后进行逻辑判断后触发DCS停机信号
+轴承金属温度高与回油温度高：现场热电阻元件输出信号至TSI系统对应卡件后输出4-20mA信号至DCS系统后进行逻辑判断后触发DCS停机信号
+}
+\item 我厂次高压汽轮机ETS保护动作信号分别送至哪些设备？在ETS控制器故障情况下操作台急停按钮是否能正常触发ETS保护？DCS请求停机首出怎么复位？\fenzhi{20}
+\wdt[6]{答：\\
+汽轮机轴承振动大：现场8支电涡流探头通过前置器输出电压信号至TSI系统，TSI系统对应卡件分别输出4-20mA信号至DCS系统后进行逻辑判断后触发DCS停机信号
+主油箱油位低：现场油位测量装置通过TSI机柜内变送器输出信号至TSI系统，TSI系统对应卡件分别输出4-20mA信号至DCS系统后进行逻辑判断后触发DCS停机信号
+轴承金属温度高与回油温度高：现场热电阻元件输出信号至TSI系统对应卡件后输出4-20mA信号至DCS系统后进行逻辑判断后触发DCS停机信号
+}
+\end{enumerate}
+		\ifx \allfiles \undefined
+\end{document}
+\fi

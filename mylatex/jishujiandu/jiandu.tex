@@ -1,0 +1,47 @@
+\documentclass[UTF8]{ctexrep}
+\def\allfiles{}
+\usepackage[a4paper,centering,scale=0.8]{geometry}
+\usepackage{fancyhdr}
+\usepackage{lscape}
+\usepackage{rotating}%宽表格
+\usepackage{longtable}%长表格，表格分页
+\usepackage{amsmath}%数学
+\pagestyle{fancy}
+\lhead{2023年热工技术监督报告}
+\rhead{\leftmark}
+\cfoot{\thepage}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{amsmath}%数学分式符号
+\usepackage{cite}
+\usepackage[titletoc]{appendix}
+\usepackage{hyperref}
+\hypersetup{hypertex=true,colorlinks=true,linkcolor=black,citecolor=red,anchorcolor=blue}
+\title{2023年热工技术监督}
+\author{中节能潞安电力节能服务有限公司}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\listoftables
+
+\include{chapter1}%热控技术监督考核指标及统计报表
+\include{chapter2}%热控技术监督主要工作及安全情况
+\include{chapter3}%热控技术监督事件报告
+
+\appendix
+\begin{appendices}
+	\include{appendixA}%热控保护定制表
+	\include{appendixB}%热控专业定期工作标准卡
+	\include{appendixC}%热控专业典型巡检标准卡
+\end{appendices}
+
+\bibliographystyle{plain}
+\bibliography{ref}
+\addcontentsline{toc}{section}{参考标准}
+\begin{thebibliography}{99}
+	\bibitem{DL/T10562019} DL/T 1056 --- 2019.发电厂热工仪表及控制系统技术监督导则.国家能源局，2019-10-01
+	\bibitem{2} DL/T 1056 --- 2007.发电厂热工仪表及控制系统技术监督导则.国家发展和改革委员会，2007-12-01
+\end{thebibliography}
+\end{document}

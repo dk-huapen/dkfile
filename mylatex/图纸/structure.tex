@@ -1,0 +1,36 @@
+\usepackage{ifthen}
+%\usepackage[a3paper,landscape,showframe,margin=1.25in]{geometry}
+%\usepackage[a3paper,landscape,margin=1.1in]{geometry}
+\usepackage[a3paper,landscape,top=1.25in,bottom=0.8in,left=1in,right=1in]{geometry}
+\usepackage{tikz,units}
+\usepackage{circuitikz}
+\usepackage{subfig}
+\usetikzlibrary{backgrounds,circuits.ee.IEC.relay}
+\usetikzlibrary{positioning}
+\usepackage{tikzsymbols}
+\usepackage{pgffor}
+\usetikzlibrary {math}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[ER,OL]{\heiti \zihao{-5} 热工专业图纸}
+\fancyhead[OR,EL]{\heiti \zihao{-5} \leftmark}
+\fancyfoot[CE,CO]{热工专业图纸~第~\thepage~页（共 \pageref{LastPage} 页）}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\tikzset{
+box/.style={rectangle,minimum height=17pt,minimum width=20pt,text=red}
+}
+\tikzset{
+boxA/.style={rectangle,minimum height=17pt,minimum width=20pt,draw=black}
+}
+\tikzset{
+boxB/.style={rectangle,minimum height=17pt,minimum width=30pt,draw=black}
+}
+\tikzset{
+boxC/.style={rectangle,minimum height=17pt,minimum width=120pt,draw=black}
+}
+\tikzset{
+boxD/.style={minimum width=140pt,above left}
+}
