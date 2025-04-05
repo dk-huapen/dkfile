@@ -1,1 +1,10 @@
 *py~
+*.aux
+*.fls
+*.xdv
+*.log
+*.out
+*.toc
+*.lot
+*.fdb_latexmk
+*~
