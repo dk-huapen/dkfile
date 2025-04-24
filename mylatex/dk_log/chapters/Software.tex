@@ -284,8 +284,8 @@ latexmk ? #指定输出文件目录，这个暂时没弄明白
 \end{shell}
 
 中文的破折号你也许可以直接使用日常的输入方式。中文的省略号同样。但是注意，英文的省略号使用\latexline{ldots}这个命令而不是三个句点。
-\section{MySQL}
-MySQL是一款关系型数据库管理系统，这里主要记录下在Windows系统下的安装配置方法，在Linux下使用的是MariaDB，在搭建LAMP服务器中再具体介绍MariaDB的安装配置方法。MariaDB可以作为MySQL的替代品，MariaDB是开源的性能更加优秀。
+\section{MySQL和MariaDB}
+MySQL和MariaDB是两款关系型数据库管理系统，MariaDB可以作为MySQL的替代品，MariaDB是开源的性能更加优秀。这里主要记录在Windows系统下MySQL和在Linux下MariaDB安装配置方法，两款数据库操作基本相同，不同之处会特别指出。
 \subsection{安装MySQL}
 \href{https://downloads.mysql.com/archives/community/}{MySQL}官网网站可以下载各个版本，每种版本中有安装版和解压版两种，前者是直接安装不需要过多配置的傻瓜式安装，后者是解压后自己配置文件直接就可以使用的免安装版本，果断选择后者。这种方式在Windows下很方便，很直观自己知道每一步在做什么，其实也没有几部，不像安装包干了点啥都不知道，还有可能出现安装失败的情况。
 我这里使用的是MySQL5.5版本，原因就是初次使用网上有篇\href{https://blog.csdn.net/qq_30061785/article/details/102504115?spm=1001.2014.3001.5506}{参考教程}讲的就是这个版本。
@@ -303,17 +303,36 @@ flush privileges;
 GRANT SELECT ON tanhecha.* TO 'tanhechauser'@'localhost' IDENTIFIED BY 'tanhechapassword';
 #添加用户并授权select权限
 \end{shell}
-\subsection{配置MySQL}
+\subsection{安装配置MariaDB}
+下面以在\href{https://blog.csdn.net/erliujian111/article/details/135732876?spm=1001.2014.3001.5506}{Debian下安装MariaDB}进行记录。
+\begin{shell}
+sudo apt install mariadb-server mariadb-client
+#安装MariaDB数据库
+sudo apt purge mariadb-server#卸载MariaDB
+sudo rm -rf /var/lib/mysql/#彻底删除MariaDB
+sudo systemctl start mariadb #启动MariaDB数据库
+sudo systemctl enable mariadb #设置MariaDB自动启动
+sudo systemctl status mariadb #查看MariaDB状态
+sudo mariadb-secure-installation #初始化MariaDB数据库
+#包括设置root密码（默认为空），删除匿名用户等
+#有一项是禁止root用户远程登陆，需要根据个人需求选择
+mysql -u root -p#登陆MariaDB数据库
+\end{shell}
+\subsection{配置数据库}
 解压压缩包后，文件夹下有5个ini文件，这5个文件是针对用户五种情况下的配置文件，根据自己使用场景选择一个复制为my.ini文件，并修改部分设置主要是文件路径。
 \begin{shell}
 #开启日志备份
 #设置日志备份时间
 #在配置文件中打开独立的表空间
 innodb_file_per_table=1
-#在mysql中查看独立的表空间配置
-show variables like '%per_table%';
+#关闭从服务器效验，默认打开，需要关闭否则同步失败
+#slave-sql-verify-checksum=0#只有MariaDB有该配置
+
+#在mysql中查看配置
+show variables like '%per_table%';#独立的表空间配置
+show variables like '%checksum%';#同步校验配置
 \end{shell}
-\subsection{MySQL常用操作}
+\subsection{数据库常用操作}
 \subsubsection{备份与恢复数据库}
 我这里记录的备份是通过mysqldump工具将数据库备份到sql文本文件中，再登录数据库通过source命令将sql文件导入，整个恢复过程相当于按照备份的sql文件中sql语句操作数据库。
 
@@ -358,23 +377,6 @@ INSERT INTO course SELECT * FROM coursecop;
 \end{shell}
 \subsubsection{数据库同步}
 单向同步
-\section{MariaDB}
-讲解MySQL数据库时提到了MariaDB数据库，在Linux系统下还是安装使用MariaDB方便。MariaDB使用基本与MySQL相同，在这里记录在MariaDB下的操作。
-\subsection{安装配置MariaDB}
-下面以在\href{https://blog.csdn.net/erliujian111/article/details/135732876?spm=1001.2014.3001.5506}{Debian下安装MariaDB}进行记录。
-\begin{shell}
-sudo apt install mariadb-server mariadb-client
-#安装MariaDB数据库
-sudo apt purge mariadb-server#卸载MariaDB
-sudo rm -rf /var/lib/mysql/#彻底删除MariaDB
-sudo systemctl start mariadb #启动MariaDB数据库
-sudo systemctl enable mariadb #设置MariaDB自动启动
-sudo systemctl status mariadb #查看MariaDB状态
-sudo mariadb-secure-installation #初始化MariaDB数据库
-#包括设置root密码（默认为空），删除匿名用户等
-#有一项是禁止root用户远程登陆，需要根据个人需求选择
-mysql -u root -p#登陆MariaDB数据库
-\end{shell}
 \subsection{触发器}
 触发器是一种特殊的存储过程，它在插入，删除或修改特定表中的数据时触发执行，我是在更新数据表的同时用更新的数据计算更新另一张表内数据。
 触发器必须是在指定数据库内的，就是得先use database然后在在database上创建触发器。
