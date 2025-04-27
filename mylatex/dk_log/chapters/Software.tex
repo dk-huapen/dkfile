@@ -214,8 +214,10 @@ vim .gitignore
 \href{https://blog.csdn.net/weixin_30824277/article/details/98382857?spm=1001.2014.3001.5506}{windows下需要额外安装git}，安装git后会有一个类是linux的命令行工具Git Bash。
 \subsection{Git常用命令}
 \subsection{github}
-github是一款使用git命令作为基础框架的开源网站，可以把自己的项目分享到github上，gibhub上是无限制代码的。首先需要在github上注册一个账号，我使用的是自己的163邮箱，密码是死骑love巫妖!其实国内也有许多可以平替github的平台，而且github是国外平台，经常会网卡甚至掉线，不过我还是选择使用github，因为它足够原生吧，就像我选择Debian一样。
-\subsubsection{本地git与github关联}
+github是一款使用git命令作为基础框架的开源网站，可以把自己的项目分享到github上，gibhub上是无限制代码的。首先需要在github上注册一个账号，我使用的是自己的163邮箱，密码是死骑love巫妖!其实国内也有许多可以平替github的平台，而且github是国外平台，经常会网卡甚至掉线，不过我还是选择使用github，因为它足够原生吧，就像我选择Debian一样，其实可以使用github加速来缓解卡顿。
+
+可是把本地的git项目与github库关联，在本地修改项目同步项目，常见的认证方式有两种：1.SSH认证，一般是github仓库主人SSH密匙认证后可以免密访问；2.https认证，每次push操作需要输入账户密码。
+\subsubsection{本地git与github通过SSH认证关联关联}
 \begin{shell}
 #在本地创建一个ssh的可以，使用自己的邮箱
 ssh-keygen -t rsa -C "zhaohuapeng7947@163.com"
@@ -235,9 +237,18 @@ git clone <url> myhubname
 git clone -b master <url>#用github远程仓库master分支初始化本地仓库
 git push#将本地仓库更新推送至github
 git pull#从github获取更新
-
+\end{shell}
+\subsubsection{本地git与github通过https认证关联关联}
+\begin{shell}
+git remote -v#查看clone方式
+git remote rm origin#删除原来clone方式
+#添加新的clone方式
+git remote add origin git@github.com:dk-huapen/dkfile.git
+#设置跟踪分支
+git push --set-upstream origin master
 \end{shell}
 \subsubsection{github加速}
+在hosts文件增加指定github路径
 
 
 \section{make}
