@@ -116,8 +116,20 @@ if __name__ == "__main__":
 \subsubsection{添加第一个OPCUA变量}
 首先添加Devie，然后添加变量，选择刚刚添加的deveic，重要的是变量最下方的s和n需要按照UA服务器变量的ID输入。
 \section{SIS系统}
+	搭建SIS系统大体分为几个阶段：
+	第一阶段：通过OPC DA从DCS系统读取数据；
+	第二阶段：将读取的数据添加至OPC UA服务器，供外界读取；
+	第三阶段：SIS软件从OPC UA服务器读取数据并显示；
+	第四阶段：SIS软件将从OPC UA服务器读取数据存储形成历史数据并提供查询功能；
 	第一款软件无疑就是VIM了，那第二款肯定是Latex了，这玩意就是用他两鼓捣出来的。	编辑器的配置大概是需要讲解一下的，毕竟对于初学者来说是很头疼的事情。本手册就以\TeX\ studio为例进行配置。首先你应该安装一个\TeX{} Live，他是完全免费的，网址：\url{http://tug.org/texlive/}。
-\subsection{单向网闸配置}
+\subsection{KepServer采集DCS数据}
+\subsubsection{通过KepServer采集DCS数据}
+\subsubsection{通过KepServer采集DCS数据并存储至数据库}
+KepServer软件采集数据
+\subsection{Dcom编成采集DCS数据}
+注册OPCDA.dll
+\subsubsection{Python下的Dcom编成}
+\subsubsection{单向网闸配置}
 我接触单向网闸是在2024年9月份，记得当时是公司SIS系统按照等保测评要求在DCS系统和SIS系统中间使用了电力系统专用的单向隔离网闸，它的特点是数据只能从内网向外网正常传输，外网向内网传输数据只能是单Bit，所以就导致外网安装的软件KepWare无法正常发送连接请求到DCS系统OPC DA服务器，最后还是我使用Python语言DCOM编成从DCS OPC DA服务器读取出数据。
 \subsubsection{平台搭建}
 在Win7 SP1 64位操作系统安装NR软件后，配置主机IP地址为，用网线连接电脑和网闸内网管理口，ping测试正常，将2和1转换器插到内网console口，并在2和1转换器插入其中一个操作员秘匙。
