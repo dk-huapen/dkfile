@@ -347,6 +347,11 @@ lower_case_table_names=1
 #在mysql中查看配置,所有变量都可以查询
 show variables like '%per_table%';#独立的表空间配置
 show variables like '%checksum%';#同步校验配置
+show variables like '%datadir%';#查看数据库数据存储目录/var/lib/mysql
+
+cp -pr /var/lib/mysql /mnt/mysqldata#p复制文件夹属性
+
+datadir = /mnt/mysqldata/mysql#修改数据存储目录
 \end{shell}
 \subsection{数据库常用操作}
 \subsubsection{备份与恢复数据库}
@@ -427,6 +432,8 @@ start slave;
 show slave status\G;
 
 \end{shell}
+\subsubsection{数据库同步故障恢复}
+
 \subsection{触发器}
 触发器是一种特殊的存储过程，它在插入，删除或修改特定表中的数据时触发执行，我是在更新数据表的同时用更新的数据计算更新另一张表内数据。
 触发器必须是在指定数据库内的，就是得先use database然后在在database上创建触发器。
