@@ -446,11 +446,35 @@ show create trigger update_trigger2\G;#查看指定触发器
 drop trigger update_trigger2;#删除触发器
 \end{shell}
 \subsection{事物}
+\section{Redis}
+Redis，英文全称是Remote Dictionary Server（远程字典服务），是一个开源的使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。与MySQL数据库不同的是，Redis的数据是存在内存中的。它的读写速度非常快，每秒可以处理超过10万次读写操作。
+
+接触Redis是在搭建SIS系统过程中随着读取数据量慢慢变大，发现作为消费者的MySQL写速度赶不上生产者OPC DA速度导致队列一直在变大，系统数据刷新的测点时间偏差越来越大，在这种需求下找到了Redis，速度就是快，目前可以满足需求。
+\subsection{Redis安装配置}
+Debian10和Debian12下安装Redis很简单，Windows下安装有两种方式：一种是压缩包不需要安装，一种是安装包需要安装的，就和MySQL一样。但是官网没有windwos安装包，说是建议在linux下安装使用Redis可以最大发挥性能。
+
+Redis配置主要就是配置远程访问、密码等之类的。
+\begin{shell}
+use buff;#进入buff数据库
+#创建触发器
+create trigger update_trigger2 after update on ua for each row update boler set value = NEW.value where kks = left(OLD.kks,12);
+show triggers\G;#查看所有触发器
+show create trigger update_trigger2\G;#查看指定触发器
+drop trigger update_trigger2;#删除触发器
+\end{shell}
+\subsection{PHP安装PHPRedis扩展}
+安装PHP Redis扩展通常有两种方法：使用PECL安装和编译源代码安装。
+\subsection{在Debian11下使用PECL安装}
+\href{https://blog.csdn.net/weixin_42578963/article/details/142968319?spm=1001.2014.3001.5506}{Debian11下安装PHPRedis}
+\subsection{在Debian12下编译源代码安装}
+\href{https://blog.csdn.net/nbv12589/article/details/135626279?spm=1001.2014.3001.5506}{Debian12下安装PHPRedis}
 
 \section{PHP}
 PHP全称Hypertext Preprocessor，中文名：“超文本预处理器”是一种通用开源脚本语言。语法吸收了C语言、java和Perl的特点，利于学习，使用广泛，主要适用于web开发领域。用PHP做出的动态页面与其他的编程语言相比，PHP是将程序嵌入到HTML（标准通用标记语言下的一个应用）文档中去执行，执行效率比完全生成HTML标记的CGI要高许多；PHP还可以执行编译后代码，编译可以达到加密和优化代码运行，使代码运行更快。
 \subsection{phpmyadmin的使用}
 搭建LAMP平台后将解压后的phpmyadmin文件放到网站根目录下/var/www/html/即可访问数据库。
+\subsection{多版本PHP安装管理}
+\subsection{PHP扩展安装测试}
 \subsection{PHP二维码生成}
 PHP QRCode全称PHP Quick Response Code，是一个在PHP平台下生成二维码的开源库。\href{https://phpqrcode.sourceforge.net/}{官网}下有很多使用它生成二维码的例子，这里记录两种我使用过的情况。
 \subsubsection{静态网页直接显示二维码}
