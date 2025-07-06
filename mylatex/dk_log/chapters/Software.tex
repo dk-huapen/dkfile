@@ -455,12 +455,12 @@ Debian10和Debian12下安装Redis很简单，Windows下安装有两种方式：�
 
 Redis配置主要就是配置远程访问、密码等之类的。
 \begin{shell}
-use buff;#进入buff数据库
-#创建触发器
-create trigger update_trigger2 after update on ua for each row update boler set value = NEW.value where kks = left(OLD.kks,12);
-show triggers\G;#查看所有触发器
-show create trigger update_trigger2\G;#查看指定触发器
-drop trigger update_trigger2;#删除触发器
+requirepass foobared#foobared为登录密码，默认是注释掉的
+bind 127.0.0.1#注释掉后可以远程访问
+protected-mode yes#保护模式开启,no关闭远程模式
+#保护模式开启后同时满足两种情况会触发保护模式拒绝远程连接
+#bind未指定IP，未配置密码，否则需要关掉保护模式才可以远程访问
+
 \end{shell}
 \subsection{PHP安装PHPRedis扩展}
 安装PHP Redis扩展通常有两种方法：使用PECL安装和编译源代码安装。
