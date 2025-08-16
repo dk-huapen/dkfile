@@ -403,26 +403,29 @@ reset slave#重置从数据库
 \subsection{数据库同步}
 Mysql和MariaDB数据库本身就有master-slave数据同步功能，只需要开始配置并简单设置后就可以实现数据双向或单向同步，这里介绍单向同步-主数据库是MySQL5.5从数据库是MariaDB。
 \begin{shell}
-#主数据库配置
+#主数据库配置(MySQL)
+bind-address = 127.0.0.1#注释掉该行后可以远程访问,否则从服务器连接失败
 server-id = 1#标志号，从数据库和主id不一致即可
 log-bin=mysql-bin#设置记录日至的程序，注释后可不产生日志
 expire_logs_days=5#定时清理5天前日志
 binlog-do-db=database#要同步的数据库
-#从数据库配置，不需要打开日志
+#从数据库配置，不需要打开日志(MariaDB)
 server-id = 2#标志号，从数据库和主id不一致即可
 #关闭从服务器效验，MariaDB默认打开，需要关闭否则同步失败
 slave-sql-verify-checksum=0#只有MariaDB有该配置
 #主数据端工作
 #添加备份专用账户
 GRANT REPLICATION SLAVE ON *.* TO user@'%' IDENTIFIED BY 'password';
+#SISIO添加备份专用账户
+GRANT REPLICATION SLAVE ON *.* TO backup@'%' IDENTIFIED BY 'backup';
 flush privileges;#立即启用修改
 show master status;#记录file和position
 mysqldump -u root -p backDB > backDB.sql
 #从数据端工作
 CHANGE MASTER TO
-MASTER_HOST='192.168.0.100',#主数据库IP地址
-MASTER_USER='user',
-MASTER_PASSWORD='password',
+MASTER_HOST='192.168.5.123',#主数据库IP地址
+MASTER_USER='backup',
+MASTER_PASSWORD='backpu',
 MASTER_PORT=3306,
 MASTER_LOG_FILE='mysql-bin.000001',
 MASTER_LOG_POS=796,
