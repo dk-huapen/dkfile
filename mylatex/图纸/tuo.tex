@@ -1,0 +1,73 @@
+		\ifx \allfiles \undefined		%编译PPT时注释该行
+\documentclass{ctexart}
+\input{structure.tex}
+\lhead{热工专业图纸}
+\rhead{SIS系统网络拓扑图}
+\cfoot{热工专业图纸~第~\thepage~页 （共 \pageref{LastPage} 页）}
+\begin{document}
+		\else						%编译PPT时注释该行
+			\chapter{SIS系统网络拓扑图}	%编译PPT时注释该行
+		\newpage
+		\fi						%编译PPT时注释该行
+\begin{center}
+{\huge SIS系统网络拓扑图}\\
+\end{center}
+\begin{center}
+	\label{test}
+	\ref{test}
+\begin{figure}[!htp]
+\begin{tikzpicture}[scale=1]
+
+
+\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=30pt](LuanIO) at (26,-1) {LuanIO服务器};
+\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=20pt](firewall) at (36,2) {防火墙};
+	\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=20pt](cat) at (36,5) {公网光猫};
+\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=20pt](jianshi) at (46,5) {安全监视};
+\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=20pt](shenji) at (46,2) {日志审计};
+\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=20pt](Luan) at (46,-1) {潞安光电转换器};
+\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=30pt](SIS) at (26,2) {SIS服务器};
+\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=30pt](MIS) at (26,5) {MIS服务器};
+\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=20pt](switch) at (36,-1) {主交换机};
+\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=30pt](IO) at (26,-4) {IO服务器};
+\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=20pt](zha) at (26,-7) {横向隔离装置};
+	\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=30pt](FGD) at (31,-11) {脱硫接口机ENG2};
+\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=30pt](zhu) at (21,-11) {主机接口机ENG7};
+\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=20pt](FGDswitch) at (31,-14) {脱硫DCS交换机};
+\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=20pt](zhuswitch) at (21,-14) {主机DCS交换机};
+
+\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=30pt](Apache) at (36,-4) {Apache服务器};
+\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=20pt](ENGswitch) at (18,-1) {ENG交换机};
+\node[rectangle,rounded corners,draw=gray,node font={\sffamily\slshape},minimum width=100pt,minimum height=30pt](ENG) at (18,2) {ENG};
+
+	\draw(ENGswitch) -- node[left] {GE8} (18,0.5) node[above] {} -- node[left] {192.168.30.10}(ENG);
+	\draw(ENGswitch) -- node[above,sloped] {GE5} (22,0.5) node[above] {} -- node[above,sloped] {192.168.30.11}(SIS);
+	\draw(ENGswitch) -- node[above] {GE7} (22,-1) node[above] {} -- node[above] {192.168.30.13}(LuanIO);
+	\draw(ENGswitch) -- node[above,sloped] {GE6} (22,-2.5) node[above] {} -- node[above,sloped] {192.168.30.13}(IO);
+	\draw(switch) -- node[above] {GE19} (41,-1) node[left] {} -- node[above] {GE1}(Luan);
+	\draw(switch) -- node[above,sloped] {GE13} (31,0.5) node[left] {} -- node[above,sloped] {192.168.2.11}(SIS);
+	\draw(switch) -- node[above,sloped] {GE13} (31,0.5) node[left] {} -- node[above,sloped] {192.168.2.11}(SIS);
+	\draw(switch) -- node[above,sloped] {GE17} (31,-2.5) node[left] {} -- node[above,sloped] {192.168.2.20}(IO);
+	\draw(IO) -- node[above] {192.168.5.123} (31,-4) node[above] {} -- node[above] {192.168.5.124}(Apache);
+	\draw(firewall) -- node[above,sloped] {GE5} (31,3.5) node[left] {} -- node[above,sloped] {10.10.10.10}(MIS);
+	\draw(firewall) -- node[above,sloped] {GE6} (31,2) node[left] {} -- node[above,sloped] {10.10.9.9}(SIS);
+	\draw(firewall) -- node[left] {GE6} (36,3.5) node[left] {} -- node[left] {GE3}(cat);
+	\draw(firewall) -- node[above,sloped] {GE6} (41,3.5) node[left] {} -- node[above,sloped] {GE4}(jianshi);
+	\draw(firewall) -- node[above] {GE6} (41,2) node[left] {} -- node[above] {GE4}(shenji);
+	\coordinate(a1) at (25,-5);
+	\coordinate(b1) at (25,-6);
+	 \draw(a1) -- (b1);
+
+	\draw[-latex](zha) -- node[left] {外网1} (26,-5.3) node[left] {} -- node[left] {172.16.2.1}(IO);
+
+	\draw[-latex](zhu) -- node[above,sloped] {172.16.2.1} (23.5,-9) node[left] {} -- node[above,sloped] {内网2}(zha);
+	\draw[-latex](FGD) -- node[above,sloped] {172.16.2.1} (28.5,-9) node[left] {} -- node[above,sloped] {内网1}(zha);
+	\draw(zhu) -- node[left] {172.16.48.27} (21,-12.5) node[left] {} -- node[left] {GE6}(zhuswitch);
+	\draw(FGD) -- node[left] {172.16.52.21} (31,-12.5) node[left] {} -- node[left] {GE6}(FGDswitch);
+	
+\end{tikzpicture}
+\caption{SIS系统网络拓扑图}
+\end{figure}
+\end{center}
+		\ifx \allfiles \undefined
+\end{document}
+\fi
