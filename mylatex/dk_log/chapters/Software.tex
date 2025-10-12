@@ -471,6 +471,8 @@ protected-mode yes#保护模式开启,no关闭远程模式
 \href{https://blog.csdn.net/weixin_42578963/article/details/142968319?spm=1001.2014.3001.5506}{Debian11下安装PHPRedis}
 \subsection{在Debian12下编译源代码安装}
 \href{https://blog.csdn.net/nbv12589/article/details/135626279?spm=1001.2014.3001.5506}{Debian12下安装PHPRedis}
+\section{Prometheus}
+Prometheus数据库是一款时间数据库，可以用来采集操作系统或者数据库资源使用情况，通过granafa将数据展示出来
 
 \section{PHP}
 PHP全称Hypertext Preprocessor，中文名：“超文本预处理器”是一种通用开源脚本语言。语法吸收了C语言、java和Perl的特点，利于学习，使用广泛，主要适用于web开发领域。用PHP做出的动态页面与其他的编程语言相比，PHP是将程序嵌入到HTML（标准通用标记语言下的一个应用）文档中去执行，执行效率比完全生成HTML标记的CGI要高许多；PHP还可以执行编译后代码，编译可以达到加密和优化代码运行，使代码运行更快。
@@ -739,6 +741,10 @@ sudo systemctl enable grafana-server
 Grafana的使用比较复杂，安装完成后在浏览器使用http://localhost:3000就可以登录页面，首次登录用户名和密码都是admin，登录后需要修改密码。
 
 配置数据源，需要首先增加用户并授权指定数据库的select权限才能添加成功，否则会添加失败，用root用户无法设置权限不足。
+\subsubsection{Grafana监控windows系统资源}
+\subsubsection{Grafana监控linux系统资源}
+\subsubsection{Grafana监控mysql数据库}
+需要而外安装mysql_exporter服务将mysql数据暴露给
 
 
 
