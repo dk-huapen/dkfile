@@ -1,0 +1,16 @@
+\documentclass{ctexbook}
+\def\allfiles{}
+\usepackage[landscape]{geometry}
+\usepackage{tikz,units}
+\usepackage{circuitikz}
+\usetikzlibrary{backgrounds,circuits.ee.IEC.relay}
+\tikzset{
+	alt/.code args={<#1>#2#3}{%
+	},
+	visible/.code args={<#1>#2}{%
+	}
+}
+\begin{document}
+	\include{sootblower}%吹灰器
+	\include{packer}%吹灰器
+\end{document}

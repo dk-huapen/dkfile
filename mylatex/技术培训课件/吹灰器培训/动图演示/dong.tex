@@ -1,0 +1,230 @@
+% Animated beamer frame for tikz
+%Author:
+%wu xuping
+%Date:
+%2013-04-02
+% FileName:
+%main.tex
+% run:
+%  xelatex -shell-escape main
+%  xelatex -shell-escape main
+%required:
+%  Acrobat Reader version > 6
+
+\documentclass{ctexbeamer}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{backgrounds,circuits.ee.IEC.relay}
+%\usepackage[autoplay,loop]{animate}
+\usepackage{animate}
+
+
+\begin{document}
+	\begin{frame}
+  		吹灰器控制原理动态演示
+
+  		\begin{center}
+ 			\begin{animateinline}[loop, poster = first, controls, palindrome,
+    				begin={\begin{tikzpicture}[circuit ee IEC relay,thick,x=8\tikzcircuitssizeunit,y=4\tikzcircuitssizeunit]},
+    				end={\end{tikzpicture}}
+			]{2}
+				\node at (2.5,6) {吹灰器各元器件原始状态};
+				%第一帧：吹灰器各元器件原始状态
+				\draw (0,0)
+				to [make contact={turn switch={info=$GK$},term=8-i}] ++(1,0)
+				to [break contact={position switch={info=$LSR$}}] ++(1,0) node [contact,name=A1]{}
+				to [break contact={info=$CFi$}] ++(2,0)
+				to [relay coil={info=$CRi$,term=A1,term'=A2}] ++(1,0) -- ++(0,4)
+				to [break contact={thermal switch={info=$CRJi$}}]++(0,1) node [contact,name=N]{}
+				++(-4,0)node [contact,name=Di]{}
+				++(-1,0)node [contact,name=L]{} to (0,0);
+
+				\draw (0,3) node[contact]{}
+				to [make contact={push button={info=$START$}}] ++(1,0) node [contact,name=B1]{}
+				to [make contact={turn switch={info=$GK$}}] ++(1,0)
+				to [break contact={position switch={info=$LSF$}}] ++(1,0)
+				to [break contact={info=$CRi$}] ++(1,0)
+				to [relay coil={info=$CFi$,term=A1,term'=A2}] ++(1,0) node [contact,name=B2]{};
+		
+				\draw (Di) -- (B1) -- ++(0,-1.5) to [make contact={info=$CFi$}] ++(1,0) -- (A1);
+		
+				\node[above,red] at(N) {N};
+				\node[left,red] at(L) {A2-i};
+				\node[left,red] at(Di) {D-Li};
+				\newframe
+				\node at (2.5,6) {吹灰器退到位，急停旋钮旋至复位位};
+				%第二帧：吹灰器退到位，急停旋钮旋至复位位
+				\draw (0,0)
+				to [make contact={turn switch={info=$GK$},activated,term=8-i}] ++(1,0)
+				to [break contact={position switch={info=$LSR$},activated}] ++(1,0) node [contact,name=A1]{}
+				to [break contact={info=$CFi$}] ++(2,0)
+				to [relay coil={info=$CRi$,term=A1,term'=A2}] ++(1,0) -- ++(0,4)
+				to [break contact={thermal switch={info=$CRJi$}}]++(0,1) node [contact,name=N]{}
+				++(-4,0)node [contact,name=Di]{}
+				++(-1,0)node [contact,name=L]{} to (0,0);
+
+				\draw (0,3) node[contact]{}
+				to [make contact={push button={info=$START$}}] ++(1,0) node [contact,name=B1]{}
+				to [make contact={turn switch={info=$GK$},activated}] ++(1,0)
+				to [break contact={position switch={info=$LSF$}}] ++(1,0)
+				to [break contact={info=$CRi$}] ++(1,0)
+				to [relay coil={info=$CFi$,term=A1,term'=A2}] ++(1,0) node [contact,name=B2]{};
+		
+				\draw (Di) -- (B1) -- ++(0,-1.5) to [make contact={info=$CFi$}] ++(1,0) -- (A1);
+		
+				\node[above,red] at(N) {N};
+				\node[left,red] at(L) {A2-i};
+				\node[left,red] at(Di) {D-Li};
+				\newframe
+				\node at (2.5,6) {按下启动按钮后，吹灰器开始前进，退到位限位开关未脱开前};
+				%第三帧：按下启动按钮后，吹灰器开始前进，退到位限位开关未脱开前
+				\draw (0,0)
+				to [make contact={turn switch={info=$GK$},activated,term=8-i}] ++(1,0)
+				to [break contact={position switch={info=$LSR$},activated}] ++(1,0) node [contact,name=A1]{}
+				to [break contact={info=$CFi$},activated] ++(2,0)
+				to [relay coil={info=$CRi$,term=A1,term'=A2}] ++(1,0) -- ++(0,4)
+				to [break contact={thermal switch={info=$CRJi$}}]++(0,1) node [contact,name=N]{}
+				++(-4,0)node [contact,name=Di]{}
+				++(-1,0)node [contact,name=L]{} to (0,0);
+
+				\draw[red] (0,3) node[contact]{}
+				to [make contact={push button={info=$START$},activated}] ++(1,0) node [contact,name=B1]{}
+				to [make contact={turn switch={info=$GK$},activated}] ++(1,0)
+				to [break contact={position switch={info=$LSF$}}] ++(1,0)
+				to [break contact={info=$CRi$}] ++(1,0)
+				to [relay coil={info=$CFi$,{fill=red},term=A1,term'=A2}] ++(1,0) node [contact,name=B2]{};
+		
+				\draw (Di) -- (B1) -- ++(0,-1.5) to [make contact={info=$CFi$},activated] ++(1,0) -- (A1);
+		
+				\node[above,red] at(N) {N};
+				\node[left,red] at(L) {A2-i};
+				\node[left,red] at(Di) {D-Li};
+				\newframe
+				\node at (2.5,6) {吹灰器前进，退到位限位开关脱开，开始按钮未放开};
+				%第四帧：吹灰器开始前进，退到位限位开关脱开，开始按钮未放开
+				\draw[red] (0,0)
+				to [make contact={turn switch={info=$GK$},activated,term=8-i}] ++(1,0)
+				to [break contact={position switch={info=$LSR$}}] ++(1,0) node [contact,name=A1]{};
+				\draw (A1) to [break contact={info=$CFi$},activated] ++(2,0)
+				to [relay coil={info=$CRi$,term=A1,term'=A2}] ++(1,0) -- ++(0,4)
+				to [break contact={thermal switch={info=$CRJi$}}]++(0,1) node [contact,name=N]{}
+				++(-4,0)node [contact,name=Di]{}
+				++(-1,0)node [contact,name=L]{} to (0,0);
+
+				\draw[red] (0,3) node[contact]{}
+				to [make contact={push button={info=$START$},activated}] ++(1,0) node [contact,name=B1]{}
+				to [make contact={turn switch={info=$GK$},activated}] ++(1,0)
+				to [break contact={position switch={info=$LSF$}}] ++(1,0)
+				to [break contact={info=$CRi$}] ++(1,0)
+				to [relay coil={info=$CFi$,{fill=red},term=A1,term'=A2}] ++(1,0) node [contact,name=B2]{};
+		
+				\draw (Di) -- (B1);
+				\draw[red] (B1) -- ++(0,-1.5) to [make contact={info=$CFi$},activated] ++(1,0) -- (A1);
+				\node[above,red] at(N) {N};
+				\node[left,red] at(L) {A2-i};
+				\node[left,red] at(Di) {D-Li};
+				\newframe
+				\node at (2.5,6) {吹灰器前进，退到位限位开关脱开，开始按钮放开};
+				%第五帧：吹灰器开始前进，退到位限位开关脱开，开始按钮放开
+				\draw (0,0)
+				to [make contact={turn switch={info=$GK$},activated,term=8-i}] ++(1,0)
+				to [break contact={position switch={info=$LSR$}}] ++(1,0) node [contact,name=A1]{}
+				to [break contact={info=$CFi$},activated] ++(2,0)
+				to [relay coil={info=$CRi$,term=A1,term'=A2}] ++(1,0) -- ++(0,4)
+				to [break contact={thermal switch={info=$CRJi$}}]++(0,1) node [contact,name=N]{}
+				++(-4,0)node [contact,name=Di]{}
+				++(-1,0)node [contact,name=L]{} to (0,0);
+
+				\draw (0,3) node[contact]{}
+				to [make contact={push button={info=$START$}}] ++(1,0) node [contact,name=B1]{}
+				to [make contact={turn switch={info=$GK$},activated}] ++(1,0)
+				to [break contact={position switch={info=$LSF$}}] ++(1,0)
+				to [break contact={info=$CRi$}] ++(1,0)
+				to [relay coil={info=$CFi$,{fill=red},term=A1,term'=A2}] ++(1,0) node [contact,name=B2]{};
+		
+				\draw (Di) -- (B1) -- ++(0,-1.5) to [make contact={info=$CFi$},activated] ++(1,0) -- (A1);
+		
+				\node[above,red] at(N) {N};
+				\node[left,red] at(L) {A2-i};
+				\node[left,red] at(Di) {D-Li};
+				\newframe
+				\node at (2.5,6) {吹灰器前进到位后开始后退};
+				%第六帧：吹灰器前进到位后开始后退
+				\draw (0,0)
+				to [make contact={turn switch={info=$GK$},activated,term=8-i}] ++(1,0)
+				to [break contact={position switch={info=$LSR$}}] ++(1,0) node [contact,name=A1]{}
+				to [break contact={info=$CFi$}] ++(2,0)
+				to [relay coil={info=$CRi$,{fill=red},term=A1,term'=A2}] ++(1,0) -- ++(0,4)
+				to [break contact={thermal switch={info=$CRJi$}}]++(0,1) node [contact,name=N]{}
+				++(-4,0)node [contact,name=Di]{}
+				++(-1,0)node [contact,name=L]{} to (0,0);
+
+				\draw (0,3) node[contact]{}
+				to [make contact={push button={info=$START$}}] ++(1,0) node [contact,name=B1]{}
+				to [make contact={turn switch={info=$GK$},activated}] ++(1,0)
+				to [break contact={position switch={info=$LSF$},activated}] ++(1,0)
+				to [break contact={info=$CRi$}] ++(1,0)
+				to [relay coil={info=$CFi$,term=A1,term'=A2}] ++(1,0) node [contact,name=B2]{};
+		
+				\draw (Di) -- (B1) -- ++(0,-1.5) to [make contact={info=$CFi$}] ++(1,0) -- (A1);
+		
+				\node[above,red] at(N) {N};
+				\node[left,red] at(L) {A2-i};
+				\node[left,red] at(Di) {D-Li};
+				\newframe
+				\node at (2.5,6) {吹灰器后退过程中进到位限位开关复位};
+				%第七帧：吹灰器后退过程中进到位限位开关复位
+				\draw (0,0)
+				to [make contact={turn switch={info=$GK$},activated,term=8-i}] ++(1,0)
+				to [break contact={position switch={info=$LSR$}}] ++(1,0) node [contact,name=A1]{}
+				to [break contact={info=$CFi$}] ++(2,0)
+				to [relay coil={info=$CRi$,{fill=red},term=A1,term'=A2}] ++(1,0) -- ++(0,4)
+				to [break contact={thermal switch={info=$CRJi$}}]++(0,1) node [contact,name=N]{}
+				++(-4,0)node [contact,name=Di]{}
+				++(-1,0)node [contact,name=L]{} to (0,0);
+
+				\draw (0,3) node[contact]{}
+				to [make contact={push button={info=$START$}}] ++(1,0) node [contact,name=B1]{}
+				to [make contact={turn switch={info=$GK$},activated}] ++(1,0)
+				to [break contact={position switch={info=$LSF$}}] ++(1,0)
+				to [break contact={info=$CRi$}] ++(1,0)
+				to [relay coil={info=$CFi$,term=A1,term'=A2}] ++(1,0) node [contact,name=B2]{};
+		
+				\draw (Di) -- (B1) -- ++(0,-1.5) to [make contact={info=$CFi$}] ++(1,0) -- (A1);
+		
+				\node[above,red] at(N) {N};
+				\node[left,red] at(L) {A2-i};
+				\node[left,red] at(Di) {D-Li};
+				\newframe
+				\node at (2.5,6) {吹灰器后退到位};
+				%第八帧：吹灰器后退到位
+				\draw (0,0)
+				to [make contact={turn switch={info=$GK$},activated,term=8-i}] ++(1,0)
+				to [break contact={position switch={info=$LSR$},activated}] ++(1,0) node [contact,name=A1]{}
+				to [break contact={info=$CFi$}] ++(2,0)
+				to [relay coil={info=$CRi$,term=A1,term'=A2}] ++(1,0) -- ++(0,4)
+				to [break contact={thermal switch={info=$CRJi$}}]++(0,1) node [contact,name=N]{}
+				++(-4,0)node [contact,name=Di]{}
+				++(-1,0)node [contact,name=L]{} to (0,0);
+
+				\draw (0,3) node[contact]{}
+				to [make contact={push button={info=$START$}}] ++(1,0) node [contact,name=B1]{}
+				to [make contact={turn switch={info=$GK$},activated}] ++(1,0)
+				to [break contact={position switch={info=$LSF$}}] ++(1,0)
+				to [break contact={info=$CRi$}] ++(1,0)
+				to [relay coil={info=$CFi$,term=A1,term'=A2}] ++(1,0) node [contact,name=B2]{};
+		
+				\draw (Di) -- (B1) -- ++(0,-1.5) to [make contact={info=$CFi$}] ++(1,0) -- (A1);
+		
+				\node[above,red] at(N) {N};
+				\node[left,red] at(L) {A2-i};
+				\node[left,red] at(Di) {D-Li};
+ \end{animateinline}
+ \end{center}
+
+\end{frame}
+
+
+
+
+\end{document}
