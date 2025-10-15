@@ -140,72 +140,173 @@ draw=black,fill=black!20}
 		\end{block}
 \end{frame}
 \subsection{我厂DEH系统配置}
-\begin{frame}{800xA系统架构实例}{单网段系统：脱硫}
-		\begin{figure}[htbp]
- \centering
-\includegraphics[width=290pt,keepaspectratio]{dan.png}
-\caption{单网段系统分布图例}
-\label{fig:myphoto}
-\end{figure}
-	\end{frame}
-\begin{frame}{800xA系统架构实例}{多网段系统：主机}
-		\begin{figure}[htbp]
- \centering
-\includegraphics[width=290pt,keepaspectratio]{da.png}
-\caption{多网段系统分布图例}
-\label{fig:myphoto}
-\end{figure}
-	\end{frame}
-\begin{frame}{800xA系统架构实例}{我厂主机DCS系统架构}
-		\begin{block}{主机DCS系统共分为5个网段}
+\begin{frame}{800XA系统概念与架构}{800XA系统构架讨论：节点和网络}
+		\begin{block}{节点：系统中每一个控制器为一个节点}
 			\begin{enumerate}
-				\item  1号网段：1、2号炉及其附属设备的控制
+				\item  属性服务器（AS）：提供了属性目录和服务器和对象的管理、名字、安全等相关。
 				
-				\item  2号网段：3、4号炉炉及其附属设备的控制
+				\item  互接服务器（CS）：提供对控制器和其他数据源的访问
 				
-				\item   3号网段：1、2、3号汽轮机及其附属设备的控制
+				\item  工作站（ENG/OPR）：为用户提供监视、操作、组态功能
 				
-				\item  4号网段：4、5号汽轮机及其附属设备的控制
-\item   5号网段：公用管网、高加、除氧器、给水泵、化学加药及煤灰水处理等公用设备
+				\item  控制器（DPU）：根据CS命令，采集设备信息，通过预定义逻辑计算输出结果
 			\end{enumerate}
 		\end{block}
-\begin{alertblock}{\heiti 两台锅炉在同一网段！}
-			1、2号锅炉在1网段、3、4号锅炉在2网段\\  一个网段故障会影响两台锅炉！
-		\end{alertblock}
-	\end{frame}
-\subsection{800XA系统节点故障影响及处理方法}
-\begin{frame}{800XA系统节点故障影响及处理方法}{各节点故障影响}
-\begin{block}{\heiti 单台服务器故障}
-			每组服务器冗余配置，并且无扰切换，单台服务器故障不会影响机组正常运行，系统会有报警。
-		\end{block}
-\pause
-\begin{exampleblock}{\heiti 两台服务器均故障！}
-			\begin{enumerate}
-				\item  AS服务器故障：失去对所有设备监视、操作功能
-				
-				\item   CS服务器故障：失去对该网段设备的监视、操作功能。
-				
-			\end{enumerate}
-		\end{exampleblock}
-\pause
-\begin{alertblock}{\heiti 服务器故障时控制器不受任何影响！！！}
-			设备运行状态、相关联锁和自动功能正常！
-		\end{alertblock}
 \end{frame}
-\begin{frame}{800XA系统节点故障影响及处理方法}{节点故障该做什么}
-\begin{block}{\heiti 单台服务器故障，操作员站画面短时间打叉}
-			操作员站自连接至备用服务器，恢复后正常操作。
+\subsection{我厂DEH系统介绍}
+\begin{frame}{我厂DEH系统}{1号汽轮机主控画面介绍}
+		\begin{figure}[htbp]
+ \centering
+\includegraphics[width=300pt,keepaspectratio]{pic/zhu.png}
+\caption{1号汽轮机DEH主控画面}
+\label{fig:myphoto}
+\end{figure}
+	\end{frame}
+\begin{frame}{1号汽轮机主控画面状态}{系统状态及汽轮机关键参数}
+\begin{block}{DEH系统状态介绍}
+			\begin{enumerate}
+				\item 系统报警
+				\item 通讯状态
+			\end{enumerate}
 		\end{block}
-\pause
-\begin{exampleblock}{\heiti 两台服务器均故障，失去监视操作功能！}
+\begin{block}{汽轮机状态介绍}
+			\begin{enumerate}
+				\item 超速保护器状态
+				\item OOTTV状态
+				\item OOTV状态
+				\item TRIP动作状态
+				\item 发电机并网状态
+			\end{enumerate}
+		\end{block}
+\end{frame}
+\begin{frame}{1号汽轮机主控画面状态}{汽轮机当前操作模式}
+\begin{block}{DEH系统状态介绍}
+			\begin{enumerate}
+				\item 转速控制投入
+				\item 功率控制投入
+				\item 抽汽控制投入
+				\item 压力控制投入
+			\end{enumerate}
+		\end{block}
+\begin{block}{DEH系统状态介绍}
+			\begin{enumerate}
+				\item OPC动作：转速大于103或并网信号消失
+				\item 转速在临界区：转速在1500到3000rpm，升速率默认
+			\end{enumerate}
+		\end{block}
+\end{frame}
+\begin{frame}{1号汽轮机DEH操作介绍}{汽轮机启动}
+  		\begin{columns}
+			\column{.5\textwidth}
+\begin{figure}
+%\centering
+\includegraphics[angle=0,width=150pt,trim=0 0 0 0,clip]{pic/qidong.png}\\
+\includegraphics[angle=0,width=150pt,trim=0 0 0 0,clip]{pic/zhuansukongzhi.png}
+%\caption{两线制接线图}
+	
+\end{figure}
+	\column{.5\textwidth}
+\begin{block}{汽轮机启动允许条件}
+			\begin{enumerate}
+				\item OOTV全开
+				\item OOTTV全开
+				\item 控制油压正常
+				\item 润滑油压正常
+				\end{enumerate}
+\end{block}
+\begin{exampleblock}{启动操作}
+			\begin{enumerate}
+				\item 按下启动机组按钮
+				\item 机组进入转速控制模式
+				\item 根据规程开始冲转暖机
+				\end{enumerate}
+\end{exampleblock}
+		\end{columns}
+\end{frame}
+\begin{frame}{1号汽轮机DEH操作介绍}{汽轮机静态阀门试验}
+  		\begin{columns}
+			\column{.5\textwidth}
+\begin{figure}
+%\centering
+\includegraphics[angle=0,width=150pt,trim=0 0 0 0,clip]{pic/tiaomenjingtaishiyan.png}
+%\caption{两线制接线图}
+	
+\end{figure}
+	\column{.5\textwidth}
+\begin{block}{高调门拉阀试验}
+			\begin{enumerate}
+				\item  与预先去皮比较的皮重偏差
+				\item  总皮重值相对于额定负荷
+				\end{enumerate}
+\end{block}
+\begin{block}{调门拉阀试验}
+			\begin{description}
+				\item[小于？]修正P04.05
+				\item[大于？]超出允许误差
+				\end{description}
+\end{block}
+\begin{alertblock}{注意！！}
 			
-				服务器恢复正常前安排专人到现场监护重要设备和参数，确认短时间无法恢复则打闸停机。
+				按下确认自动修改P04.05
+\end{alertblock}
+		\end{columns}
+\end{frame}
+\begin{frame}{1号汽轮机DEH操作介绍}{汽轮机左右导汽管阀门操作}
+  		\begin{columns}
+			\column{.5\textwidth}
+\begin{figure}
+%\centering
+\includegraphics[angle=0,width=150pt,trim=0 0 0 0,clip]{pic/oottv.png}\\
+\includegraphics[angle=0,width=150pt,trim=0 0 0 0,clip]{pic/ootv.png}
+%\caption{两线制接线图}
+	
+\end{figure}
+	\column{.5\textwidth}
+\begin{block}{回路特点}
+			\begin{enumerate}
+				\item  与预先去皮比较的皮重偏差
+				\item  总皮重值相对于额定负荷
+				\end{enumerate}
+\end{block}
+\begin{exampleblock}{标定结果评估}
+			\begin{description}
+				\item[小于？]修正P04.05
+				\item[大于？]超出允许误差
+				\end{description}
+\end{exampleblock}
+\begin{alertblock}{注意！！}
 			
-		\end{exampleblock}
-\pause
-\begin{alertblock}{\heiti 操作员站无法监视调整工况！}
-			故障时工况稳定？故障时正在调整工况？
-		\end{alertblock}
+				按下确认自动修改P04.05
+\end{alertblock}
+		\end{columns}
+\end{frame}
+\begin{frame}{1号汽轮机DEH操作介绍}{汽轮机并网后负荷控制}
+  		\begin{columns}
+			\column{.5\textwidth}
+\begin{figure}
+%\centering
+\includegraphics[angle=0,width=150pt,trim=0 0 0 0,clip]{pic/fuhe.png}
+%\caption{两线制接线图}
+	
+\end{figure}
+	\column{.5\textwidth}
+\begin{block}{回路特点}
+			\begin{enumerate}
+				\item  与预先去皮比较的皮重偏差
+				\item  总皮重值相对于额定负荷
+				\end{enumerate}
+\end{block}
+\begin{exampleblock}{标定结果评估}
+			\begin{description}
+				\item[小于？]修正P04.05
+				\item[大于？]超出允许误差
+				\end{description}
+\end{exampleblock}
+\begin{alertblock}{注意！！}
+			
+				按下确认自动修改P04.05
+\end{alertblock}
+		\end{columns}
 \end{frame}
 \section{DEH系统设备讲解}
 \subsection{系统转速}
@@ -437,6 +538,34 @@ draw=black,fill=black!20}
 		\end{block}
 \end{frame}
 \subsection{在线试验}
+\begin{frame}{1号汽轮机DEH操作介绍}{汽轮机静态阀门试验}
+  		\begin{columns}
+			\column{.5\textwidth}
+\begin{figure}
+%\centering
+\includegraphics[angle=0,width=150pt,trim=0 0 0 0,clip]{pic/shiyan.png}
+%\caption{两线制接线图}
+	
+\end{figure}
+	\column{.5\textwidth}
+\begin{block}{回路特点}
+			\begin{enumerate}
+				\item  与预先去皮比较的皮重偏差
+				\item  总皮重值相对于额定负荷
+				\end{enumerate}
+\end{block}
+\begin{exampleblock}{标定结果评估}
+			\begin{description}
+				\item[小于？]修正P04.05
+				\item[大于？]超出允许误差
+				\end{description}
+\end{exampleblock}
+\begin{alertblock}{注意！！}
+			
+				按下确认自动修改P04.05
+\end{alertblock}
+		\end{columns}
+\end{frame}
 \begin{frame}{我厂DCS系统架构实例}{重要辅机系统在控制器内分布情况}
 \begin{block}{\heiti 分散布置的系统}
 			\begin{enumerate}

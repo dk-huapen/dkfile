@@ -1,0 +1,862 @@
+% Animated beamer frame for tikz
+%Author:
+%wu xuping
+%Date:
+%2013-04-02
+% FileName:
+%main.tex
+% run:
+%  xelatex -shell-escape main
+%  xelatex -shell-escape main
+%required:
+%  Acrobat Reader version > 6
+
+\documentclass[8pt]{ctexbeamer}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{backgrounds,circuits.ee.IEC.relay}
+%\usepackage[autoplay,loop]{animate}
+\usepackage{animate}
+
+
+\begin{document}
+	\begin{frame}
+  		\begin{center}
+ 			\begin{animateinline}[loop, poster = first, controls, palindrome,
+    				begin={\begin{tikzpicture}[circuit ee IEC relay,thick,scale=1,x=6\tikzcircuitssizeunit,y=5\tikzcircuitssizeunit]},
+	%begin={\begin{tikzpicture}[circuit ee IEC relay,thick]},
+    				end={\end{tikzpicture}}
+			]{2}
+				\node at (4,6) {吹灰器各元器件原始状态};
+			\draw (0,0) -- ++(0,1.2) node [contact,name=B1]{}
+				-- ++(0,1.2)node [contact,name=C1]{}
+-- ++(0,1.2)node [contact,name=D1]{}
+-- ++(0,1.2)node [contact,name=E1]{};
+
+	\draw (D1) -- ++(1,0)
+		to [make contact={name=GK1,term=8-i}] ++(1,0)
+		to [break contact={position switch={info=$LSR$}}] ++(1,0)
+		node [contact,name=D2]{}
+	to [make contact={info=$KA1J$}] ++(1,0) -- ++(1,0)
+		to [break contact={info=$DJ1F$}] ++(1,0)
+		to [relay coil={info=$DJ1R$,term=A2,term'=A1}] ++(1,0) 
+		node [contact,name=D3]{}
+		-- ++(0,1.5)
+		to [break contact={thermal switch={info=$CRJi$}}] ++(0,1)node [contact,name=N]{}
+		++(-6,0)node [contact,name=Di]{}
+++(-1,0)node [contact,name=L]{} to (0,0);
+				
+
+		\draw (E1) node[contact]{}
+		to [make contact={push button={info=$START$}}] ++(1,0)
+		node [contact,name=E2]{}
+		to [make contact={turn switch={info=$GK$},name=GK2}] ++(1,0)
+		node [contact,name=E3]{}
+		to [break contact={position switch={info=$LSF$}}] ++(1,0)
+		to [break contact={info=OA1J}] ++(1,0)
+		to [break contact={info=DJ1J}] ++(1,0)
+		to [break contact={info=DJ1R}] ++(1,0)
+		to [relay coil={info=DJ1F,term=A2,term'=A1}] ++(1,0)
+		node [contact,name=E4]{};
+
+\draw[dashed](GK1.mid) -- (GK2.mid);
+
+		\draw (Di) -- (E2);
+		\draw (E3) -- ++(0,-0.6) to [make contact={info={[right=0.3cm]:DJ1F}}] ++(1,0) -- (D2);
+
+		\draw (D2) -- ++(0,-1.2)
+		to [break contact={info=DJ1F}] ++(1,0) -- ++(2,0)
+		to [relay coil={info=DJ1J,term=A2,term'=A1}] ++(1,0)
+		node [contact,name=C3]{};
+\node[above,blue] at(N) {N};
+\node[left,red] at(L) {A1};
+\node[left,red] at(Di) {D-DJ1};
+
+\draw (0,0) -- ++(1,0)
+to [break contact={info=OA1J}] ++(1,0)
+to [make contact={info=DJ1J}] ++(1,0)
+to [break contact={delayed deactivation={info=KT3}}] ++(1,0) -- ++(2,0)
+to [relay coil={slow operating={info=KT1,term=A2,term'=A1}}]++(1,0) -- (D3);
+
+\draw (B1)
+to [make contact={delayed deactivation={info=KT1}}] ++(1,0)
+node [contact,name=B2]{}
+to [relay coil={info=KA1J,term=A2,term'=A1}] ++(1,0)
+node [contact,name=B3]{}
+-- ++(5,0)
+node [contact,name=B4]{};
+
+\draw (C1)
+to [make contact={info=OA1J}] ++(1,0)
+node [contact,name=C2]{}
+to [relay coil={slow operating={info=KT3}}]++(1,0)
+to (B3);
+
+\draw (B2) -- (C2);
+\newframe
+\node at (4,6) {吹灰器退到位，急停旋钮复位};
+			\draw (0,0) -- ++(0,1.2) node [contact,name=B1]{}
+				-- ++(0,1.2)node [contact,name=C1]{}
+-- ++(0,1.2)node [contact,name=D1]{}
+-- ++(0,1.2)node [contact,name=E1]{};
+
+	\draw (D1) -- ++(1,0)
+		to [make contact={name=GK1,term=8-i},activated] ++(1,0)
+		to [break contact={position switch={info=$LSR$},activated}] ++(1,0)
+		node [contact,name=D2]{}
+	to [make contact={info=$KA1J$}] ++(1,0) -- ++(1,0)
+		to [break contact={info=$DJ1F$}] ++(1,0)
+		to [relay coil={info=$DJ1R$,term=A2,term'=A1}] ++(1,0) 
+		node [contact,name=D3]{}
+		-- ++(0,1.5)
+		to [break contact={thermal switch={info=$CRJi$}}] ++(0,1)node [contact,name=N]{}
+		++(-6,0)node [contact,name=Di]{}
+++(-1,0)node [contact,name=L]{} to (0,0);
+				
+
+		\draw (E1) node[contact]{}
+		to [make contact={push button={info=$START$}}] ++(1,0)
+		node [contact,name=E2]{}
+		to [make contact={turn switch={info=$GK$},name=GK2,activated}] ++(1,0)
+		node [contact,name=E3]{}
+		to [break contact={position switch={info=$LSF$}}] ++(1,0)
+		to [break contact={info=OA1J}] ++(1,0)
+		to [break contact={info=DJ1J}] ++(1,0)
+		to [break contact={info=DJ1R}] ++(1,0)
+		to [relay coil={info=DJ1F,term=A2,term'=A1}] ++(1,0)
+		node [contact,name=E4]{};
+
+\draw[dashed](GK1.mid) -- (GK2.mid);
+
+		\draw (Di) -- (E2);
+		\draw (E3) -- ++(0,-0.6) to [make contact={info={[right=0.3cm]:DJ1F}}] ++(1,0) -- (D2);
+
+		\draw (D2) -- ++(0,-1.2)
+		to [break contact={info=DJ1F}] ++(1,0) -- ++(2,0)
+		to [relay coil={info=DJ1J,term=A2,term'=A1}] ++(1,0)
+		node [contact,name=C3]{};
+\node[above,blue] at(N) {N};
+\node[left,red] at(L) {A1};
+\node[left,red] at(Di) {D-DJ1};
+
+\draw (0,0) -- ++(1,0)
+to [break contact={info=OA1J}] ++(1,0)
+to [make contact={info=DJ1J}] ++(1,0)
+to [break contact={delayed deactivation={info=KT3}}] ++(1,0)-- ++(2,0)
+to [relay coil={slow operating={info=KT1,term=A2,term'=A1}}]++(1,0)
+-- (D3);
+
+\draw (B1)
+to [make contact={delayed deactivation={info=KT1}}] ++(1,0)
+node [contact,name=B2]{}
+to [relay coil={info=KA1J,term=A2,term'=A1}] ++(1,0)
+node [contact,name=B3]{}
+-- ++(5,0)
+node [contact,name=B4]{};
+
+\draw (C1)
+to [make contact={info=OA1J}] ++(1,0)
+node [contact,name=C2]{}
+to [relay coil={slow operating={info=KT3}}]++(1,0)
+to (B3);
+
+\draw (B2) -- (C2);
+\newframe
+\node at (4,6) {按下启动按钮后，吹灰器开始前进，退到位限位开关未脱开前};
+			\draw (0,0) -- ++(0,1.2) node [contact,name=B1]{}
+				-- ++(0,1.2)node [contact,name=C1]{}
+-- ++(0,1.2)node [contact,name=D1]{}
+-- ++(0,1.2)node [contact,name=E1]{};
+
+	\draw (D1) -- ++(1,0)
+		to [make contact={name=GK1,term=8-i},activated] ++(1,0)
+		to [break contact={position switch={info=$LSR$},activated}] ++(1,0)
+		node [contact,name=D2]{}
+	to [make contact={info=$KA1J$}] ++(1,0) -- ++(1,0)
+		to [break contact={info=$DJ1F$},activated] ++(1,0)
+		to [relay coil={info=$DJ1R$,term=A2,term'=A1}] ++(1,0) 
+		node [contact,name=D3]{}
+		-- ++(0,1.5)
+		to [break contact={thermal switch={info=$CRJi$}}] ++(0,1)node [contact,name=N]{}
+		++(-6,0)node [contact,name=Di]{}
+++(-1,0)node [contact,name=L]{} to (0,0);
+				
+
+		\draw[red] (E1) node[contact]{}
+		to [make contact={push button={info=$START$},activated}] ++(1,0)
+		node [contact,name=E2]{}
+		to [make contact={turn switch={info=$GK$},name=GK2,activated}] ++(1,0)
+		node [contact,name=E3]{}
+		to [break contact={position switch={info=$LSF$}}] ++(1,0)
+		to [break contact={info=OA1J}] ++(1,0)
+		to [break contact={info=DJ1J}] ++(1,0)
+		to [break contact={info=DJ1R}] ++(1,0)
+		to [relay coil={info=DJ1F,{fill=red},term=A2,term'=A1}] ++(1,0)
+		node [contact,name=E4]{};
+
+\draw[dashed](GK1.mid) -- (GK2.mid);
+
+		\draw (Di) -- (E2);
+		\draw (E3) -- ++(0,-0.6) to [make contact={info={[right=0.3cm]:DJ1F},activated}] ++(1,0) -- (D2);
+
+		\draw (D2) -- ++(0,-1.2)
+		to [break contact={info=DJ1F,activated}] ++(1,0) -- ++(2,0)
+		to [relay coil={info=DJ1J,term=A2,term'=A1}] ++(1,0)
+		node [contact,name=C3]{};
+\node[above,blue] at(N) {N};
+\node[left,red] at(L) {A1};
+\node[left,red] at(Di) {D-DJ1};
+
+\draw (0,0) -- ++(1,0)
+to [break contact={info=OA1J}] ++(1,0)
+to [make contact={info=DJ1J}] ++(1,0)
+to [break contact={delayed deactivation={info=KT3}}] ++(1,0)-- ++(2,0)
+to [relay coil={slow operating={info=KT1,term=A2,term'=A1}}]++(1,0)
+ -- (D3);
+
+\draw (B1)
+to [make contact={delayed deactivation={info=KT1}}] ++(1,0)
+node [contact,name=B2]{}
+to [relay coil={info=KA1J,term=A2,term'=A1}] ++(1,0)
+node [contact,name=B3]{}
+-- ++(5,0)
+node [contact,name=B4]{};
+
+\draw (C1)
+to [make contact={info=OA1J}] ++(1,0)
+node [contact,name=C2]{}
+to [relay coil={slow operating={info=KT3}}]++(1,0)
+to (B3);
+
+\draw (B2) -- (C2);
+\newframe
+\node at (4,6) {吹灰器前进，退到位限位开关脱开，开始按钮未放开};
+			\draw (0,0) -- ++(0,1.2) node [contact,name=B1]{}
+				-- ++(0,1.2)node [contact,name=C1]{}
+-- ++(0,1.2)node [contact,name=D1]{}
+-- ++(0,1.2)node [contact,name=E1]{};
+
+	\draw[red] (D1) -- ++(1,0)
+		to [make contact={name=GK1,term=8-i},activated] ++(1,0)
+		to [break contact={position switch={info=$LSR$}}] ++(1,0)
+		node [contact,name=D2]{};
+\draw (D2)
+	to [make contact={info=$KA1J$}] ++(1,0) -- ++(1,0)
+		to [break contact={info=$DJ1F$},activated] ++(1,0)
+		to [relay coil={info=$DJ1R$,term=A2,term'=A1}] ++(1,0) 
+		node [contact,name=D3]{}
+		-- ++(0,1.5)
+		to [break contact={thermal switch={info=$CRJi$}}] ++(0,1)node [contact,name=N]{}
+		++(-6,0)node [contact,name=Di]{}
+++(-1,0)node [contact,name=L]{} to (0,0);
+				
+
+		\draw[red] (E1) node[contact]{}
+		to [make contact={push button={info=$START$},activated}] ++(1,0)
+		node [contact,name=E2]{}
+		to [make contact={turn switch={info=$GK$},name=GK2,activated}] ++(1,0)
+		node [contact,name=E3]{}
+		to [break contact={position switch={info=$LSF$}}] ++(1,0)
+		to [break contact={info=OA1J}] ++(1,0)
+		to [break contact={info=DJ1J}] ++(1,0)
+		to [break contact={info=DJ1R}] ++(1,0)
+		to [relay coil={info=DJ1F,{fill=red},term=A2,term'=A1}] ++(1,0)
+		node [contact,name=E4]{};
+
+\draw[dashed](GK1.mid) -- (GK2.mid);
+
+		\draw (Di) -- (E2);
+		\draw[red] (E3) -- ++(0,-0.6) to [make contact={info={[right=0.3cm]:DJ1F},activated}] ++(1,0) -- (D2);
+
+		\draw (D2) -- ++(0,-1.2)
+		to [break contact={info=DJ1F,activated}] ++(1,0) -- ++(2,0)
+		to [relay coil={info=DJ1J,term=A2,term'=A1}] ++(1,0)
+		node [contact,name=C3]{};
+\node[above,blue] at(N) {N};
+\node[left,red] at(L) {A1};
+\node[left,red] at(Di) {D-DJ1};
+
+\draw (0,0) -- ++(1,0)
+to [break contact={info=OA1J}] ++(1,0)
+to [make contact={info=DJ1J}] ++(1,0)
+to [break contact={delayed deactivation={info=KT3}}] ++(1,0)-- ++(2,0)
+to [relay coil={slow operating={info=KT1,term=A2,term'=A1}}]++(1,0)
+ -- (D3);
+
+\draw (B1)
+to [make contact={delayed deactivation={info=KT1}}] ++(1,0)
+node [contact,name=B2]{}
+to [relay coil={info=KA1J,term=A2,term'=A1}] ++(1,0)
+node [contact,name=B3]{}
+-- ++(5,0)
+node [contact,name=B4]{};
+
+\draw (C1)
+to [make contact={info=OA1J}] ++(1,0)
+node [contact,name=C2]{}
+to [relay coil={slow operating={info=KT3}}]++(1,0)
+to (B3);
+
+\draw (B2) -- (C2);
+\newframe
+\node at (4,6) {吹灰器前进，退到位限位开关脱开，开始按钮放开};
+			\draw (0,0) -- ++(0,1.2) node [contact,name=B1]{}
+				-- ++(0,1.2)node [contact,name=C1]{}
+-- ++(0,1.2)node [contact,name=D1]{}
+-- ++(0,1.2)node [contact,name=E1]{};
+
+	\draw[red] (D1) -- ++(1,0)
+		to [make contact={name=GK1,term=8-i},activated] ++(1,0)
+		to [break contact={position switch={info=$LSR$}}] ++(1,0)
+		node [contact,name=D2]{};
+\draw (D2)
+	to [make contact={info=$KA1J$}] ++(1,0) -- ++(1,0)
+		to [break contact={info=$DJ1F$},activated] ++(1,0)
+		to [relay coil={info=$DJ1R$,term=A2,term'=A1}] ++(1,0) 
+		node [contact,name=D3]{}
+		-- ++(0,1.5)
+		to [break contact={thermal switch={info=$CRJi$}}] ++(0,1)node [contact,name=N]{}
+		++(-6,0)node [contact,name=Di]{}
+++(-1,0)node [contact,name=L]{} to (0,0);
+				
+
+		\draw (E1) node[contact]{}
+		to [make contact={push button={info=$START$}}] ++(1,0)
+		node [contact,name=E2]{}
+		to [make contact={turn switch={info=$GK$},name=GK2,activated}] ++(1,0)
+		node [contact,name=E3]{};
+\draw[red] (E3) node[contact]{}
+		to [break contact={position switch={info=$LSF$}}] ++(1,0)
+		to [break contact={info=OA1J}] ++(1,0)
+		to [break contact={info=DJ1J}] ++(1,0)
+		to [break contact={info=DJ1R}] ++(1,0)
+		to [relay coil={info=DJ1F,{fill=red},term=A2,term'=A1}] ++(1,0)
+		node [contact,name=E4]{};
+
+\draw[dashed](GK1.mid) -- (GK2.mid);
+
+		\draw (Di) -- (E2);
+		\draw[red] (E3) -- ++(0,-0.6) to [make contact={info={[right=0.3cm]:DJ1F},activated}] ++(1,0) -- (D2);
+
+		\draw (D2) -- ++(0,-1.2)
+		to [break contact={info=DJ1F,activated}] ++(1,0) -- ++(2,0)
+		to [relay coil={info=DJ1J,term=A2,term'=A1}] ++(1,0)
+		node [contact,name=C3]{};
+\node[above,blue] at(N) {N};
+\node[left,red] at(L) {A1};
+\node[left,red] at(Di) {D-DJ1};
+
+\draw (0,0) -- ++(1,0)
+to [break contact={info=OA1J}] ++(1,0)
+to [make contact={info=DJ1J}] ++(1,0)
+to [break contact={delayed deactivation={info=KT3}}] ++(1,0)-- ++(2,0)
+to [relay coil={slow operating={info=KT1,term=A2,term'=A1}}]++(1,0)
+ -- (D3);
+
+\draw (B1)
+to [make contact={delayed deactivation={info=KT1}}] ++(1,0)
+node [contact,name=B2]{}
+to [relay coil={info=KA1J,term=A2,term'=A1}] ++(1,0)
+node [contact,name=B3]{}
+-- ++(5,0)
+node [contact,name=B4]{};
+
+\draw (C1)
+to [make contact={info=OA1J}] ++(1,0)
+node [contact,name=C2]{}
+to [relay coil={slow operating={info=KT3}}]++(1,0)
+to (B3);
+
+\draw (B2) -- (C2);
+\newframe
+\node at (4,6) {吹灰器前进到位后，开始准备后退，吹扫停留时间KT1开始计时};
+			\draw (0,0) -- ++(0,1.2) node [contact,name=B1]{}
+				-- ++(0,1.2)node [contact,name=C1]{}
+-- ++(0,1.2)node [contact,name=D1]{}
+-- ++(0,1.2)node [contact,name=E1]{};
+
+	\draw[red] (D1) -- ++(1,0)
+		to [make contact={name=GK1,term=8-i},activated] ++(1,0)
+		to [break contact={position switch={info=$LSR$}}] ++(1,0)
+		node [contact,name=D2]{};
+\draw (D2)
+	to [make contact={info=$KA1J$}] ++(1,0) -- ++(1,0)
+		to [break contact={info=$DJ1F$}] ++(1,0)
+		to [relay coil={info=$DJ1R$,term=A2,term'=A1}] ++(1,0) 
+		node [contact,name=D3]{}
+		-- ++(0,1.5)
+		to [break contact={thermal switch={info=$CRJi$}}] ++(0,1)node [contact,name=N]{}
+		++(-6,0)node [contact,name=Di]{}
+++(-1,0)node [contact,name=L]{} to (0,0);
+				
+
+		\draw (E1) node[contact]{}
+		to [make contact={push button={info=$START$}}] ++(1,0)
+		node [contact,name=E2]{}
+		to [make contact={turn switch={info=$GK$},name=GK2,activated}] ++(1,0)
+		node [contact,name=E3]{};
+\draw (E3) node[contact]{}
+		to [break contact={position switch={info=$LSF$},activated}] ++(1,0)
+		to [break contact={info=OA1J}] ++(1,0)
+		to [break contact={info=DJ1J},activated] ++(1,0)
+		to [break contact={info=DJ1R}] ++(1,0)
+		to [relay coil={info=DJ1F,term=A2,term'=A1}] ++(1,0)
+		node [contact,name=E4]{};
+
+\draw[dashed](GK1.mid) -- (GK2.mid);
+
+		\draw (Di) -- (E2);
+		\draw (E3) -- ++(0,-0.6) to [make contact={info={[right=0.3cm]:DJ1F}}] ++(1,0) -- (D2);
+
+		\draw[red] (D2) -- ++(0,-1.2)
+		to [break contact={info=DJ1F}] ++(1,0) -- ++(2,0)
+		to [relay coil={info=DJ1J,{fill=red},term=A2,term'=A1}] ++(1,0)
+		node [contact,name=C3]{};
+\node[above,blue] at(N) {N};
+\node[left,red] at(L) {A1};
+\node[left,red] at(Di) {D-DJ1};
+
+\draw[red] (0,0) -- ++(1,0)
+to [break contact={info=OA1J}] ++(1,0)
+to [make contact={info=DJ1J},activated] ++(1,0)
+to [break contact={delayed deactivation={info=KT3}}] ++(1,0)-- ++(2,0)
+to [relay coil={slow operating={info=KT1,term=A2,term'=A1}}]++(1,0)
+ -- (D3);
+
+\draw (B1)
+to [make contact={delayed deactivation={info=KT1}}] ++(1,0)
+node [contact,name=B2]{}
+to [relay coil={info=KA1J,term=A2,term'=A1}] ++(1,0)
+node [contact,name=B3]{}
+-- ++(5,0)
+node [contact,name=B4]{};
+
+\draw (C1)
+to [make contact={info=OA1J}] ++(1,0)
+node [contact,name=C2]{}
+to [relay coil={slow operating={info=KT3}}]++(1,0)
+to (B3);
+
+\draw (B2) -- (C2);
+\newframe
+\node at (4,6) {停留时间KT1计时到，吹灰器开始后退，后退时间KT3开始计时};
+			\draw (0,0) -- ++(0,1.2) node [contact,name=B1]{}
+				-- ++(0,1.2)node [contact,name=C1]{}
+-- ++(0,1.2)node [contact,name=D1]{}
+-- ++(0,1.2)node [contact,name=E1]{};
+
+	\draw[red] (D1) -- ++(1,0)
+		to [make contact={name=GK1,term=8-i},activated] ++(1,0)
+		to [break contact={position switch={info=$LSR$}}] ++(1,0)
+		node [contact,name=D2]{};
+\draw[red] (D2)
+	to [make contact={info=$KA1J$},activated] ++(1,0) -- ++(1,0)
+		to [break contact={info=$DJ1F$}] ++(1,0)
+		to [relay coil={info=$DJ1R$,{fill=red},term=A2,term'=A1}] ++(1,0) 
+		node [contact,name=D3]{}
+		-- ++(0,1.5)
+		to [break contact={thermal switch={info=$CRJi$}}] ++(0,1)node [contact,name=N]{}
+		++(-6,0)node [contact,name=Di]{}
+++(-1,0)node [contact,name=L]{} to (0,0);
+				
+
+		\draw (E1) node[contact]{}
+		to [make contact={push button={info=$START$}}] ++(1,0)
+		node [contact,name=E2]{}
+		to [make contact={turn switch={info=$GK$},name=GK2,activated}] ++(1,0)
+		node [contact,name=E3]{};
+\draw (E3) node[contact]{}
+		to [break contact={position switch={info=$LSF$},activated}] ++(1,0)
+		to [break contact={info=OA1J}] ++(1,0)
+		to [break contact={info=DJ1J},activated] ++(1,0)
+		to [break contact={info=DJ1R},activated] ++(1,0)
+		to [relay coil={info=DJ1F,term=A2,term'=A1}] ++(1,0)
+		node [contact,name=E4]{};
+
+\draw[dashed](GK1.mid) -- (GK2.mid);
+
+		\draw (Di) -- (E2);
+		\draw (E3) -- ++(0,-0.6) to [make contact={info={[right=0.3cm]:DJ1F}}] ++(1,0) -- (D2);
+
+		\draw[red] (D2) -- ++(0,-1.2)
+		to [break contact={info=DJ1F}] ++(1,0) -- ++(2,0)
+		to [relay coil={info=DJ1J,{fill=red},term=A2,term'=A1}] ++(1,0)
+		node [contact,name=C3]{};
+\node[above,blue] at(N) {N};
+\node[left,red] at(L) {A1};
+\node[left,red] at(Di) {D-DJ1};
+
+\draw[red] (0,0) -- ++(1,0)
+to [break contact={info=OA1J}] ++(1,0)
+to [make contact={info=DJ1J},activated] ++(1,0)
+to [break contact={delayed deactivation={info=KT3}}] ++(1,0)-- ++(2,0)
+to [relay coil={slow operating={info=KT1,term=A2,term'=A1},{fill=red}}]++(1,0)
+ -- (D3);
+
+\draw[red] (B1)
+to [make contact={delayed deactivation={info=KT1},activated}] ++(1,0)
+node [contact,name=B2]{}
+to [relay coil={info=KA1J,{fill=red},term=A2,term'=A1}] ++(1,0)
+node [contact,name=B3]{}
+-- ++(5,0)
+node [contact,name=B4]{};
+
+\draw (C1)
+to [make contact={info=OA1J}] ++(1,0)
+node [contact,name=C2]{};
+\draw[red] (B2) -- (C2)
+to [relay coil={slow operating={info=KT3}}]++(1,0)
+to (B3);
+\newframe
+\node at (4,6) {吹灰器正在后退，进到位限位开关脱开，后退时间KT3计时中};
+			\draw (0,0) -- ++(0,1.2) node [contact,name=B1]{}
+				-- ++(0,1.2)node [contact,name=C1]{}
+-- ++(0,1.2)node [contact,name=D1]{}
+-- ++(0,1.2)node [contact,name=E1]{};
+
+	\draw[red] (D1) -- ++(1,0)
+		to [make contact={name=GK1,term=8-i},activated] ++(1,0)
+		to [break contact={position switch={info=$LSR$}}] ++(1,0)
+		node [contact,name=D2]{};
+\draw[red] (D2)
+	to [make contact={info=$KA1J$},activated] ++(1,0) -- ++(1,0)
+		to [break contact={info=$DJ1F$}] ++(1,0)
+		to [relay coil={info=$DJ1R$,{fill=red},term=A2,term'=A1}] ++(1,0) 
+		node [contact,name=D3]{}
+		-- ++(0,1.5)
+		to [break contact={thermal switch={info=$CRJi$}}] ++(0,1)node [contact,name=N]{}
+		++(-6,0)node [contact,name=Di]{}
+++(-1,0)node [contact,name=L]{} to (0,0);
+				
+
+		\draw (E1) node[contact]{}
+		to [make contact={push button={info=$START$}}] ++(1,0)
+		node [contact,name=E2]{}
+		to [make contact={turn switch={info=$GK$},name=GK2,activated}] ++(1,0)
+		node [contact,name=E3]{};
+\draw (E3) node[contact]{}
+		to [break contact={position switch={info=$LSF$}}] ++(1,0)
+		to [break contact={info=OA1J}] ++(1,0)
+		to [break contact={info=DJ1J},activated] ++(1,0)
+		to [break contact={info=DJ1R},activated] ++(1,0)
+		to [relay coil={info=DJ1F,term=A2,term'=A1}] ++(1,0)
+		node [contact,name=E4]{};
+
+\draw[dashed](GK1.mid) -- (GK2.mid);
+
+		\draw (Di) -- (E2);
+		\draw (E3) -- ++(0,-0.6) to [make contact={info={[right=0.3cm]:DJ1F}}] ++(1,0) -- (D2);
+
+		\draw[red] (D2) -- ++(0,-1.2)
+		to [break contact={info=DJ1F}] ++(1,0) -- ++(2,0)
+		to [relay coil={info=DJ1J,{fill=red},term=A2,term'=A1}] ++(1,0)
+		node [contact,name=C3]{};
+\node[above,blue] at(N) {N};
+\node[left,red] at(L) {A1};
+\node[left,red] at(Di) {D-DJ1};
+
+\draw[red] (0,0) -- ++(1,0)
+to [break contact={info=OA1J}] ++(1,0)
+to [make contact={info=DJ1J},activated] ++(1,0)
+to [break contact={delayed deactivation={info=KT3}}] ++(1,0)-- ++(2,0)
+to [relay coil={slow operating={info=KT1,term=A2,term'=A1},{fill=red}}]++(1,0)
+ -- (D3);
+
+\draw[red] (B1)
+to [make contact={delayed deactivation={info=KT1},activated}] ++(1,0)
+node [contact,name=B2]{}
+to [relay coil={info=KA1J,{fill=red},term=A2,term'=A1}] ++(1,0)
+node [contact,name=B3]{}
+-- ++(5,0)
+node [contact,name=B4]{};
+
+\draw (C1)
+to [make contact={info=OA1J}] ++(1,0)
+node [contact,name=C2]{};
+\draw[red] (B2) -- (C2)
+to [relay coil={slow operating={info=KT3}}]++(1,0)
+to (B3);
+\newframe
+\node at (4,6) {后退时间KT3计时时间到，KT3动作，吹灰器停止后退，KT1复位};
+			\draw (0,0) -- ++(0,1.2) node [contact,name=B1]{}
+				-- ++(0,1.2)node [contact,name=C1]{}
+-- ++(0,1.2)node [contact,name=D1]{}
+-- ++(0,1.2)node [contact,name=E1]{};
+
+	\draw[red] (D1) -- ++(1,0)
+		to [make contact={name=GK1,term=8-i},activated] ++(1,0)
+		to [break contact={position switch={info=$LSR$}}] ++(1,0)
+		node [contact,name=D2]{};
+\draw (D2)
+	to [make contact={info=$KA1J$}] ++(1,0) -- ++(1,0)
+		to [break contact={info=$DJ1F$}] ++(1,0)
+		to [relay coil={info=$DJ1R$,term=A2,term'=A1}] ++(1,0) 
+		node [contact,name=D3]{}
+		-- ++(0,1.5)
+		to [break contact={thermal switch={info=$CRJi$}}] ++(0,1)node [contact,name=N]{}
+		++(-6,0)node [contact,name=Di]{}
+++(-1,0)node [contact,name=L]{} to (0,0);
+				
+
+		\draw (E1) node[contact]{}
+		to [make contact={push button={info=$START$}}] ++(1,0)
+		node [contact,name=E2]{}
+		to [make contact={turn switch={info=$GK$},name=GK2,activated}] ++(1,0)
+		node [contact,name=E3]{};
+\draw (E3) node[contact]{}
+		to [break contact={position switch={info=$LSF$}}] ++(1,0)
+		to [break contact={info=OA1J}] ++(1,0)
+		to [break contact={info=DJ1J,activated}] ++(1,0)
+		to [break contact={info=DJ1R}] ++(1,0)
+		to [relay coil={info=DJ1F,term=A2,term'=A1}] ++(1,0)
+		node [contact,name=E4]{};
+
+\draw[dashed](GK1.mid) -- (GK2.mid);
+
+		\draw (Di) -- (E2);
+		\draw (E3) -- ++(0,-0.6) to [make contact={info={[right=0.3cm]:DJ1F}}] ++(1,0) -- (D2);
+
+		\draw[red] (D2) -- ++(0,-1.2)
+		to [break contact={info=DJ1F}] ++(1,0) -- ++(2,0)
+		to [relay coil={info=DJ1J,{fill=red},term=A2,term'=A1}] ++(1,0)
+		node [contact,name=C3]{};
+\node[above,blue] at(N) {N};
+\node[left,red] at(L) {A1};
+\node[left,red] at(Di) {D-DJ1};
+
+\draw (0,0) -- ++(1,0)
+to [break contact={info=OA1J}] ++(1,0)
+to [make contact={info=DJ1J},activated] ++(1,0)
+to [break contact={delayed deactivation={info=KT3},activated}] ++(1,0)-- ++(2,0)
+to [relay coil={slow operating={info=KT1,term=A2,term'=A1}}]++(1,0)
+ -- (D3);
+
+\draw (B1)
+to [make contact={delayed deactivation={info=KT1}}] ++(1,0)
+node [contact,name=B2]{}
+to [relay coil={info=KA1J,term=A2,term'=A1}] ++(1,0)
+node [contact,name=B3]{}
+-- ++(5,0)
+node [contact,name=B4]{};
+
+\draw (C1)
+to [make contact={info=OA1J}] ++(1,0)
+node [contact,name=C2]{};
+\draw (B2) -- (C2)
+to [relay coil={slow operating={info=KT3},{fill=red}}]++(1,0)
+to (B3);
+\newframe
+\node at (4,6) {KT3复位，停留时间KT1重新开始计时};
+			\draw (0,0) -- ++(0,1.2) node [contact,name=B1]{}
+				-- ++(0,1.2)node [contact,name=C1]{}
+-- ++(0,1.2)node [contact,name=D1]{}
+-- ++(0,1.2)node [contact,name=E1]{};
+
+	\draw[red] (D1) -- ++(1,0)
+		to [make contact={name=GK1,term=8-i},activated] ++(1,0)
+		to [break contact={position switch={info=$LSR$}}] ++(1,0)
+		node [contact,name=D2]{};
+\draw (D2)
+	to [make contact={info=$KA1J$}] ++(1,0) -- ++(1,0)
+		to [break contact={info=$DJ1F$}] ++(1,0)
+		to [relay coil={info=$DJ1R$,term=A2,term'=A1}] ++(1,0) 
+		node [contact,name=D3]{}
+		-- ++(0,1.5)
+		to [break contact={thermal switch={info=$CRJi$}}] ++(0,1)node [contact,name=N]{}
+		++(-6,0)node [contact,name=Di]{}
+++(-1,0)node [contact,name=L]{} to (0,0);
+				
+
+		\draw (E1) node[contact]{}
+		to [make contact={push button={info=$START$}}] ++(1,0)
+		node [contact,name=E2]{}
+		to [make contact={turn switch={info=$GK$},name=GK2,activated}] ++(1,0)
+		node [contact,name=E3]{};
+\draw (E3) node[contact]{}
+		to [break contact={position switch={info=$LSF$}}] ++(1,0)
+		to [break contact={info=OA1J}] ++(1,0)
+		to [break contact={info=DJ1J},activated] ++(1,0)
+		to [break contact={info=DJ1R}] ++(1,0)
+		to [relay coil={info=DJ1F,term=A2,term'=A1}] ++(1,0)
+		node [contact,name=E4]{};
+
+\draw[dashed](GK1.mid) -- (GK2.mid);
+
+		\draw (Di) -- (E2);
+		\draw (E3) -- ++(0,-0.6) to [make contact={info={[right=0.3cm]:DJ1F}}] ++(1,0) -- (D2);
+
+		\draw[red] (D2) -- ++(0,-1.2)
+		to [break contact={info=DJ1F}] ++(1,0) -- ++(2,0)
+		to [relay coil={info=DJ1J,{fill=red},term=A2,term'=A1}] ++(1,0)
+		node [contact,name=C3]{};
+\node[above,blue] at(N) {N};
+\node[left,red] at(L) {A1};
+\node[left,red] at(Di) {D-DJ1};
+
+\draw[red] (0,0) -- ++(1,0)
+to [break contact={info=OA1J}] ++(1,0)
+to [make contact={info=DJ1J},activated] ++(1,0)
+to [break contact={delayed deactivation={info=KT3}}] ++(1,0)-- ++(2,0)
+to [relay coil={slow operating={info=KT1,term=A2,term'=A1}}]++(1,0)
+ -- (D3);
+
+\draw (B1)
+to [make contact={delayed deactivation={info=KT1}}] ++(1,0)
+node [contact,name=B2]{}
+to [relay coil={info=KA1J,term=A2,term'=A1}] ++(1,0)
+node [contact,name=B3]{}
+-- ++(5,0)
+node [contact,name=B4]{};
+
+\draw (C1)
+to [make contact={info=OA1J}] ++(1,0)
+node [contact,name=C2]{};
+\draw (B2) -- (C2)
+to [relay coil={slow operating={info=KT3}}]++(1,0)
+to (B3);
+\newframe
+\node at (4,6) {停留时间KT1计时到，吹灰器继续后退，后退时间KT3开始计时};
+			\draw (0,0) -- ++(0,1.2) node [contact,name=B1]{}
+				-- ++(0,1.2)node [contact,name=C1]{}
+-- ++(0,1.2)node [contact,name=D1]{}
+-- ++(0,1.2)node [contact,name=E1]{};
+
+	\draw[red] (D1) -- ++(1,0)
+		to [make contact={name=GK1,term=8-i},activated] ++(1,0)
+		to [break contact={position switch={info=$LSR$}}] ++(1,0)
+		node [contact,name=D2]{};
+\draw[red] (D2)
+	to [make contact={info=$KA1J$},activated] ++(1,0) -- ++(1,0)
+		to [break contact={info=$DJ1F$}] ++(1,0)
+		to [relay coil={info=$DJ1R$,{fill=red},term=A2,term'=A1}] ++(1,0) 
+		node [contact,name=D3]{}
+		-- ++(0,1.5)
+		to [break contact={thermal switch={info=$CRJi$}}] ++(0,1)node [contact,name=N]{}
+		++(-6,0)node [contact,name=Di]{}
+++(-1,0)node [contact,name=L]{} to (0,0);
+				
+
+		\draw (E1) node[contact]{}
+		to [make contact={push button={info=$START$}}] ++(1,0)
+		node [contact,name=E2]{}
+		to [make contact={turn switch={info=$GK$},name=GK2,activated}] ++(1,0)
+		node [contact,name=E3]{};
+\draw (E3) node[contact]{}
+		to [break contact={position switch={info=$LSF$}}] ++(1,0)
+		to [break contact={info=OA1J}] ++(1,0)
+		to [break contact={info=DJ1J},activated] ++(1,0)
+		to [break contact={info=DJ1R},activated] ++(1,0)
+		to [relay coil={info=DJ1F,term=A2,term'=A1}] ++(1,0)
+		node [contact,name=E4]{};
+
+\draw[dashed](GK1.mid) -- (GK2.mid);
+
+		\draw (Di) -- (E2);
+		\draw (E3) -- ++(0,-0.6) to [make contact={info={[right=0.3cm]:DJ1F}}] ++(1,0) -- (D2);
+
+		\draw[red] (D2) -- ++(0,-1.2)
+		to [break contact={info=DJ1F}] ++(1,0) -- ++(2,0)
+		to [relay coil={info=DJ1J,{fill=red},term=A2,term'=A1}] ++(1,0)
+		node [contact,name=C3]{};
+\node[above,blue] at(N) {N};
+\node[left,red] at(L) {A1};
+\node[left,red] at(Di) {D-DJ1};
+
+\draw[red] (0,0) -- ++(1,0)
+to [break contact={info=OA1J}] ++(1,0)
+to [make contact={info=DJ1J},activated] ++(1,0)
+to [break contact={delayed deactivation={info=KT3}}] ++(1,0)-- ++(2,0)
+to [relay coil={slow operating={info=KT1,term=A2,term'=A1},{fill=red}}]++(1,0)
+ -- (D3);
+
+\draw[red] (B1)
+to [make contact={delayed deactivation={info=KT1},activated}] ++(1,0)
+node [contact,name=B2]{}
+to [relay coil={info=KA1J,{fill=red},term=A2,term'=A1}] ++(1,0)
+node [contact,name=B3]{}
+-- ++(5,0)
+node [contact,name=B4]{};
+
+\draw (C1)
+to [make contact={info=OA1J}] ++(1,0)
+node [contact,name=C2]{};
+\draw[red] (B2) -- (C2)
+to [relay coil={slow operating={info=KT3}}]++(1,0)
+to (B3);
+\newframe
+\node at (3,6) {吹灰器后退到位};
+			\draw (0,0) -- ++(0,1.2) node [contact,name=B1]{}
+				-- ++(0,1.2)node [contact,name=C1]{}
+-- ++(0,1.2)node [contact,name=D1]{}
+-- ++(0,1.2)node [contact,name=E1]{};
+
+	\draw (D1) -- ++(1,0)
+		to [make contact={name=GK1,term=8-i},activated] ++(1,0)
+		to [break contact={position switch={info=$LSR$},activated}] ++(1,0)
+		node [contact,name=D2]{}
+	to [make contact={info=$KA1J$}] ++(1,0) -- ++(1,0)
+		to [break contact={info=$DJ1F$}] ++(1,0)
+		to [relay coil={info=$DJ1R$,term=A2,term'=A1}] ++(1,0) 
+		node [contact,name=D3]{}
+		-- ++(0,1.5)
+		to [break contact={thermal switch={info=$CRJi$}}] ++(0,1)node [contact,name=N]{}
+		++(-6,0)node [contact,name=Di]{}
+++(-1,0)node [contact,name=L]{} to (0,0);
+				
+
+		\draw (E1) node[contact]{}
+		to [make contact={push button={info=$START$}}] ++(1,0)
+		node [contact,name=E2]{}
+		to [make contact={turn switch={info=$GK$},name=GK2,activated}] ++(1,0)
+		node [contact,name=E3]{}
+		to [break contact={position switch={info=$LSF$}}] ++(1,0)
+		to [break contact={info=OA1J}] ++(1,0)
+		to [break contact={info=DJ1J}] ++(1,0)
+		to [break contact={info=DJ1R}] ++(1,0)
+		to [relay coil={info=DJ1F,term=A2,term'=A1}] ++(1,0)
+		node [contact,name=E4]{};
+
+\draw[dashed](GK1.mid) -- (GK2.mid);
+
+		\draw (Di) -- (E2);
+		\draw (E3) -- ++(0,-0.6) to [make contact={info={[right=0.3cm]:DJ1F}}] ++(1,0) -- (D2);
+
+		\draw (D2) -- ++(0,-1.2)
+		to [break contact={info=DJ1F}] ++(1,0) -- ++(2,0)
+		to [relay coil={info=DJ1J,term=A2,term'=A1}] ++(1,0)
+		node [contact,name=C3]{};
+\node[above,blue] at(N) {N};
+\node[left,red] at(L) {A1};
+\node[left,red] at(Di) {D-DJ1};
+
+\draw (0,0) -- ++(1,0)
+to [break contact={info=OA1J}] ++(1,0)
+to [make contact={info=DJ1J}] ++(1,0)
+to [break contact={delayed deactivation={info=KT3}}] ++(1,0)-- ++(2,0)
+to [relay coil={slow operating={info=KT1,term=A2,term'=A1}}]++(1,0)
+-- (D3);
+
+\draw (B1)
+to [make contact={delayed deactivation={info=KT1}}] ++(1,0)
+node [contact,name=B2]{}
+to [relay coil={info=KA1J,term=A2,term'=A1}] ++(1,0)
+node [contact,name=B3]{}
+-- ++(5,0)
+node [contact,name=B4]{};
+
+\draw (C1)
+to [make contact={info=OA1J}] ++(1,0)
+node [contact,name=C2]{}
+to [relay coil={slow operating={info=KT3}}]++(1,0)
+to (B3);
+
+\draw (B2) -- (C2);
+ \end{animateinline}
+ \end{center}
+
+\end{frame}
+
+
+
+
+\end{document}
